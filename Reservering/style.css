@@ -1,0 +1,46 @@
+﻿body {
+    color: #333;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+h1, h3, h5 {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#container {
+    margin: 0px auto;
+    max-width: 970px;
+}
+a {
+  color: #428bca;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+thead th {
+  border-bottom: 2px solid #ccc;
+}
+td {
+  border-top: 1px solid #ccc;
+}
+
+form {
+  padding: 0px 8px;
+}
+form p {
+  color: #737373;
+  display: inline-block;
+  margin: 0px;
+}
