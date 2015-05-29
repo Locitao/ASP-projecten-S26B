@@ -5,9 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Voorpagina</title>
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="bigForm" runat="server">
         <div id="container">
             
         </div>
