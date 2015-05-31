@@ -28,7 +28,7 @@ namespace Reservering
         {
             conn.ConnectionString = "User Id=" + user + ";Password=" + pw + ";Data Source=" +
                                     "//localhost:1521/" + test + ";";
-
+            
             try
             {
                 conn.Open();
@@ -48,13 +48,18 @@ namespace Reservering
             conn.Close();
         }
 
+        /// <summary>
+        /// Method to get data out of the database.
+        /// </summary>
+        /// <param name="query"></param>    
+        /// <returns>A list of dictionary objects with database information.</returns>
         public static List<Dictionary<string, object>> ExecuteQuery(string query)
         {
             List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
 
             Connection connection = new Connection();
             connection.CloseConnection();
-
+            
             if (connection.NewConnection())
             {
                 try
