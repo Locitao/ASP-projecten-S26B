@@ -11,7 +11,7 @@ namespace MaterialRenting
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Hello this is an Alert')</SCRIPT>");
         }
     }
 }
