@@ -14,7 +14,7 @@ namespace Mediasharing
 
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.MapPageRoute("categorie", "Categorie/{id}", "~/categorie.aspx");
+            routes.MapPageRoute("Browse", "Categorie/{*id}", "~/categorie.aspx");
         }
 
         protected void Application_Start(object sender, EventArgs e)

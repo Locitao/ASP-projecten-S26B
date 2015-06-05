@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -14,28 +15,37 @@ namespace Mediasharing
         {
 
         }
-
-        protected void RadioButtonList1_SelectedIndexChanged(object sender, EventArgs e)
+        protected void btnInloggen_Click(object sender, EventArgs e)
         {
-            VeranderInlogData();
+            string id = tbId.Text;
+            string wachtwoord = tbWachtwoord.Text;
+            Administratie administratie = new Administratie();
+            DataSet dataset = new DataSet();
+
+            dataset = administratie.GetData("SELECT COUNT(*) FROM ACCOUNT WHERE ID = " + "'" + id + "'" + "AND WACHTWOORD = " +
+                                  "'" + wachtwoord + "'");
+
+            if (IsEmpty(dataset))
+            {
+                //Wrong id and pasword combination!
+            }
+            else
+            {
+                //Log in
+                Account account = new Account();
+
+            }
+
         }
 
         //Methods
-        public void VeranderInlogData()
+        /// <summary>
+        /// If the dataset is empty ->  returns true, else returns false. </summary>
+        /// <param name="dataSet"></param>
+        /// <returns></returns>
+        bool IsEmpty(DataSet dataSet)
         {
-            if (rbGebruiker.SelectedValue == "Gebruiker")
-            {
-                tbWachtwoord.Visible = false;
-                lblWachtwoord.Visible = false;
-                lblGebruikersnaamOrRfid.Text = "RFIDCode:";
-            }
-            else if (rbGebruiker.SelectedValue == "Administrator")
-            {
-                tbWachtwoord.Visible = true;
-                lblWachtwoord.Visible = true;
-                lblGebruikersnaamOrRfid.Text = "Gebruikersnaam:";
-            }
-
+            return dataSet.Tables.Cast<DataTable>().All(table => table.Rows.Count == 0);
         }
     }
 }

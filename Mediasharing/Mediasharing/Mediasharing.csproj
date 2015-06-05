@@ -76,6 +76,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="Administratie.cs" />
+    <Compile Include="Bericht.cs" />
+    <Compile Include="Bestand.cs" />
+    <Compile Include="Bijdrage.cs" />
+    <Compile Include="Categorie.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -22,15 +22,6 @@ namespace Mediasharing {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// rbGebruiker control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rbGebruiker;
-        
-        /// <summary>
         /// lblGegevens control.
         /// </summary>
         /// <remarks>
@@ -40,22 +31,22 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.Label lblGegevens;
         
         /// <summary>
-        /// lblGebruikersnaamOrRfid control.
+        /// lblId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblGebruikersnaamOrRfid;
+        protected global::System.Web.UI.WebControls.Label lblId;
         
         /// <summary>
-        /// tbRfidCode control.
+        /// tbId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbRfidCode;
+        protected global::System.Web.UI.WebControls.TextBox tbId;
         
         /// <summary>
         /// lblWachtwoord control.
