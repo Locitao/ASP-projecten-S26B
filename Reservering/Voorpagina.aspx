@@ -10,8 +10,13 @@
 <body>
     <form id="bigForm" runat="server">
         <div id="container">
-            <asp:Label ID="testLabel" runat="server" Text="Label"></asp:Label><br/>
-            <asp:Button ID="TestButton" CssClass="button" runat="server" Text="Test Connection" OnClick="TestButton_Click" />
+            <h1>Social Media Sharing Event</h1>
+            <h3>ICT4Events</h3>
+            
+            <p>Het social media event brengt mensen samen m.b.v. verscheidene Social Media.</p><br/>
+
+            <asp:Button ID="btnReserve" CssClass="button" runat="server" Text="Reserveer" OnClick="btnReserve_Click" />
+            
         </div>
         
     </form>

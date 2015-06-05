@@ -5,13 +5,13 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MaterialRenting
+namespace MateriaalBeheer
 {
-    public partial class MaterialRentingForm : System.Web.UI.Page
+    public partial class MateriaalBeheer : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Hello this is an Alert')</SCRIPT>");
         }
     }
 }

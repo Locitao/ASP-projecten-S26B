@@ -15,14 +15,10 @@ public partial class Voorpagina : System.Web.UI.Page
     }
     protected void TestButton_Click(object sender, EventArgs e)
     {
-        if (conn.NewConnection())
-        {
-            testLabel.Text = "Connection succeeded";
-        }
-
-        else
-        {
-            testLabel.Text = "Connection failed";
-        }
+        
+    }
+    protected void btnReserve_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Reserveer.aspx");
     }
 }

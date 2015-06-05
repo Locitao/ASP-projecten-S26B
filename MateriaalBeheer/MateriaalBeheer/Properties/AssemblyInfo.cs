@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MaterialRenting")]
+[assembly: AssemblyTitle("MateriaalBeheer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MaterialRenting")]
+[assembly: AssemblyProduct("MateriaalBeheer")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("07e134e2-6815-428f-a5d7-44c81a52f9dc")]
+[assembly: Guid("b85fc0dd-ac52-40d8-a173-a676e08ddeba")]
 
 // Version information for an assembly consists of the following four values:
 //

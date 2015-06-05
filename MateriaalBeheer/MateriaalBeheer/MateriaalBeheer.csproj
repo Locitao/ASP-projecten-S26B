@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{071C54C5-4F4A-4179-AFF3-722508A4E574}</ProjectGuid>
+    <ProjectGuid>{E6E2102F-4C91-43C2-862E-DB785022E2F5}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MaterialRenting</RootNamespace>
-    <AssemblyName>MaterialRenting</AssemblyName>
+    <RootNamespace>MateriaalBeheer</RootNamespace>
+    <AssemblyName>MateriaalBeheer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -65,16 +65,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MaterialRentingForm.aspx" />
+    <Content Include="Basic.css" />
+    <Content Include="MateriaalBeheer.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MaterialRentingForm.aspx.cs">
-      <DependentUpon>MaterialRentingForm.aspx</DependentUpon>
+    <Compile Include="DatabaseConnection.cs" />
+    <Compile Include="MateriaalBeheer.aspx.cs">
+      <DependentUpon>MateriaalBeheer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="MaterialRentingForm.aspx.designer.cs">
-      <DependentUpon>MaterialRentingForm.aspx</DependentUpon>
+    <Compile Include="MateriaalBeheer.aspx.designer.cs">
+      <DependentUpon>MateriaalBeheer.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -91,9 +93,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>60825</DevelopmentServerPort>
+          <DevelopmentServerPort>61207</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60825/</IISUrl>
+          <IISUrl>http://localhost:61207/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
