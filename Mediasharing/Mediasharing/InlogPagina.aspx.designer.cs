@@ -22,13 +22,13 @@ namespace Mediasharing {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// RadioButtonList1 control.
+        /// rbGebruiker control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList1;
+        protected global::System.Web.UI.WebControls.RadioButtonList rbGebruiker;
         
         /// <summary>
         /// lblGegevens control.
@@ -49,13 +49,13 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.Label lblGebruikersnaamOrRfid;
         
         /// <summary>
-        /// TextBox1 control.
+        /// tbRfidCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox tbRfidCode;
         
         /// <summary>
         /// lblWachtwoord control.
@@ -67,13 +67,13 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.Label lblWachtwoord;
         
         /// <summary>
-        /// TextBox2 control.
+        /// tbWachtwoord control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.TextBox tbWachtwoord;
         
         /// <summary>
         /// btnInloggen control.

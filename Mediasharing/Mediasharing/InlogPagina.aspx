@@ -11,8 +11,8 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:RadioButtonList ID="RadioButtonList1" runat="server">
-            <asp:ListItem>Gebruiker</asp:ListItem>
+        <asp:RadioButtonList ID="rbGebruiker" runat="server" OnSelectedIndexChanged="RadioButtonList1_SelectedIndexChanged">
+            <asp:ListItem Selected="True">Gebruiker</asp:ListItem>
             <asp:ListItem>Administrator</asp:ListItem>
         </asp:RadioButtonList>
         <br />
@@ -21,18 +21,18 @@
         <table class="auto-style1">
             <tr>
                 <td class="auto-style2">
-                    <asp:Label ID="lblGebruikersnaamOrRfid" runat="server" Text="RFIDcode: "></asp:Label>
+                    <asp:Label ID="lblGebruikersnaamOrRfid" runat="server" Text="RFIDcode:"></asp:Label>
                 </td>
-                <td>
-                    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                <td id="tblInlog">
+                    <asp:TextBox ID="tbRfidCode" runat="server"></asp:TextBox>
                 </td>
             </tr>
             <tr>
                 <td class="auto-style2">
-                    <asp:Label ID="lblWachtwoord" runat="server" Text="Wachtwoord:"></asp:Label>
+                    <asp:Label ID="lblWachtwoord" runat="server" Text="Wachtwoord:" Visible="False"></asp:Label>
                 </td>
-                <td>
-                    <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                <td id="tblInlog">
+                    <asp:TextBox ID="tbWachtwoord" runat="server" Visible="False"></asp:TextBox>
                 </td>
             </tr>
         </table>
