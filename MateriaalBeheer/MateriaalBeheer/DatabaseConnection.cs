@@ -24,8 +24,8 @@ namespace MaterialRenting
 
 
             // this are the old athena connection specs just in case we need them back.
-            string user = "dbi320839";
-            string pw = "ioMMVpigPp";
+            string user = "dbi318946";
+            string pw = "VZ28qg04ly";
             string ip = "//192.168.15.50:1521/fhictora";
 
 
