@@ -17,12 +17,12 @@
         <input type="checkbox" name="option3" value="Vrij" checked/> Vrij <br/>
     </div>
     <div>
-        <asp:Button ID="btn1" CssClass="button" runat="server" Text="button1"/><br/>
-        <asp:Button ID="Button1" CssClass="button" runat="server" Text="button1"/><br/>
-        <asp:Button ID="Button2" CssClass="button" runat="server" Text="button1"/><br/>
-        <asp:Button ID="Button3" CssClass="button" runat="server" Text="button1"/><br/>
-        <asp:Button ID="Button4" CssClass="button" runat="server" Text="button1"/><br/>
-        <asp:Button ID="Button5" CssClass="button" runat="server" Text="button1"/><br/>
+        <asp:Button ID="btnLeenUit" CssClass="button" runat="server" Text="Leen item uit"/><br/>
+        <asp:Button ID="BtnReserveer" CssClass="button" runat="server" Text="Reserveer item"/><br/>
+        <asp:Button ID="BtRetourneer" CssClass="button" runat="server" Text="Item retourneren"/><br/>
+        <asp:Button ID="BtnVeranderCategorie" CssClass="button" runat="server" Text="Verander categorie"/><br/>
+        <asp:Button ID="BtnNieuwItem" CssClass="button" runat="server" Text="Voeg Item toe"/><br/>
+        <asp:Button ID="BtnNieuweCategorie" CssClass="button" runat="server" Text="Voeg categorie toe"/><br/>
     </div>
     </form>
 </body>
