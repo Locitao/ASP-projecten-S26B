@@ -17,10 +17,15 @@ namespace MateriaalBeheer
             //Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Hello this is an Alert')</SCRIPT>");
             pnlPopUpLeenItem.Visible = false;
             listBox.Items.Clear();
-            listBox.Items.Add("hoi");
-            listBox.Items.Add("hoi1");
-            listBox.Items.Add("hoi2");
-            listBox.Items.Add("hoi3");
+            List<List<string>> output;
+            string query = "select \"barcode\",\"serie\" from productexemplaar pe, product p where p.id=pe.\"product_id\"";
+            if (dbConnection.SQLQueryWithOutput(query, out output))
+            {
+                foreach (List<string> list in output)
+                {
+                    listBox.Items.Add(list[0] + " " + list[1]);
+                }
+            }
         }
 
         public void btnLeenUit_Click(object sender, EventArgs e)
