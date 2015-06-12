@@ -154,6 +154,10 @@ namespace Reservering
             oc.Parameters.Add("beschrijving", beschrijving);
             oc.Parameters.Add("website", website);
         }*/
+
+        public void Insert_Reservering(string accId, string )
     }
+
+    
 
 }

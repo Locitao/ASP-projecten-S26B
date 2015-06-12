@@ -7,8 +7,21 @@ using System.Web.UI.WebControls;
 
 public partial class MaakReservering : System.Web.UI.Page
 {
+    private Person _p;
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["UserData"] == null)
+        {
+            Page home = HttpContext.Current.Handler as Page;
+            if (home != null)
+            {
+                ScriptManager.RegisterStartupScript(home, home.GetType(), "err_msg", "alert('You need to log in first.');window.location='Signup.aspx';", true);
+            }
+        }
 
+        else
+        {
+            _p = (Person) Session["UserData"];
+        }
     }
 }
