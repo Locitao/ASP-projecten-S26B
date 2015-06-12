@@ -16,7 +16,7 @@ public partial class Reserveer : System.Web.UI.Page
 
     protected void Insert_Person()
     {
-        if (tbVoornaam.Text == null || tbAchternaam.Text == null || tbBankrekening.Text == null || tbStraat.Text == null || tbHuisnummer.Text == null || tbWoonplaats.Text == null)
+        if (tbVoornaam.Text == "" || tbAchternaam.Text == "" || tbBankrekening.Text == "" || tbStraat.Text == "" || tbHuisnummer.Text == "" || tbWoonplaats.Text == "")
         {
             ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage", "alert('One of the required fields was not filled in.')", true);
         }
@@ -35,8 +35,12 @@ public partial class Reserveer : System.Web.UI.Page
 
             Session["UserData"] = p;
 
-            insert.Insert_Persoon()
+            insert.Insert_Persoon(p);
 
         }
+    }
+    protected void btnSubmitReserve_Click(object sender, EventArgs e)
+    {
+        Insert_Person();
     }
 }

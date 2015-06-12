@@ -28,9 +28,9 @@
                 <asp:TextBox ID="tbStraat" CssClass="myForm" runat="server"></asp:TextBox><br/>
                 <asp:TextBox ID="tbHuisnummer" CssClass="myForm" runat="server"></asp:TextBox><br/>
                 <asp:TextBox ID="tbWoonplaats" CssClass="myForm" runat="server"></asp:TextBox><br/>
-                <asp:TextBox ID="tbBankrekening" CssClass="myForm" runat="server"></asp:TextBox>
+                <asp:TextBox ID="tbBankrekening" CssClass="myForm" runat="server" MaxLength="10"></asp:TextBox>
             </div>
-            <br/><asp:Button runat="server" ID="btnSubmitReserve" Text="Create Reservation" CssClass="button"/>
+            <br/><asp:Button runat="server" ID="btnSubmitReserve" Text="Create Reservation" CssClass="button" OnClick="btnSubmitReserve_Click"/>
         </div>
     </form>
 </body>
