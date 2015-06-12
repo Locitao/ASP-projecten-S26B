@@ -19,7 +19,7 @@
             
         </div>
         
-        <asp:Label ID="testLabel" runat="server" Text="Label"></asp:Label>
+        <asp:Label ID="testLabel" runat="server" Text=""></asp:Label>
         
     </form>
 </body>
