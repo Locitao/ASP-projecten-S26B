@@ -1,8 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Reserveer.aspx.cs" Inherits="Reserveer" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MaakAccount.aspx.cs" Inherits="MaakAccount" %>
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<<html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Reserveren</title>
     <link rel="stylesheet" href="style.css"/>

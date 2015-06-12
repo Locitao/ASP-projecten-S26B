@@ -6,9 +6,11 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Reservering;
 
-public partial class Reserveer : System.Web.UI.Page
+
+public partial class MaakAccount : System.Web.UI.Page
 {
     Insert insert = new Insert();
+    
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -35,7 +37,7 @@ public partial class Reserveer : System.Web.UI.Page
 
             Session["UserData"] = p;
 
-            insert.Insert_Persoon(p);
+            //insert.Insert_Persoon(p);
 
         }
     }
