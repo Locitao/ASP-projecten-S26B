@@ -22,12 +22,16 @@ namespace MaterialRenting
         {
             conn = new OracleConnection();
 
-
+            /*
             // this are the old athena connection specs just in case we need them back.
-            string user = "dbi320839";
-            string pw = "ioMMVpigPp";
+            string user = "dbi318946";
+            string pw = "YtPaWhSgrr";
             string ip = "//192.168.15.50:1521/fhictora";
+            */
 
+            string user = "martijn";
+            string pw = "stoepje";
+            string ip = "//localhost:1521/xe";
 
             /*
              // this are the connection specs for connection to the database in the VMware

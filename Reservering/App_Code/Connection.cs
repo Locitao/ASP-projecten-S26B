@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Reservering
     /// </summary>
     public class Connection
     {
-        OracleConnection conn = new OracleConnection();
+        readonly OracleConnection conn = new OracleConnection();
         private const string user = "system";
         private const string pw = "wachtwoord";
         private const string test = "xe";
@@ -90,7 +91,7 @@ namespace Reservering
             return result;
         }
 
-        public void Execute(string sql)
+        public void Execute_withString(string sql)
         {
             string query = sql;
 
@@ -102,6 +103,41 @@ namespace Reservering
             // Query uitvoeren, er wordt geen waarde terug gegeven
             cmd.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public void Execute_Procedure(string sql)
+        {
+            string query = sql;
+
+
+            if (!NewConnection()) return;
+            // Command opzetten voor het uitvoeren van de query
+            OracleCommand cmd = new OracleCommand(query, conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Query uitvoeren, er wordt geen waarde terug gegeven
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public bool Execute(OracleCommand cmd)
+        {
+            try
+            {
+                //NewConnection();
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (OracleException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message + e.ErrorCode);
+                return false;
+            }
+
+            finally
+            {
+                CloseConnection();
+            }
         }
     }
 

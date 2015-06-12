@@ -8,7 +8,8 @@ using Reservering;
 
 public partial class Voorpagina : System.Web.UI.Page
 {
-    Connection conn = new Connection();
+    Select select = new Select();
+    
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -20,5 +21,13 @@ public partial class Voorpagina : System.Web.UI.Page
     protected void btnReserve_Click(object sender, EventArgs e)
     {
         Response.Redirect("Reserveer.aspx");
+        /*
+        var data = select.Select_Test_Personen();
+
+        foreach (Dictionary<string, object> s in data)
+        {
+            testLabel.Text = testLabel.Text + " " + Convert.ToString(s["locatie_id"]);
+        }
+         */
     }
 }
