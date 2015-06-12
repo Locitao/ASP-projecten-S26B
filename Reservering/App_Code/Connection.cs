@@ -15,7 +15,7 @@ namespace Reservering
     /// </summary>
     public class Connection
     {
-        OracleConnection conn = new OracleConnection();
+        readonly OracleConnection conn = new OracleConnection();
         private const string user = "system";
         private const string pw = "wachtwoord";
         private const string test = "xe";
