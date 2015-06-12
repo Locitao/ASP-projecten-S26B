@@ -11,14 +11,17 @@ namespace MateriaalBeheer
     public partial class MateriaalBeheer : System.Web.UI.Page
     {
 
-        DatabaseConnection dbConnection = new DatabaseConnection();
+        private DatabaseConnection dbConnection = new DatabaseConnection();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Hello this is an Alert')</SCRIPT>");
             pnlPopUpLeenItem.Visible = false;
+            pnlPopUpReserveerItem.Visible = false;
             listBox.Items.Clear();
             List<List<string>> output;
-            string query = "select \"barcode\",\"serie\" from productexemplaar pe, product p where p.id=pe.\"product_id\"";
+            string query =
+                "select \"barcode\",\"serie\" from productexemplaar pe, product p where p.id=pe.\"product_id\"";
             if (dbConnection.SQLQueryWithOutput(query, out output))
             {
                 foreach (List<string> list in output)
@@ -39,6 +42,18 @@ namespace MateriaalBeheer
         {
             pnlMain.Visible = true;
             pnlPopUpLeenItem.Visible = false;
+        }
+
+        protected void btnReserveerPopUp_OnClick(object sender, EventArgs e)
+        {
+            pnlMain.Visible = true;
+            pnlPopUpReserveerItem.Visible = false;
+        }
+
+        protected void BtnReserveer_OnClick(object sender, EventArgs e)
+        {
+            pnlMain.Visible = false;
+            pnlPopUpReserveerItem.Visible = true;
         }
     }
 }

@@ -103,30 +103,75 @@ namespace MateriaalBeheer {
         protected global::System.Web.UI.WebControls.Panel pnlPopUpLeenItem;
         
         /// <summary>
-        /// tbRFID control.
+        /// tbLeenRFID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbRFID;
+        protected global::System.Web.UI.WebControls.TextBox tbLeenRFID;
         
         /// <summary>
-        /// tbDateReturn control.
+        /// tbLeenTerugbrengDatum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbDateReturn;
+        protected global::System.Web.UI.WebControls.TextBox tbLeenTerugbrengDatum;
         
         /// <summary>
-        /// Button1 control.
+        /// btnLeenUitPopUp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btnLeenUitPopUp;
+        
+        /// <summary>
+        /// pnlPopUpReserveerItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlPopUpReserveerItem;
+        
+        /// <summary>
+        /// tbReserveerRFID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbReserveerRFID;
+        
+        /// <summary>
+        /// tbReserveerUitleenDatum control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbReserveerUitleenDatum;
+        
+        /// <summary>
+        /// tbReserveerTerugbrengDatum control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbReserveerTerugbrengDatum;
+        
+        /// <summary>
+        /// btnReserveerPopUp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReserveerPopUp;
     }
 }

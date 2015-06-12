@@ -5,8 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Materiaal Beheer</title>
-    <link rel="stylesheet" href="Huisstijl.css" />
     <link rel="stylesheet" href="MateriaalBeheer.css" />
+    <link rel="stylesheet" href="Huisstijl.css" />
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     
@@ -25,21 +25,52 @@
      
     <div>
         <asp:Button ID="btnLeenUit" CssClass="button" runat="server" Text="Leen item uit" OnClick="btnLeenUit_Click"/>
-        <asp:Button ID="BtnReserveer" CssClass="button" runat="server" Text="Reserveer item"/>
+        <asp:Button ID="BtnReserveer" CssClass="button" runat="server" Text="Reserveer item" OnClick="BtnReserveer_OnClick"/>
         <asp:Button ID="BtRetourneer" CssClass="button" runat="server" Text="Item retourneren"/>
         <asp:Button ID="BtnVeranderCategorie" CssClass="button" runat="server" Text="Verander categorie"/>
         <asp:Button ID="BtnNieuwItem" CssClass="button" runat="server" Text="Voeg Item toe" />
         <asp:Button ID="BtnNieuweCategorie" CssClass="button" runat="server" Text="Voeg categorie toe"/>
     </div>
     </asp:Panel>
+
     <div>
         <asp:Panel ID="pnlPopUpLeenItem" runat="server">
-            <p id="LendItemPar">Name: haha <br />price: 25<br/>status: lend</p>
-            <br />RFID Code: 
-        <asp:TextBox ID="tbRFID" runat="server" >hahaha</asp:TextBox>
-            <br/> return date:
-        <asp:TextBox ID="tbDateReturn" runat="server" >21/09/2016</asp:TextBox>
-        <asp:Button ID="Button1" CssClass="button" runat="server" Text="Leen item uit" OnClick="btnLeenUitPopUp_Click"/>
+        <p id="LeenItemPar">Name: haha <br />price: 25<br/>status: lend</p>  
+
+        <table style="border: hidden;">
+            <tr style="border: hidden;">
+                <td>RFID Code:</td>
+                <td><asp:TextBox ID="tbLeenRFID" runat="server" >hahaha</asp:TextBox></td>
+            </tr>
+            <tr style="border: hidden;">
+                <td>terugbreng datum:</td>
+                <td><asp:TextBox ID="tbLeenTerugbrengDatum" runat="server" >21/09/2016</asp:TextBox></td>
+            </tr>
+        </table>
+        <asp:Button ID="btnLeenUitPopUp" CssClass="button" runat="server" Text="Leen item uit" OnClick="btnLeenUitPopUp_Click"/>
+        
+
+        </asp:Panel>
+    </div>
+
+    <div>
+        <asp:Panel ID="pnlPopUpReserveerItem" runat="server">
+        <p id="ReserveerItemPar">Name: haha <br />price: 25<br/>status: lend</p>
+            <table style="border: hidden;">
+                <tr style="border: hidden;">
+                    <td>RFID Code:</td>
+                    <td><asp:TextBox ID="tbReserveerRFID" runat="server" >hahaha</asp:TextBox></td>
+                </tr>
+                <tr style="border: hidden;">
+                    <td>uitleen datum:</td>
+                    <td><asp:TextBox ID="tbReserveerUitleenDatum" runat="server" >21/09/2016</asp:TextBox></td>
+                </tr>
+                <tr style="border: hidden;">
+                    <td>terugbreng datum:</td>
+                    <td><asp:TextBox ID="tbReserveerTerugbrengDatum" runat="server" >22/09/2016</asp:TextBox></td>
+                </tr>
+            </table>
+        <asp:Button ID="btnReserveerPopUp" CssClass="button" runat="server" Text="ReserveerItem" OnClick="btnReserveerPopUp_OnClick"/>
         </asp:Panel>
     </div>
 
