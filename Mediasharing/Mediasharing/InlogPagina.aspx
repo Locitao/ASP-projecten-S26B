@@ -29,16 +29,16 @@
             </tr>
             <tr>
                 <td class="auto-style2">
-                    <asp:Label ID="lblWachtwoord" runat="server" Text="Wachtwoord:" Visible="False"></asp:Label>
+                    <asp:Label ID="lblWachtwoord" runat="server" Text="Wachtwoord:"></asp:Label>
                 </td>
                 <td id="tblInlog">
-                    <asp:TextBox ID="tbWachtwoord" runat="server" Visible="False" TextMode="Password"></asp:TextBox>
+                    <asp:TextBox ID="tbWachtwoord" runat="server" TextMode="Password"></asp:TextBox>
                 </td>
             </tr>
         </table>
         <br />
         <br />
-        <asp:Button ID="btnInloggen" runat="server" Text="Inloggen" OnClick="btnInloggen_Click" />
+        <asp:Button ID="btnInloggen" runat="server" Text="Inloggen" OnClick="btnInloggen_Click" style="width: 70px" />
         <br />
     
     </div>

@@ -22,20 +22,26 @@ namespace Mediasharing
             Administratie administratie = new Administratie();
             DataSet dataset = new DataSet();
 
-            dataset = administratie.GetData("SELECT COUNT(*) FROM ACCOUNT WHERE ID = " + "'" + id + "'" + "AND WACHTWOORD = " +
+            /*dataset = administratie.GetData("SELECT ID, Gebruikersnaam FROM ACCOUNT WHERE ID = " + "'" + id + "'" + " AND WACHTWOORD = " +
                                   "'" + wachtwoord + "'");
+             */
+            dataset = administratie.GetData("SELECT \"ID\", \"gebruikersnaam\" FROM ACCOUNT WHERE ID =  " + "'" + id + "'");
 
             if (IsEmpty(dataset))
             {
+                
                 //Wrong id and pasword combination!
+                lblGegevens.Text = "Foute gebruikersnaam en wachtwoord combinatie!";
             }
             else
             {
                 //Log in
-                Account account = new Account();
-
+                int idInt = Convert.ToInt32(dataset.Tables[0].Rows[0]["ID"]);
+                string gebruikersnaam = dataset.Tables[0].Rows[0]["gebruikersnaam"].ToString();
+                Account account = new Account(idInt, gebruikersnaam);
+                Session["account"] = account;
+                Response.Redirect("Index/0", true);
             }
-
         }
 
         //Methods
