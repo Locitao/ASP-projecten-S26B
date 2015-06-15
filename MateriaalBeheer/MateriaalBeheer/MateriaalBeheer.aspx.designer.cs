@@ -31,6 +31,24 @@ namespace MateriaalBeheer {
         protected global::System.Web.UI.WebControls.Panel pnlMain;
         
         /// <summary>
+        /// tbDatumVan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbDatumVan;
+        
+        /// <summary>
+        /// tbDatumTot control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbDatumTot;
+        
+        /// <summary>
         /// listBox control.
         /// </summary>
         /// <remarks>
@@ -38,6 +56,15 @@ namespace MateriaalBeheer {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox listBox;
+        
+        /// <summary>
+        /// lbl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbl;
         
         /// <summary>
         /// btnLeenUit control.

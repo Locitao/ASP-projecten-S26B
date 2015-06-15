@@ -76,6 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseConnection.cs" />
+    <Compile Include="dbConnection.cs" />
+    <Compile Include="Materiaal.cs" />
     <Compile Include="MateriaalBeheer.aspx.cs">
       <DependentUpon>MateriaalBeheer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
