@@ -4,7 +4,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Mediasharing Applicatie</title>
+    <link href="StyleSheet.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -13,12 +14,14 @@
         
         <!--Banner DIV-->        
         <div id="Banner">
-            
+            <h1>Mediasharing applicatie!</h1>
+            <h2>ICT4EVENTS</h2>
         </div>
 
         <!--Categorie DIV-->
 
         <div id="Categorie">
+            <asp:Label ID="lblCategorie" runat="server" Text="Categorie"></asp:Label>
             <asp:Repeater ID="RepeaterCategorie" runat="server">
                  <ItemTemplate>
                         <table>
@@ -37,7 +40,21 @@
         
         <!--Subcategorie DIV-->
         <div id="SubCategorie">
-            <asp:Repeater ID="SubCategorie" runat="server"></asp:Repeater>
+            <asp:Label ID="lblSubCategorie" runat="server" Text="Sub Categorie"></asp:Label>
+            <asp:Repeater ID="RepeaterSubCategorie" runat="server">
+                 <ItemTemplate>
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="/Index/<%# Eval("ID") %>">
+                                        <asp:Label runat="server" Text='<%# Eval("NAAM") %>'>
+                                        </asp:Label>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </ItemTemplate>
+            </asp:Repeater>
         </div>
         
         <!--Mediaitem DIV-->

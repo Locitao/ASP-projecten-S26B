@@ -22,6 +22,15 @@ namespace Mediasharing {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
+        /// lblCategorie control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCategorie;
+        
+        /// <summary>
         /// RepeaterCategorie control.
         /// </summary>
         /// <remarks>
@@ -31,13 +40,22 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.Repeater RepeaterCategorie;
         
         /// <summary>
-        /// SubCategorie control.
+        /// lblSubCategorie control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater SubCategorie;
+        protected global::System.Web.UI.WebControls.Label lblSubCategorie;
+        
+        /// <summary>
+        /// RepeaterSubCategorie control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterSubCategorie;
         
         /// <summary>
         /// MediaItems control.

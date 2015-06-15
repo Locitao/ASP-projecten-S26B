@@ -3,30 +3,44 @@
 #Container {
     margin: 0px auto;
     max-width: 970px;
-  margin: 0px auto;
+    margin: 0px auto;
 }
 #Banner{
     display: block;
     width: auto;
+    border: 1px solid black;
+    margin-bottom: 10px;
 }
 
 #Categorie 
 {
     float: left;
     width: 200px;
+    border: 1px solid black;
+    margin-right: 10px;
+    min-height: 200px;
 }
 
 #SubCategorie {
     float: left;
     width: 200px;
+    border: 1px solid black;
+    margin-right: 10px;
+    min-height: 200px;
 }
 #MediaItems {
     float: left;
     width: 200px;
+    border: 1px solid black;
+    margin-right: 10px;
+    min-height: 200px;
 }
 #Item {
     float: left;
     width: 300px;
+    border: 1px solid black;
+    margin-right: 10px;
+    min-height: 200px;
 }
 
 body {
