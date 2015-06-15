@@ -239,6 +239,14 @@ namespace Reservering
             return result;
         }
 
+        private string Get_Band_Code()
+        {
+            const string chars = "0123456789";
+            var random = new Random();
+            var result = new string(Enumerable.Repeat(chars, 20).Select(s => s[random.Next(s.Length)]).ToArray());
+            return result;
+        }
+
         public int Select_Persoon(string voornaam, string achternaam)
         {
             var sql = "SELECT ID FROM PERSOON WHERE voornaam = '" + voornaam + "' AND achternaam = '" + achternaam + "'";
