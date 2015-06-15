@@ -31,6 +31,11 @@ namespace MateriaalBeheer
             }
         }
 
+        public void RefreshAllItems()
+        {
+            
+        }
+
         public void btnLeenUit_Click(object sender, EventArgs e)
         {
             //Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Hello this is an Alert')</SCRIPT>");
@@ -54,6 +59,15 @@ namespace MateriaalBeheer
         {
             pnlMain.Visible = false;
             pnlPopUpReserveerItem.Visible = true;
+        }
+
+        protected void BtRetourneer_OnClick(object sender, EventArgs e)
+        {
+            DbConnection conn = DbConnection.Instance;
+
+            List<Dictionary<string, object>> List = conn.GetMaterials();
+
+            lbl.Text = (string)List[0]["merk"];
         }
     }
 }

@@ -51,13 +51,30 @@ namespace Reservering
         /// Method to be used for inserting a reservation.
         /// </summary>
         /// <returns>True or false, wether or not it succeeded.</returns>
-        public string Insert_Reservation(int persoonId, DateTime startDateTime, DateTime endDateTime, int betaald)
+        public string Insert_Reservering(int persoonId, DateTime startDateTime, DateTime endDateTime, int betaald)
         {
+            /*if (!NewConnection()) return;
+
+            OracleCommand cmd = new OracleCommand("Insert_Persoon", conn2);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("VOORNAAM", OracleDbType.NVarchar2).Value = p.Voornaam;
+            cmd.Parameters.Add("TUSSENVOEGSEL", OracleDbType.NVarchar2).Value = p.Tussenvoegsel; */
+
             try
             {
-                var query = "EXECUTE Insert_Reservering('" + persoonId + "', '" + Convert.ToString(startDateTime) +
-                            "', '" + Convert.ToString(endDateTime) + "', '" + betaald + "')";
-                Connection.ExecuteQuery(query);
+                const string x = "Connection failed";
+                if (!NewConnection()) return x;
+                OracleCommand cmd = new OracleCommand("Insert_Reservering", conn2);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("PERSOON_ID", OracleDbType.Int32).Value = persoonId;
+                cmd.Parameters.Add("DATUMSTART", OracleDbType.Date).Value = startDateTime;
+                cmd.Parameters.Add("DATUMEINDE", OracleDbType.Date).Value = endDateTime;
+                cmd.Parameters.Add("BETAALD", OracleDbType.Int32).Value = betaald;
+
+                conn.Execute(cmd);
+
                 const string result = "Reservering aangemaakt!";
                 return result;
             }
@@ -154,6 +171,39 @@ namespace Reservering
             oc.Parameters.Add("beschrijving", beschrijving);
             oc.Parameters.Add("website", website);
         }*/
+
+        private bool Insert_Account(string username, string email)
+        {
+            try
+            {
+                if (!NewConnection()) return false;
+                OracleCommand cmd = new OracleCommand("INSERT INTO ACCOUNT (\"ID\", \"GEBRUIKERSNAAM\", \"EMAIL\", \"ACTIVATIEHASH\", \"GEACTIVEERD\") VALUES(null, :gebruikersnaam, :email, :activatiehash, :geactiveerd");
+                cmd.Parameters.Add(":gebruikersnaam", conn2).Value = username;
+                cmd.Parameters.Add(":email", conn2).Value = email;
+                cmd.Parameters.Add(":activatiehash", conn2).Value = Get_ActivationHash();
+                cmd.Parameters.Add(":geactiveerd", conn2).Value = 1;
+
+                conn.Execute(cmd);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private string Get_ActivationHash()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            var result = new string(
+                Enumerable.Repeat(chars, 20)
+                          .Select(s => s[random.Next(s.Length)])
+                          .ToArray());
+            return result;
+        }
     }
+
+    
 
 }

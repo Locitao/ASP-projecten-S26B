@@ -44,4 +44,27 @@ public class Select
             throw;
         }
     }
+
+    public string Person_Id(string voornaam, string achternaam, string straat)
+    {
+        try
+        {
+            string id = "";
+            var sql = "SELECT \"ID\" FROM PERSOON WHERE \"voornaam\" = '" + voornaam + "' AND \"achternaam\" = '" +
+                      achternaam + "' AND \"straat\" = '" + straat + "')";
+            var data = Connection.ExecuteQuery(sql);
+
+            foreach (var x in data)
+            {
+                id = Convert.ToString(x["ID"]);
+            }
+            return id;
+
+        }
+        catch (Exception ex)
+        {
+            return ex.Message;
+        }
+    }
+
 }

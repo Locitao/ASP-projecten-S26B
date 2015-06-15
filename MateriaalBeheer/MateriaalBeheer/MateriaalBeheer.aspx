@@ -16,6 +16,8 @@
         
     <asp:Panel runat="server" ID="pnlMain">
     <div>
+        Van: <asp:TextBox ID="tbDatumVan" runat="server"></asp:TextBox><br/>
+        Tot: <asp:TextBox ID="tbDatumTot" runat="server"></asp:TextBox><br/>
         <asp:ListBox ID="listBox" runat="server" Height="149px" style="margin-top: 0px" Width="212px"></asp:ListBox><br/>
         <input type="checkbox" name="option1" value="Uitgeleend" checked="checked"/> Uitgeleend <br/>
         <input type="checkbox" name="option2" value="Gereserveerd" checked="checked"/> Gereserveerd<br/>
@@ -24,9 +26,10 @@
         
      
     <div>
+        <asp:Label runat="server" ID="lbl"></asp:Label>
         <asp:Button ID="btnLeenUit" CssClass="button" runat="server" Text="Leen item uit" OnClick="btnLeenUit_Click"/>
         <asp:Button ID="BtnReserveer" CssClass="button" runat="server" Text="Reserveer item" OnClick="BtnReserveer_OnClick"/>
-        <asp:Button ID="BtRetourneer" CssClass="button" runat="server" Text="Item retourneren"/>
+        <asp:Button ID="BtRetourneer" CssClass="button" runat="server" Text="Item retourneren" OnClick="BtRetourneer_OnClick"/>
         <asp:Button ID="BtnVeranderCategorie" CssClass="button" runat="server" Text="Verander categorie"/>
         <asp:Button ID="BtnNieuwItem" CssClass="button" runat="server" Text="Voeg Item toe" />
         <asp:Button ID="BtnNieuweCategorie" CssClass="button" runat="server" Text="Voeg categorie toe"/>
