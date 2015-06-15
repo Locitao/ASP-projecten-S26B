@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MaakReservering.aspx.cs" Inherits="MaakReservering" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateReservation.aspx.cs" Inherits="MaakReservering" %>
 
 <!DOCTYPE html>
 
@@ -21,6 +21,11 @@
         </div>
         <asp:Button runat="server" ID="btnCreateAccount" Text="Create account!" CssClass="button"/>
         <a href="http://imgur.com/H5y3VBq"><img src="http://i.imgur.com/H5y3VBq.jpg" title="source: imgur.com" id="plattegrond"/></a>
+        <div id="reservation">
+            <div class="myForm">
+                <p class="tekstinput"></p>
+            </div>
+        </div>
     </div>
     </form>
 </body>

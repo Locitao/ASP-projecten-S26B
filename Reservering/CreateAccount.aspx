@@ -1,8 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MaakAccount.aspx.cs" Inherits="MaakAccount" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="MaakAccount" %>
 
 <!DOCTYPE html>
 
-<<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Reserveren</title>
     <link rel="stylesheet" href="style.css"/>
@@ -30,7 +30,7 @@
                 <asp:TextBox ID="tbWoonplaats" CssClass="myForm" runat="server"></asp:TextBox><br/>
                 <asp:TextBox ID="tbBankrekening" CssClass="myForm" runat="server" MaxLength="10"></asp:TextBox>
             </div>
-            <br/><asp:Button runat="server" ID="btnSubmitReserve" Text="Create Reservation" CssClass="button" OnClick="btnSubmitReserve_Click"/>
+            <br/><asp:Button runat="server" ID="btnSubmitReserve" Text="Create Account" CssClass="button" OnClick="btnSubmitReserve_Click"/>
         </div>
     </form>
 </body>
