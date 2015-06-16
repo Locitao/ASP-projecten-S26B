@@ -14,11 +14,11 @@ public class ActiveDirectory
 {
     #region Variables
 
-    private string sDomain = "SERVER1.INFRA-S80.local";
-    private string sDefaultOU = "DC=INFRA-S80,DC=local";
-    private string sDefaultRootOU = "DC=INFRA-S80,DC=local";
-    private string sServiceUser = "CN=Administrator,CN=Users,DC=INFRA-S80,DC=local";
-    private string sServicePassword = "rickenjules";
+    private const string SDomain = "SERVER1.INFRA-S80.local";
+    private const string SDefaultOu = "DC=INFRA-S80,DC=local";
+    private string SDefaultRootOu = "DC=INFRA-S80,DC=local";
+    private const string SServiceUser = "CN=Administrator,CN=Users,DC=INFRA-S80,DC=local";
+    private const string SServicePassword = "rickenjules";
 
     #endregion
 
@@ -40,7 +40,7 @@ public class ActiveDirectory
     /// <returns></returns>
     public PrincipalContext GetPrincipalContext()
     {
-        PrincipalContext oPrincipalContext = new PrincipalContext(ContextType.Domain, sDomain, sDefaultOU, ContextOptions.SimpleBind, sServiceUser, sServicePassword);
+        PrincipalContext oPrincipalContext = new PrincipalContext(ContextType.Domain, SDomain, SDefaultOu, ContextOptions.SimpleBind, SServiceUser, SServicePassword);
         return oPrincipalContext;
     }
 
@@ -131,19 +131,19 @@ public class ActiveDirectory
     /// <summary>
     /// Creates a new user in the database
     /// </summary>
-    /// <param name="sOU"></param>
+    /// <param name="sOu"></param>
     /// <param name="username"></param>
     /// <param name="password"></param>
     /// <param name="givename"></param>
     /// <param name="surname"></param>
     /// <returns></returns>
-    public UserPrincipal CreateNewUser(string sOU, string username, string password, string givename, string surname)
+    public UserPrincipal CreateNewUser(/*string sOu, */string username, string password, string givename, string surname)
     {
         if (!IsUserExisting(username))
         {
-            PrincipalContext oPrincipalContext = GetPrincipalContext(sOU);
+            PrincipalContext oPrincipalContext = GetPrincipalContext();
 
-            UserPrincipal oUserPrincipal = new UserPrincipal(oPrincipalContext, username, password, true /*Enabled or not*/);
+            UserPrincipal oUserPrincipal = new UserPrincipal(oPrincipalContext, username, password, true/*Enabled or not*/);
 
             //User Log on Name
             oUserPrincipal.UserPrincipalName = username;
@@ -183,7 +183,7 @@ public class ActiveDirectory
     /// <returns></returns>
     public PrincipalContext GetPrincipalContext(string sOU)
     {
-        PrincipalContext oPrincipalContext = new PrincipalContext(ContextType.Domain, sDomain, sOU, ContextOptions.SimpleBind, sServiceUser, sServicePassword);
+        PrincipalContext oPrincipalContext = new PrincipalContext(ContextType.Domain, SDomain, sOU, ContextOptions.SimpleBind, SServiceUser, SServicePassword);
         return oPrincipalContext;
     }
 

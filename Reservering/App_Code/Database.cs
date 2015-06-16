@@ -324,7 +324,7 @@ namespace Reservering
             return id;
         }
 
-        public bool Select_Usernames(string username)
+        public bool Check_Username(string username)
         {
             const string sql = "SELECT \"gebruikersnaam\" FROM \"ACCOUNT\"";
             var data = ExecuteQuery(sql);

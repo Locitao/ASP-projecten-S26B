@@ -22,6 +22,7 @@
                 <p class="tekstinput">Bank account:</p><br/>
                 <p class="tekstinput">Email:</p><br/>
                 <p class="tekstinput">Username for event:</p>
+                <p class="tekstinput">Password for account:</p>
             </div>
             <div class="myForm">
                 <asp:TextBox ID="tbName" CssClass="myForm" runat="server"></asp:TextBox><br/>
@@ -33,6 +34,7 @@
                 <asp:TextBox ID="tbBankAccount" CssClass="myForm" runat="server" MaxLength="10"></asp:TextBox><br/>
                 <asp:TextBox ID="tbEmail" CssClass="myForm" runat="server"></asp:TextBox><br/>
                 <asp:TextBox ID="tbUsername" CssClass="myForm" runat="server"></asp:TextBox><br/>
+                <asp:TextBox ID="tbPassword" CssClass="myForm" runat="server" TextMode="Password"></asp:TextBox><br/>
             </div>
             <br/><asp:Button runat="server" ID="btnSubmitReserve" Text="Create Account" CssClass="button" OnClick="btnSubmitReserve_Click"/>
         </div>
