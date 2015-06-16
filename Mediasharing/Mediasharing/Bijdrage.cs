@@ -9,14 +9,19 @@ namespace Mediasharing
     {
         //Properties
         public int BijdrageId { get; set; }
-        public Account Gebruiker { get; set; }
-        public DateTime PlaatsingsDatum { get; set; }
+        public Account Poster { get; set; }
+        public DateTime Date { get; set; }
 
         //Constructor
-        protected Bijdrage(Account gebruiker, DateTime plaatsingsDatum)
+        protected Bijdrage(Account poster)
         {
-            Gebruiker = gebruiker;
-            PlaatsingsDatum = plaatsingsDatum;
+            Poster = poster;
+        }
+
+        protected Bijdrage(Account poster, DateTime date)
+        {
+            Poster = poster;
+            Date = date;
         }
     }
 }

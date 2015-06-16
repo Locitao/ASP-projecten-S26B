@@ -7,9 +7,6 @@
     <title>Mediasharing applicatie</title>
     <link rel="stylesheet" href="StyleSheet.css" />
     <style type="text/css">
-        .auto-style1 {
-            height: 25px;
-        }
     </style>
 </head>
 <body>
@@ -18,27 +15,27 @@
         <br />
         <asp:Label ID="lblGegevens" runat="server" Text="Vul hieronder uw gegevens in."></asp:Label>
         <br />
-        <table class="auto-style1">
+        <table class="custom">
             <tr>
-                <td class="auto-style1">
+                <td>
                     <asp:Label ID="lblId" runat="server" Text="Id:"></asp:Label>
                 </td>
-                <td id="tblInlog" class="auto-style1">
+                <td>
                     <asp:TextBox ID="tbId" runat="server" Height="17px"></asp:TextBox>
                 </td>
             </tr>
             <tr>
-                <td class="auto-style2">
+                <td>
                     <asp:Label ID="lblWachtwoord" runat="server" Text="Wachtwoord:"></asp:Label>
                 </td>
-                <td id="tblInlog">
+                <td>
                     <asp:TextBox ID="tbWachtwoord" runat="server" TextMode="Password"></asp:TextBox>
                 </td>
             </tr>
         </table>
         <br />
         <br />
-        <asp:Button ID="btnInloggen" runat="server" Text="Inloggen" OnClick="btnInloggen_Click" style="width: 70px" />
+        <asp:Button ID="btnInloggen" runat="server" Text="Inloggen" OnClick="btnInloggen_Click" CssClass="button" Width="100px" />
         <br />
     
     </div>

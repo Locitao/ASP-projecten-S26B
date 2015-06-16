@@ -11,7 +11,12 @@
     border: 1px solid black;
     margin-bottom: 10px;
 }
-
+#BerichtenBox{
+    display: block;
+    width: auto;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
 #Categorie 
 {
     float: left;
@@ -35,12 +40,19 @@
     margin-right: 10px;
     min-height: 200px;
 }
-#Item {
+#Berichten {
     float: left;
     width: 300px;
     border: 1px solid black;
     margin-right: 10px;
     min-height: 200px;
+}
+#Reacties {
+    float: left;
+    width: 300px;
+    border: 1px solid black;
+    margin-right: 10px;
+    min-height: 200px;  
 }
 
 body {
@@ -63,10 +75,7 @@ h1, h3, h5 {
 
 
 a {
-  color: #428bca;
-@@ -44,3 +43,33 @@ form p {
-  display: inline-block;
-  margin: 0px;
+   color: #428bca;
 }
 
 .button {
@@ -81,6 +90,15 @@ a {
   line-height: 20px;
   padding: 6px 12px;
   margin: 3px 0px;
+}
+
+.custom {
+    width: auto;
+    border: 1px solid transparent;
+}
+
+.custom > td {
+    width: 100px;
 }
 
 .button:hover {

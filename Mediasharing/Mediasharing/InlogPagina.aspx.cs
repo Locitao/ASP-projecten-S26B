@@ -19,13 +19,13 @@ namespace Mediasharing
         {
             string id = tbId.Text;
             string wachtwoord = tbWachtwoord.Text;
-            Administratie administratie = new Administratie();
+            Database database = Database.Instance;
             DataSet dataset = new DataSet();
 
             /*dataset = administratie.GetData("SELECT ID, Gebruikersnaam FROM ACCOUNT WHERE ID = " + "'" + id + "'" + " AND WACHTWOORD = " +
                                   "'" + wachtwoord + "'");
              */
-            dataset = administratie.GetData("SELECT \"ID\", \"gebruikersnaam\" FROM ACCOUNT WHERE ID =  " + "'" + id + "'");
+            dataset = database.GetData("SELECT \"ID\", \"gebruikersnaam\" FROM ACCOUNT WHERE ID =  " + "'" + id + "'");
 
             if (IsEmpty(dataset))
             {

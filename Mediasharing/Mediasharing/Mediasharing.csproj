@@ -78,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
-    <Compile Include="Administratie.cs" />
     <Compile Include="Bericht.cs" />
     <Compile Include="Bestand.cs" />
     <Compile Include="Bijdrage.cs" />
