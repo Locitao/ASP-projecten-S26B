@@ -19,19 +19,19 @@ public partial class MaakAccount : System.Web.UI.Page
 
     protected bool Insert_Person()
     {
-        if (tbVoornaam.Text == "" || tbAchternaam.Text == "" || tbBankrekening.Text == "" || tbStraat.Text == "" || tbHuisnummer.Text == "" || tbWoonplaats.Text == "")
+        if (tbName.Text == "" || tbSurname.Text == "" || tbBankAccount.Text == "" || tbStreet.Text == "" || tbHouseNumber.Text == "" || tbCity.Text == "")
         {
             ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage", "alert('One of the required fields was not filled in.')", true);
             return false;
         }
 
-        string surname = tbVoornaam.Text;
-        string addition = tbTussenvoegsel.Text;
-        string lastname = tbAchternaam.Text;
-        int bank = Convert.ToInt32(tbBankrekening.Text);
-        string street = tbStraat.Text;
-        int housenr = Convert.ToInt32(tbHuisnummer.Text);
-        string place = tbWoonplaats.Text;
+        string surname = tbName.Text;
+        string addition = tbAddition.Text;
+        string lastname = tbSurname.Text;
+        int bank = Convert.ToInt32(tbBankAccount.Text);
+        string street = tbStreet.Text;
+        int housenr = Convert.ToInt32(tbHouseNumber.Text);
+        string place = tbCity.Text;
 
         Person p = new Person(surname, addition, lastname, street, housenr, place, bank);
 

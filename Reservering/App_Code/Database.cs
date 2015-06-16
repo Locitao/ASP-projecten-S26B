@@ -206,8 +206,12 @@ namespace Reservering
             Execute(cmd);
         }
 
-
-
+        /// <summary>
+        /// Inserts an account into the database.
+        /// </summary>
+        /// <param name="username">Users' chosen username</param>
+        /// <param name="email">Email of the user.</param>
+        /// <returns>True or false</returns>
         private bool Insert_Account(string username, string email)
         {
             try
@@ -228,6 +232,10 @@ namespace Reservering
             }
         }
 
+        /// <summary>
+        /// Creates a new activation hash for use with a users' account.   
+        /// </summary>
+        /// <returns>Random hash (string).</returns>
         private string Get_ActivationHash()
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -239,6 +247,10 @@ namespace Reservering
             return result;
         }
 
+        /// <summary>
+        /// Generates a new code for a new wrist band. 
+        /// </summary>
+        /// <returns>String of the band code.</returns>
         private string Get_Band_Code()
         {
             const string chars = "0123456789";
@@ -247,6 +259,12 @@ namespace Reservering
             return result;
         }
 
+        /// <summary>
+        /// Finds the given persons' ID from the database.
+        /// </summary>
+        /// <param name="voornaam">Name of the user who's ID we want to find.</param>
+        /// <param name="achternaam">His surname.</param>
+        /// <returns>Int with the value of his ID (or 0 if not found).</returns>
         public int Select_Persoon(string voornaam, string achternaam)
         {
             var sql = "SELECT ID FROM PERSOON WHERE voornaam = '" + voornaam + "' AND achternaam = '" + achternaam + "'";
@@ -260,32 +278,36 @@ namespace Reservering
             return id;
         }
 
+        /// <summary>
+        /// Just a test.
+        /// </summary>
+        /// <returns>Move along citizen.</returns>
         public List<Dictionary<string, object>> Select_Test_Personen()
         {
             const string sql = "SELECT \"locatie_id\" FROM plek";
-            var data = Database.ExecuteQuery(sql);
+            var data = ExecuteQuery(sql);
             return data;
         }
 
-        public string Person_Id(string voornaam, string achternaam, string straat)
+        public int Person_Id(string voornaam, string achternaam, string straat)
         {
             try
             {
-                string id = "";
+                int id = 0;
                 var sql = "SELECT \"ID\" FROM PERSOON WHERE \"voornaam\" = '" + voornaam + "' AND \"achternaam\" = '" +
                           achternaam + "' AND \"straat\" = '" + straat + "')";
-                var data = Database.ExecuteQuery(sql);
+                var data = ExecuteQuery(sql);
 
                 foreach (var x in data)
                 {
-                    id = Convert.ToString(x["ID"]);
+                    id = Convert.ToInt32(x["ID"]);
                 }
                 return id;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return ex.Message;
+                return 0;
             }
         }
 
@@ -293,13 +315,23 @@ namespace Reservering
         {
             int id = 0;
             const string sql = "SELECT MAX(\"ID\") FROM POLSBANDJE";
-            var data = Database.ExecuteQuery(sql);
+            var data = ExecuteQuery(sql);
 
             foreach (var x in data)
             {
                 id = Convert.ToInt32(x["MAX(\"ID\")"]);
             }
             return id;
+        }
+
+        public bool Select_Usernames(string username)
+        {
+            const string sql = "SELECT \"gebruikersnaam\" FROM \"ACCOUNT\"";
+            var data = ExecuteQuery(sql);
+
+            List<string> unames = data.Select(x => Convert.ToString(x["gebruikersnaam"])).ToList();
+
+            return unames.Any(s => username == s);
         }
     }
 

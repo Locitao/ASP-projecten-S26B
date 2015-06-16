@@ -13,22 +13,26 @@
             <h1>Social Media Event</h1>
             <h3>Reserveren</h3>
             <div class="myForm">
-                <p class="tekstinput">Voornaam:</p><br/>
-                <p class="tekstinput">Tussenvoegsel:</p><br/>
-                <p class="tekstinput">Achternaam:</p><br />
-                <p class="tekstinput">Straat:</p><br />
-                <p class="tekstinput">Huisnummer:</p><br/>
-                <p class="tekstinput">Woonplaats:</p><br/>
-                <p class="tekstinput">Bankrekening nummer:</p><br/>
+                <p class="tekstinput">Name:</p><br/>
+                <p class="tekstinput">Addition:</p><br/>
+                <p class="tekstinput">Surname:</p><br />
+                <p class="tekstinput">Street:</p><br />
+                <p class="tekstinput">House number:</p><br/>
+                <p class="tekstinput">City:</p><br/>
+                <p class="tekstinput">Bank account:</p><br/>
+                <p class="tekstinput">Email:</p><br/>
+                <p class="tekstinput">Username for event:</p>
             </div>
             <div class="myForm">
-                <asp:TextBox ID="tbVoornaam" CssClass="myForm" runat="server"></asp:TextBox><br/>
-                <asp:TextBox ID="tbTussenvoegsel" CssClass="myForm" runat="server"></asp:TextBox><br/>
-                <asp:TextBox ID="tbAchternaam" CssClass="myForm" runat="server"></asp:TextBox><br/>
-                <asp:TextBox ID="tbStraat" CssClass="myForm" runat="server"></asp:TextBox><br/>
-                <asp:TextBox ID="tbHuisnummer" CssClass="myForm" runat="server"></asp:TextBox><br/>
-                <asp:TextBox ID="tbWoonplaats" CssClass="myForm" runat="server"></asp:TextBox><br/>
-                <asp:TextBox ID="tbBankrekening" CssClass="myForm" runat="server" MaxLength="10"></asp:TextBox>
+                <asp:TextBox ID="tbName" CssClass="myForm" runat="server"></asp:TextBox><br/>
+                <asp:TextBox ID="tbAddition" CssClass="myForm" runat="server"></asp:TextBox><br/>
+                <asp:TextBox ID="tbSurname" CssClass="myForm" runat="server"></asp:TextBox><br/>
+                <asp:TextBox ID="tbStreet" CssClass="myForm" runat="server"></asp:TextBox><br/>
+                <asp:TextBox ID="tbHouseNumber" CssClass="myForm" runat="server"></asp:TextBox><br/>
+                <asp:TextBox ID="tbCity" CssClass="myForm" runat="server"></asp:TextBox><br/>
+                <asp:TextBox ID="tbBankAccount" CssClass="myForm" runat="server" MaxLength="10"></asp:TextBox><br/>
+                <asp:TextBox ID="tbEmail" CssClass="myForm" runat="server"></asp:TextBox><br/>
+                <asp:TextBox ID="tbUsername" CssClass="myForm" runat="server"></asp:TextBox><br/>
             </div>
             <br/><asp:Button runat="server" ID="btnSubmitReserve" Text="Create Account" CssClass="button" OnClick="btnSubmitReserve_Click"/>
         </div>
