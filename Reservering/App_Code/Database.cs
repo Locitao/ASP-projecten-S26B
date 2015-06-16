@@ -147,14 +147,14 @@ namespace Reservering
         /// <param name="endDateTime">End time/date of the reservation.</param>
         /// <param name="betaald">Paid or not.</param>
         /// <returns>Succes string or error message.</returns>
-        public string Insert_Reservering(int persoonId, DateTime startDateTime, DateTime endDateTime, int betaald)
+        public string Insert_Reservation(int persoonId, DateTime startDateTime, DateTime endDateTime, int betaald)
         {
 
             try
             {
                 const string x = "Connection failed";
                 if (!NewConnection()) return x;
-                OracleCommand cmd = new OracleCommand("Insert_Reservering", _conn2);
+                OracleCommand cmd = new OracleCommand("Insert_Reservation", _conn2);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.Add("PERSOON_ID", OracleDbType.Int32).Value = persoonId;
@@ -263,25 +263,6 @@ namespace Reservering
         }
 
         /// <summary>
-        /// Finds the given persons' ID from the database.
-        /// </summary>
-        /// <param name="voornaam">Name of the user who's ID we want to find.</param>
-        /// <param name="achternaam">His surname.</param>
-        /// <returns>Int with the value of his ID (or 0 if not found).</returns>
-        public int Select_Persoon(string voornaam, string achternaam)
-        {
-            var sql = "SELECT ID FROM PERSOON WHERE voornaam = '" + voornaam + "' AND achternaam = '" + achternaam + "'";
-            var id = 0;
-            var data = ExecuteQuery(sql);
-
-            foreach (Dictionary<string, object> row in data)
-            {
-                id = Convert.ToInt32(row["ID"]);
-            }
-            return id;
-        }
-
-        /// <summary>
         /// Just a test.
         /// </summary>
         /// <returns>Move along citizen.</returns>
@@ -335,6 +316,26 @@ namespace Reservering
             List<string> unames = data.Select(x => Convert.ToString(x["gebruikersnaam"])).ToList();
 
             return unames.Any(s => username == s);
+        }
+
+        public List<Location> Find_Locations()
+        {
+            const string sql =
+                "SELECT ID, \"nummer\", \"capaciteit\" FROM PLEK WHERE ID NOT IN (SELECT \"plek_id\" FROM PLEK_RESERVERING)";
+            var data = ExecuteQuery(sql);
+
+            List<Location> locations = new List<Location>();
+
+            foreach (var x in data)
+            {
+                int id = Convert.ToInt32(x["ID"]);
+                int number = Convert.ToInt32(x["nummer"]);
+                int capacity = Convert.ToInt32(x["capaciteit"]);
+                Location l = new Location(id, capacity, number);
+                locations.Add(l);
+            }
+
+            return locations;
         }
     }
 

@@ -19,8 +19,9 @@
             <asp:TextBox ID="tbLocation" CssClass="myForm" runat="server"></asp:TextBox><br/>
             <asp:TextBox ID="tbPeople" CssClass="myForm" runat="server" TextMode="Number"></asp:TextBox><br/>
         </div>
-        <asp:Button runat="server" ID="btnReserve" Text="Create reservation." CssClass="button"/><br/>
-        <p>List of locations that are free; their IDs correspond to the ones on the map.</p>
+        <asp:Button runat="server" ID="btnReserve" Text="Create reservation." CssClass="button" OnClick="btnReserve_Click"/><br/>
+        <p>List of locations that are free; their IDs correspond to the ones on the map.</p><br />
+        <asp:ListBox ID="lbLocations" runat="server" Height="116px" Width="179px"></asp:ListBox><br/>
         <a href="http://imgur.com/H5y3VBq"><img src="http://i.imgur.com/H5y3VBq.jpg" title="source: imgur.com" id="plattegrond"/></a>
         <div id="reservation">
             <div class="myForm">

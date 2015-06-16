@@ -27,6 +27,7 @@ public class Person
 	    Huisnr = huisnr;
 	    Woonplaats = woonplaats;
 	    Banknr = banknr;
+	    
 	}
 
     
