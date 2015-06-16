@@ -166,14 +166,7 @@ public class ActiveDirectory
     /// <returns></returns>
     public bool IsUserExisting(string username)
     {
-        if (GetUser(username) == null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return GetUser(username) != null;
     }
 
     /// <summary>

@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 public partial class MaakReservering : System.Web.UI.Page
 {
     private Person _p;
+    private Account _acc;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["UserData"] == null)
@@ -22,6 +23,7 @@ public partial class MaakReservering : System.Web.UI.Page
         else
         {
             _p = (Person) Session["UserData"];
+            _acc = (Account) Session["Acc"];
         }
     }
 }

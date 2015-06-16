@@ -51,11 +51,14 @@ public partial class MaakAccount : System.Web.UI.Page
         //UserPrincipal user = _ad.CreateNewUser(uname, password, name + " " + addition, lastname);
 
         Person p = new Person(name, addition, lastname, street, housenr, place, bank);
+        Account acc = new Account(uname, email);
 
         Session["UserData"] = p;
+        Session["Acc"] = acc;
         //Session["ADacc"] = user;
 
         _db.Insert_Person(p);
+        _db.Insert_Account(uname, email);
         return true;
     }
     protected void btnSubmitReserve_Click(object sender, EventArgs e)

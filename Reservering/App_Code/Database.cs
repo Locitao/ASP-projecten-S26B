@@ -212,7 +212,7 @@ namespace Reservering
         /// <param name="username">Users' chosen username</param>
         /// <param name="email">Email of the user.</param>
         /// <returns>True or false</returns>
-        private bool Insert_Account(string username, string email)
+        public bool Insert_Account(string username, string email)
         {
             try
             {
