@@ -11,6 +11,7 @@ public partial class MaakReservering : System.Web.UI.Page
     private Account _acc;
     protected void Page_Load(object sender, EventArgs e)
     {
+        /*
         if (Session["UserData"] == null)
         {
             Page home = HttpContext.Current.Handler as Page;
@@ -25,5 +26,6 @@ public partial class MaakReservering : System.Web.UI.Page
             _p = (Person) Session["UserData"];
             _acc = (Account) Session["Acc"];
         }
+          */
     }
 }

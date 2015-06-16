@@ -178,8 +178,11 @@ namespace Reservering
         /// Will couple a reservation to a visitor's wristband.
         /// </summary>
         /// <returns>True or false.</returns>
-        public bool Insert_Res_Bandje()
+        public bool New_Wristband()
         {
+            var sql = "INSERT INTO POLSBANDJE (ID, \"barcode\", \"actief\") VALUES (null, '" + Get_Band_Code() +
+                      "', '1')";
+            ExecuteQuery(sql);
             return true;
         }
 
