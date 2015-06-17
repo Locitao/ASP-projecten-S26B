@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
-using Oracle.DataAccess;
 
 
 namespace Reservering
@@ -68,29 +64,21 @@ namespace Reservering
             
             if (database.NewConnection())
             {
-                try
-                {
-                    OracleDataReader reader = new OracleCommand(query, database._conn).ExecuteReader();
+                OracleDataReader reader = new OracleCommand(query, database._conn).ExecuteReader();
 
-                    while (reader.Read())
-                    {
-                        Dictionary<string, object> row = new Dictionary<string, object>();
+                while (reader.Read())
+                {
+                    Dictionary<string, object> row = new Dictionary<string, object>();
                         
-                        //Loop through the fields, add them to row
+                    //Loop through the fields, add them to row
 
-                        for (int fieldId = 0; fieldId < reader.FieldCount; fieldId++)
-                            row.Add(reader.GetName(fieldId), reader.GetValue(fieldId));
+                    for (int fieldId = 0; fieldId < reader.FieldCount; fieldId++)
+                        row.Add(reader.GetName(fieldId), reader.GetValue(fieldId));
 
-                        result.Add(row);
-                    }
-                    database._conn.Close();
-                    return result;
+                    result.Add(row);
                 }
-                catch (Exception)
-                {
-                    
-                    throw;
-                }
+                database._conn.Close();
+                return result;
             }
             database._conn.Close();
             return result;
@@ -154,8 +142,10 @@ namespace Reservering
             {
                 const string x = "Connection failed";
                 if (!NewConnection()) return x;
-                OracleCommand cmd = new OracleCommand("Insert_Reservation", _conn2);
-                cmd.CommandType = CommandType.StoredProcedure;
+                OracleCommand cmd = new OracleCommand("Insert_Reservation", _conn2)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 cmd.Parameters.Add("PERSOON_ID", OracleDbType.Int32).Value = persoonId;
                 cmd.Parameters.Add("DATUMSTART", OracleDbType.Date).Value = startDateTime;
@@ -195,8 +185,7 @@ namespace Reservering
 
             if (!NewConnection()) return;
 
-            OracleCommand cmd = new OracleCommand("Insert_Persoon", _conn2);
-            cmd.CommandType = CommandType.StoredProcedure;
+            OracleCommand cmd = new OracleCommand("Insert_Persoon", _conn2) {CommandType = CommandType.StoredProcedure};
 
             cmd.Parameters.Add("VOORNAAM", OracleDbType.NVarchar2).Value = p.Voornaam;
             cmd.Parameters.Add("TUSSENVOEGSEL", OracleDbType.NVarchar2).Value = p.Tussenvoegsel;
@@ -273,6 +262,13 @@ namespace Reservering
             return data;
         }
 
+        /// <summary>
+        /// Find a persons' ID.
+        /// </summary>
+        /// <param name="voornaam"></param>
+        /// <param name="achternaam"></param>
+        /// <param name="straat"></param>
+        /// <returns></returns>
         public int Person_Id(string voornaam, string achternaam, string straat)
         {
             try
@@ -295,6 +291,10 @@ namespace Reservering
             }
         }
 
+        /// <summary>
+        /// Find the latest wristband that was added to the database.
+        /// </summary>
+        /// <returns></returns>
         public int Max_Polsbandje()
         {
             int id = 0;
@@ -308,6 +308,10 @@ namespace Reservering
             return id;
         }
 
+        /// <summary>
+        /// Find the latest reservation that was added to the database.
+        /// </summary>
+        /// <returns></returns>
         public int Max_Res()
         {
             int id = 0;
@@ -321,6 +325,11 @@ namespace Reservering
             return id;
         }
 
+        /// <summary>
+        /// Checks if the given username already exists.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public bool Check_Username(string username)
         {
             const string sql = "SELECT \"gebruikersnaam\" FROM \"ACCOUNT\"";
@@ -331,6 +340,10 @@ namespace Reservering
             return unames.Any(s => username == s);
         }
 
+        /// <summary>
+        /// Returns a list of all locations that haven't been reserved yet.
+        /// </summary>
+        /// <returns></returns>
         public List<Location> Find_Locations()
         {
             const string sql =
@@ -351,6 +364,11 @@ namespace Reservering
             return locations;
         }
 
+        /// <summary>
+        /// Inserts a record into reservering_polsbandje.
+        /// </summary>
+        /// <param name="accId"></param>
+        /// <returns></returns>
         public bool Insert_Res_Band(int accId)
         {
             if (!New_Wristband()) return false;
@@ -369,6 +387,25 @@ namespace Reservering
 
             Execute(cmd);
             return true;
+        }
+
+        /// <summary>
+        /// Find the ID of the account with the given username.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public int Find_Acc(string username)
+        {
+            int x = 0;
+
+            var sql = "SELECT ID FROM ACCOUNT WHERE \"gebruikersnaam\" = '" + username + "'";
+            var data = ExecuteQuery(sql);
+
+            foreach (var y in data)
+            {
+                x = Convert.ToInt32(y["ID"]);
+            }
+            return x;
         }
     }
 

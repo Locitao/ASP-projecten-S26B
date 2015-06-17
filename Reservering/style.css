@@ -39,12 +39,12 @@ td {
 }
 
 form {
-    padding: 0px 8px;
+    padding: 0 8px;
 }
 form p {
     color: #737373;
     display: inline-block;
-    margin: 0px;
+    margin: 0;
 }
 
 .button {
@@ -58,7 +58,7 @@ form p {
     font-size: 14px;
     line-height: 20px;
     padding: 6px 12px;
-    margin: 3px 0px;
+    margin: 3px 0;
 }
 
 .button:hover {

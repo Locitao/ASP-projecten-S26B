@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Reservering;
 
 public partial class MaakReservering : System.Web.UI.Page
 {
-    Database _db = new Database();
+    readonly Database _db = new Database();
     private Person _p;
     private Account _acc;
     protected void Page_Load(object sender, EventArgs e)
@@ -19,7 +17,7 @@ public partial class MaakReservering : System.Web.UI.Page
             Page home = HttpContext.Current.Handler as Page;
             if (home != null)
             {
-                ScriptManager.RegisterStartupScript(home, home.GetType(), "err_msg", "alert('You need to log in first.');window.location='Signup.aspx';", true);
+                ScriptManager.RegisterStartupScript(home, home.GetType(), "err_msg", "alert('You need to log in first.');window.location='CreateAccount.aspx';", true);
             }
         }
 
@@ -64,6 +62,14 @@ public partial class MaakReservering : System.Web.UI.Page
         {
             return false;
         }
+
+        int accId = _db.Find_Acc(_acc.Username);
+        if (!_db.Insert_Res_Band(accId))
+        {
+            return false;
+        }
+
+        return true;
 
     }
 }
