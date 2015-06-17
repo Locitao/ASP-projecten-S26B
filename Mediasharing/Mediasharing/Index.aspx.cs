@@ -132,7 +132,7 @@ namespace Mediasharing
             {
                 //Retrieves all the messages that aren't replies from the database.
                 Database database = Database.Instance;
-                List<Dictionary<string, object>> output = database.GetBerichten();
+                List<Dictionary<string, object>> output = database.GetMessages();
                 List<Bericht> messages = new List<Bericht>();
 
                 //Creates the messages.
