@@ -1,11 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MateriaalBeheer.aspx.cs" Inherits="MateriaalBeheer.MateriaalBeheer" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MaterialRenting.aspx.cs" Inherits="MaterialRenting.MateriaalBeheer" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Materiaal Beheer</title>
-    <link rel="stylesheet" href="MateriaalBeheer.css" />
+    <link rel="stylesheet" href="MaterialRenting.css" />
     <link rel="stylesheet" href="Huisstijl.css" />
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -16,12 +16,13 @@
         
     <asp:Panel runat="server" ID="pnlMain">
     <div>
-        Van: <asp:TextBox ID="tbDatumVan" runat="server"></asp:TextBox><br/>
-        Tot: <asp:TextBox ID="tbDatumTot" runat="server"></asp:TextBox><br/>
-        <asp:ListBox ID="listBox" runat="server" Height="149px" style="margin-top: 0px" Width="212px"></asp:ListBox><br/>
-        <input type="checkbox" name="option1" value="Uitgeleend" checked="checked"/> Uitgeleend <br/>
-        <input type="checkbox" name="option2" value="Gereserveerd" checked="checked"/> Gereserveerd<br/>
-        <input type="checkbox" name="option3" value="Vrij" checked="checked"/> Vrij 
+        From: <asp:TextBox ID="tbDateFrom" runat="server"></asp:TextBox> Format 'DD-MM-YYYY'<br/>
+        To: <asp:TextBox ID="tbDateTo" runat="server"></asp:TextBox> Format 'DD-MM-YYYY'<br/>
+        <asp:Button runat="server" ID="btnRefresh" Text="Refresh"/><br/>
+        <asp:ListBox ID="lbProducts" runat="server" Height="149px" style="margin-top: 0px" Width="212px"></asp:ListBox><br/>
+        <input type="checkbox" name="option1" value="Lent" checked="checked"/> Uitgeleend <br/>
+        <input type="checkbox" name="option2" value="reserved" checked="checked"/> Gereserveerd<br/>
+        <input type="checkbox" name="option3" value="Free" checked="checked"/> Vrij 
     </div>
         
      

@@ -70,20 +70,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Huisstijl.css" />
-    <Content Include="MateriaalBeheer.aspx" />
-    <Content Include="MateriaalBeheer.css" />
+    <Content Include="MaterialRenting.aspx" />
+    <Content Include="MaterialRenting.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseConnection.cs" />
     <Compile Include="dbConnection.cs" />
-    <Compile Include="Materiaal.cs" />
-    <Compile Include="MateriaalBeheer.aspx.cs">
-      <DependentUpon>MateriaalBeheer.aspx</DependentUpon>
+    <Compile Include="Material.cs" />
+    <Compile Include="MaterialRenting.aspx.cs">
+      <DependentUpon>MaterialRenting.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="MateriaalBeheer.aspx.designer.cs">
-      <DependentUpon>MateriaalBeheer.aspx</DependentUpon>
+    <Compile Include="MaterialRenting.aspx.designer.cs">
+      <DependentUpon>MaterialRenting.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

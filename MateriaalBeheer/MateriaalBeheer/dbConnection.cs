@@ -8,7 +8,7 @@ using Oracle.DataAccess.Types;
 using Oracle.DataAccess;
 
 
-namespace MateriaalBeheer
+namespace MaterialRenting
 {
     public class DbConnection
     {
@@ -47,22 +47,6 @@ namespace MateriaalBeheer
         {
             connection.Close();
         }
-
-        public List<Dictionary<string, object>> GetGroupIdWithAdvertentieId()
-        {
-            OracleCommand oc = new OracleCommand("select pe.\"barcode\", v.\"prijs\" from productexemplaar pe, verhuur v where pe.\"ID\" = 1");
-
-            //oc.Parameters.Add("groepId", advId);
-
-            return ExecuteQuery(oc);
-        }
-
-        public List<Dictionary<string, object>> GetMaterials()
-        {
-            OracleCommand oc = new OracleCommand("select p.\"merk\", p.\"serie\" from verhuur v, productexemplaar pe, product p where p.\"ID\" = pe.\"product_id\" and pe.\"ID\" = v.\"res_pb_id\"");
-            return ExecuteQuery(oc);
-        }
-
 
         public List<Dictionary<string, object>> ExecuteQuery(OracleCommand oc)
         {

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MateriaalBeheer {
+namespace MaterialRenting {
     
     
     public partial class MateriaalBeheer {
@@ -31,31 +31,40 @@ namespace MateriaalBeheer {
         protected global::System.Web.UI.WebControls.Panel pnlMain;
         
         /// <summary>
-        /// tbDatumVan control.
+        /// tbDateFrom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbDatumVan;
+        protected global::System.Web.UI.WebControls.TextBox tbDateFrom;
         
         /// <summary>
-        /// tbDatumTot control.
+        /// tbDateTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbDatumTot;
+        protected global::System.Web.UI.WebControls.TextBox tbDateTo;
         
         /// <summary>
-        /// listBox control.
+        /// btnRefresh control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox listBox;
+        protected global::System.Web.UI.WebControls.Button btnRefresh;
+        
+        /// <summary>
+        /// lbProducts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox lbProducts;
         
         /// <summary>
         /// lbl control.

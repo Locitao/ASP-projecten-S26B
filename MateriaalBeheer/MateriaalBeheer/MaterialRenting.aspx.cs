@@ -5,40 +5,52 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MaterialRenting;
+using Microsoft.Win32.SafeHandles;
+using Oracle.DataAccess.Client;
 
-namespace MateriaalBeheer
+namespace MaterialRenting
 {
     public partial class MateriaalBeheer : System.Web.UI.Page
     {
 
-        private DatabaseConnection dbConnection = new DatabaseConnection();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             //Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Hello this is an Alert')</SCRIPT>");
             pnlPopUpLeenItem.Visible = false;
             pnlPopUpReserveerItem.Visible = false;
-            listBox.Items.Clear();
-            List<List<string>> output;
-            string query =
-                "select \"barcode\",\"serie\" from productexemplaar pe, product p where p.id=pe.\"product_id\"";
-            if (dbConnection.SQLQueryWithOutput(query, out output))
+            LoadAllItems();
+        }
+
+        public void LoadAllItems()
+        {
+            string query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID";
+            List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
+            foreach (Dictionary<string, object> dic in output)
             {
-                foreach (List<string> list in output)
-                {
-                    listBox.Items.Add(list[0] + " " + list[1]);
-                }
+                
             }
         }
 
         public void RefreshAllItems()
         {
-            
+            if (tbDateFrom.Text.Length == 0
+                || tbDateTo.Text.Length == 0)
+            {
+                // laat alle aanwezige items zien
+                
+
+            }
+            else
+            {
+                
+            }
+
+
         }
 
         public void btnLeenUit_Click(object sender, EventArgs e)
         {
-            //Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Hello this is an Alert')</SCRIPT>");
             pnlMain.Visible = false;
             pnlPopUpLeenItem.Visible = true;
         }
@@ -63,11 +75,6 @@ namespace MateriaalBeheer
 
         protected void BtRetourneer_OnClick(object sender, EventArgs e)
         {
-            DbConnection conn = DbConnection.Instance;
-
-            List<Dictionary<string, object>> List = conn.GetMaterials();
-
-            lbl.Text = (string)List[0]["merk"];
         }
     }
 }
