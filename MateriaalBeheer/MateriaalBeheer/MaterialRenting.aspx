@@ -19,8 +19,7 @@
         From: <asp:TextBox ID="tbDateFrom" runat="server"></asp:TextBox> Format 'DD-MM-YYYY'<br/>
         To: <asp:TextBox ID="tbDateTo" runat="server"></asp:TextBox> Format 'DD-MM-YYYY'<br/>
         <asp:Button runat="server" ID="btnRefresh" Text="Refresh"/><br/>
-        <asp:ListBox ID="lbProducts" runat="server" Height="149px" style="margin-top: 0px" Width="212px"></asp:ListBox><br/>
-        <input type="checkbox" name="option1" value="Lent" checked="checked"/> Uitgeleend <br/>
+        <asp:ListBox ID="lbProducts" runat="server" Height="149px" style="margin-top: 0px" Width="400px"></asp:ListBox><br/>
         <input type="checkbox" name="option2" value="reserved" checked="checked"/> Gereserveerd<br/>
         <input type="checkbox" name="option3" value="Free" checked="checked"/> Vrij 
     </div>

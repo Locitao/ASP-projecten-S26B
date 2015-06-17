@@ -17,12 +17,12 @@ namespace MaterialRenting
 
         public Material(int id, string brand, string serie, int price, string barcode, List<DateTime[]> rentingTimes)
         {
-            this.Id = id;
-            this.Brand = brand;
-            this.Serie = serie;
-            this.Price = price;
-            this.Barcode = barcode;
-            this.RentingTimes = rentingTimes;
+            Id = id;
+            Brand = brand;
+            Serie = serie;
+            Price = price;
+            Barcode = barcode;
+            RentingTimes = rentingTimes;
         }
 
         public Status CheckStatus(DateTime dateFrom, DateTime dateTo)
@@ -47,6 +47,19 @@ namespace MaterialRenting
                 }
             }
             return Status;
+        }
+
+        public void AddDates(DateTime dateFrom, DateTime dateTo)
+        {
+            DateTime[] dates = new DateTime[2];
+            dates[0] = dateFrom;
+            dates[1] = dateTo;
+            RentingTimes.Add(dates);
+        }
+
+        public override string ToString()
+        {
+            return Id + ", " + Brand + ", " + Serie;
         }
     }
 }
