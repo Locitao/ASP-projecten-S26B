@@ -407,6 +407,15 @@ namespace Reservering
             }
             return x;
         }
+
+        public bool Insert_Res_Mat(int resId, int locId)
+        {
+            OracleCommand cmd = new OracleCommand("INSERT INTO PLEK_RESERVERING (ID, \"plek_id\", \"reservering_id\") VALUES (null, :location, :reservation)");
+            cmd.Parameters.Add(":location", _conn2).Value = locId;
+            cmd.Parameters.Add(":reservation", _conn2).Value = resId;
+            Execute(cmd);
+            return true;
+        }
     }
 
 }
