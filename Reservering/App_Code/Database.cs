@@ -308,6 +308,19 @@ namespace Reservering
             return id;
         }
 
+        public int Max_Res()
+        {
+            int id = 0;
+            const string sql = "SELECT MAX(\"ID\") FROM RESERVERING";
+            var data = ExecuteQuery(sql);
+
+            foreach (var x in data)
+            {
+                id = Convert.ToInt32(x["MAX(\"ID\")"]);
+            }
+            return id;
+        }
+
         public bool Check_Username(string username)
         {
             const string sql = "SELECT \"gebruikersnaam\" FROM \"ACCOUNT\"";
@@ -336,6 +349,26 @@ namespace Reservering
             }
 
             return locations;
+        }
+
+        public bool Insert_Res_Band(int accId)
+        {
+            if (!New_Wristband()) return false;
+
+            int band = Max_Polsbandje();
+            int res = Max_Res();
+            const int present = 1;
+
+            if (!NewConnection()) return false;
+
+            OracleCommand cmd = new OracleCommand("INSERT INTO RESERVERING_POLSBANDJE (ID, \"reservering_id\", \"polsbandje_id\", \"account_id\", \"aanwezig\") VALUES (null, :resid, :band_id, :acc_id, :present)");
+            cmd.Parameters.Add(":resid", _conn2).Value = res;
+            cmd.Parameters.Add(":band_id", _conn2).Value = band;
+            cmd.Parameters.Add(":acc_id", _conn2).Value = accId;
+            cmd.Parameters.Add(":present", _conn2).Value = present;
+
+            Execute(cmd);
+            return true;
         }
     }
 
