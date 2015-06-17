@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MateriaalBeheer
+namespace MaterialRenting
 {
-    public class Materiaal
+    public enum Status
     {
+        Reserved,
+        Free
     }
 }

@@ -11,7 +11,7 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MateriaalBeheer</RootNamespace>
+    <RootNamespace>MateriaalRenting</RootNamespace>
     <AssemblyName>MateriaalBeheer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
@@ -70,22 +70,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Huisstijl.css" />
-    <Content Include="MateriaalBeheer.aspx" />
-    <Content Include="MateriaalBeheer.css" />
+    <Content Include="MaterialRenting.aspx" />
+    <Content Include="MaterialRenting.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseConnection.cs" />
     <Compile Include="dbConnection.cs" />
-    <Compile Include="Materiaal.cs" />
-    <Compile Include="MateriaalBeheer.aspx.cs">
-      <DependentUpon>MateriaalBeheer.aspx</DependentUpon>
+    <Compile Include="Material.cs" />
+    <Compile Include="MaterialRenting.aspx.cs">
+      <DependentUpon>MaterialRenting.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="MateriaalBeheer.aspx.designer.cs">
-      <DependentUpon>MateriaalBeheer.aspx</DependentUpon>
+    <Compile Include="MaterialRenting.aspx.designer.cs">
+      <DependentUpon>MaterialRenting.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Status.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

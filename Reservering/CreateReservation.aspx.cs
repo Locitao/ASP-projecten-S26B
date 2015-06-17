@@ -50,12 +50,20 @@ public partial class MaakReservering : System.Web.UI.Page
 
     }
 
+    /// <summary>
+    /// Gonna use this method to do everything in regards to inserting a reservation.
+    /// </summary>
+    /// <returns></returns>
     protected bool Create_Reservation()
     {
         int personId = _db.Person_Id(_p.Voornaam, _p.Achternaam, _p.Straat);
         DateTime now = DateTime.Now;
         DateTime end = new DateTime(2015, 7, 1);
         _db.Insert_Reservation(personId, now, end, 1);
+        if (!_db.New_Wristband())
+        {
+            return false;
+        }
 
     }
 }
