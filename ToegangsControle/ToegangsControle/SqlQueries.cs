@@ -5,10 +5,16 @@ using System.Web;
 
 namespace ToegangsControle
 {
+    /// <summary>
+    /// This class uses All te statements for SQL
+    /// </summary>
     public class SqlQueries
-    {
+    {       
         Connection connect = new Connection();
 
+        /// <summary>
+        /// All the select statements.
+        /// </summary>       
         public List<Dictionary<string, object>> Select_Reserveringen()
         {
             var sql = "SELECT rp.\"reservering_id\",rp.\"account_id\", p.\"barcode\", a.\"gebruikersnaam\", r.\"betaald\", rp.\"aanwezig\" FROM RESERVERING_POLSBANDJE rp, POLSBANDJE p, ACCOUNT a, RESERVERING r WHERE p.\"ID\" = rp.\"polsbandje_id\" AND r.\"ID\" = rp.\"reservering_id\" AND a.\"ID\" = rp.\"account_id\"";
@@ -44,6 +50,19 @@ namespace ToegangsControle
 
             return betaald;            
         }
+        public string checkBetaaldOnAccountID(string accountID)
+        {
+            string betaald = "2";
+            var sql = "SELECT r.\"betaald\" FROM RESERVERING r, RESERVERING_POLSBANDJE rp WHERE r.\"ID\" = rp.\"reservering_id\" AND rp.\"account_id\" = " + accountID;
+
+            var data = Connection.ExecuteQuery(sql);
+            foreach (Dictionary<string, object> row in data)
+            {
+                betaald = Convert.ToString(row["betaald"]);
+            }
+
+            return betaald;
+        }
         public string checkAanwezig(string userID)
         {
             string aanwezig = "";
@@ -69,7 +88,9 @@ namespace ToegangsControle
             }
             return userID;
         }
-
+        /// <summary>
+        /// All the update statements.
+        /// </summary>       
         public string Update_Betaald(string reserveringID)
         {
             try
@@ -120,6 +141,9 @@ namespace ToegangsControle
                 return false;
             }
         }
+        /// <summary>
+        /// All the delete statements.
+        /// </summary>       
         public bool Delete_reservering(string reserveringID)
         {
             try
