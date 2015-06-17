@@ -12,7 +12,7 @@ namespace MaterialRenting
 {
     public partial class MateriaalBeheer : System.Web.UI.Page
     {
-
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,13 +23,15 @@ namespace MaterialRenting
         }
 
         public void LoadAllItems()
-        {
+        {/*
             string query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID";
             List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
+            List<Material> matList = new List<Material>();
             foreach (Dictionary<string, object> dic in output)
             {
-                
-            }
+                matList.Add(new Material((int)dic["ID"], (string)dic["merk"], ));
+
+            }*/
         }
 
         public void RefreshAllItems()
