@@ -156,9 +156,9 @@ namespace Mediasharing
                                                   "FROM BIJDRAGE bij, BERICHT ber, ACCOUNT acc WHERE bij.\"account_id\" = acc.\"ID\" " +
                                                   "AND ber.\"bijdrage_id\" = bij.\"ID\" " +
                                                   "AND bij.\"ID\" IN " +
-                                                                        "(SELECT bb.\"bericht_id\" " +
+                                                                        "(SELECT \"bericht_id\" " +
                                                                         "FROM BIJDRAGE_BERICHT " +
-                                                                        "WHERE \"bericht_id\" = :messageId)");
+                                                                        "WHERE \"bijdrage_id\" = :messageId)");
             cmd.Parameters.Add("messageId", messageId);
 
             return ExecuteQuery(cmd);

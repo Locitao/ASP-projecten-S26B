@@ -26,9 +26,13 @@ namespace Mediasharing
 
         public void LoadPage()
         {
+            //Only reloads the categories when the page isn't a postback.
+            if (!IsPostBack)
+            {
+                LoadMessages();
+            }
             LoadCategories();
             LoadSubCategories();
-            LoadBerichten();
         }
 
         public void CheckIfLoggedIn()
@@ -62,8 +66,8 @@ namespace Mediasharing
                                             "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
                                             "WHERE \"bijdrage_id\" = " + categorieId);
                 }
-                RepeaterCategorie.DataSource = output;
-                RepeaterCategorie.DataBind();
+                RepeaterCategories.DataSource = output;
+                RepeaterCategories.DataBind();
             }
             catch (OracleException ex)
             {
@@ -94,8 +98,8 @@ namespace Mediasharing
                                               "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
                                               "WHERE \"categorie_id\" = " + categorieId);
                 }
-                RepeaterSubCategorie.DataSource = output;
-                RepeaterSubCategorie.DataBind();
+                RepeaterSubCategories.DataSource = output;
+                RepeaterSubCategories.DataBind();
             }
             catch (OracleException ex)
             {
@@ -117,8 +121,8 @@ namespace Mediasharing
                                               "JOIN BESTAND be ON b.\"ID\" = c.\"bijdrage_id\" " +
                                               "WHERE \"categorie_id\" IS NULL");
                 }
-                RepeaterSubCategorie.DataSource = output;
-                RepeaterSubCategorie.DataBind();
+                RepeaterSubCategories.DataSource = output;
+                RepeaterSubCategories.DataBind();
             }
             catch (OracleException ex)
             {
@@ -126,7 +130,7 @@ namespace Mediasharing
             }
         }
 
-        public void LoadBerichten()
+        public void LoadMessages()
         {
             try
             {
@@ -159,5 +163,51 @@ namespace Mediasharing
                 System.Diagnostics.Debug.WriteLine("error message: " + ex.Message + "\n" + "error code:" + ex.ErrorCode);
             }
         }
+
+        public void LoadReactions(int messageId)
+        {
+            try
+            {
+                //Retrieves all the messages that aren't replies from the database.
+                Database database = Database.Instance;
+                List<Dictionary<string, object>> output = database.GetReactions(messageId);
+                List<Bericht> reactions = new List<Bericht>();
+
+                //Creates the messages.
+                foreach (Dictionary<string, object> dic in output)
+                {
+                    int id = Convert.ToInt32(dic["ID"]);
+                    string title = Convert.ToString(dic["TITEL"]);
+                    string content = Convert.ToString(dic["INHOUD"]);
+                    string username = Convert.ToString(dic["GEBRUIKERSNAAM"]);
+
+                    Account account = new Account(username);
+                    Bericht message = new Bericht(id, account, title, content);
+                    reactions.Add(message);
+                }
+
+                //Binds the messages to the listbox.
+                lbReactions.DataSource = reactions;
+                lbReactions.DataTextField = "DisplayValue";
+                lbReactions.DataValueField = "MessageId";
+                lbReactions.DataBind();
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("error message: " + ex.Message + "\n" + "error code:" + ex.ErrorCode);
+            }
+        }
+
+        /// <summary>
+        /// Loads the reactions in a listbox for the selected message in the other listbox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void lbMessages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int messageId = Convert.ToInt32(lbMessages.SelectedValue);
+            LoadReactions(messageId);
+        }
+
     }
 }

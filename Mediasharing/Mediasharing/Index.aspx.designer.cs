@@ -31,22 +31,22 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.ListBox lbMessages;
         
         /// <summary>
-        /// btnLike control.
+        /// btnLikeMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLike;
+        protected global::System.Web.UI.WebControls.Button btnLikeMessage;
         
         /// <summary>
-        /// btnReport control.
+        /// btnReportMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReport;
+        protected global::System.Web.UI.WebControls.Button btnReportMessage;
         
         /// <summary>
         /// lbReactions control.
@@ -58,6 +58,24 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.ListBox lbReactions;
         
         /// <summary>
+        /// btnLikeReaction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnLikeReaction;
+        
+        /// <summary>
+        /// btnReportReaction control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReportReaction;
+        
+        /// <summary>
         /// lblCategorie control.
         /// </summary>
         /// <remarks>
@@ -67,13 +85,13 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.Label lblCategorie;
         
         /// <summary>
-        /// RepeaterCategorie control.
+        /// RepeaterCategories control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterCategorie;
+        protected global::System.Web.UI.WebControls.Repeater RepeaterCategories;
         
         /// <summary>
         /// lblSubCategorie control.
@@ -85,13 +103,13 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.Label lblSubCategorie;
         
         /// <summary>
-        /// RepeaterSubCategorie control.
+        /// RepeaterSubCategories control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterSubCategorie;
+        protected global::System.Web.UI.WebControls.Repeater RepeaterSubCategories;
         
         /// <summary>
         /// lblMediaItems control.

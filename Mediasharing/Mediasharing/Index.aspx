@@ -7,13 +7,7 @@
     <title>Mediasharing Applicatie</title>
     <link href="StyleSheet.css" rel="stylesheet" />
     <style type="text/css">
-        .auto-style1 {
-            width: 100%;
-        }
-        .auto-style2 {
-            width: 66px;
-        }
-    </style>
+        </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -29,28 +23,39 @@
         <!--BerichtenBox DIV-->        
         <div id="BerichtenBox">
             <h3>Berichten</h3>
-            <asp:ListBox ID="lbMessages" runat="server"></asp:ListBox>
+            <asp:ListBox ID="lbMessages" runat="server" AutoPostBack="True" CssClass="listbox1" OnSelectedIndexChanged="lbMessages_SelectedIndexChanged"></asp:ListBox>
             <br />
             <table class="custom">
                 <tr>
                     <td>
-                        <asp:Button ID="btnLike" runat="server" CssClass="button" Text="Like" />
+                        <asp:Button ID="btnLikeMessage" runat="server" CssClass="button" Text="Like" />
                     </td>
                     <td>
-                        <asp:Button ID="btnReport" runat="server" CssClass="button" Text="Report" />
+                        <asp:Button ID="btnReportMessage" runat="server" CssClass="button" Text="Report" />
                     </td>
                 </tr>
             </table>
             <br />
             <h3>Reacties</h3>
-            <asp:ListBox ID="lbReactions" runat="server"></asp:ListBox>
+            <asp:ListBox ID="lbReactions" runat="server" CssClass="listbox1"></asp:ListBox>
+            <br />
+            <table class="custom">
+                <tr>
+                    <td>
+                        <asp:Button ID="btnLikeReaction" runat="server" CssClass="button" Text="Like" />
+                    </td>
+                    <td>
+                        <asp:Button ID="btnReportReaction" runat="server" CssClass="button" Text="Report" />
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <!--Categorie DIV-->
 
         <div id="Categorie">
             <asp:Label ID="lblCategorie" runat="server" Text="Categorie"></asp:Label>
-            <asp:Repeater ID="RepeaterCategorie" runat="server">
+            <asp:Repeater ID="RepeaterCategories" runat="server">
                  <ItemTemplate>
                         <table class ="custom">
                             <tr>
@@ -69,7 +74,7 @@
         <!--Subcategorie DIV-->
         <div id="SubCategorie">
             <asp:Label ID="lblSubCategorie" runat="server" Text="Sub Categorie"></asp:Label>
-            <asp:Repeater ID="RepeaterSubCategorie" runat="server">
+            <asp:Repeater ID="RepeaterSubCategories" runat="server">
                  <ItemTemplate>
                         <table class = "custom">
                             <tr>

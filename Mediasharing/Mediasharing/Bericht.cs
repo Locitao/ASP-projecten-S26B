@@ -11,7 +11,7 @@ namespace Mediasharing
         public int MessageId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        public string DisplayValue { get { return "Username:" + Poster.Username + ", Title:" + Title + ", Content: " + Content;} }
+        public string DisplayValue { get { return "Username: " + Poster.Username + ", Title: " + Title + ", Content: " + Content;} }
         public Account Poster { get; set; }
 
         //Constructor
