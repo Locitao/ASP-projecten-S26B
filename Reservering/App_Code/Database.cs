@@ -29,10 +29,13 @@ namespace Reservering
         {
             _conn.ConnectionString = "User Id=" + User + ";Password=" + Pw + ";Data Source=" +
                                     "//localhost:1521/" + Test + ";";
+            _conn2.ConnectionString = "User Id=" + User + ";Password=" + Pw + ";Data Source=" +
+                                    "//localhost:1521/" + Test + ";";
             
             try
             {
                 _conn.Open();
+                _conn2.Open();
                 return true;
             }
             catch (Exception)
@@ -109,6 +112,7 @@ namespace Reservering
         /// <returns>True or false.</returns>
         public bool Execute(OracleCommand cmd)
         {
+            //CloseConnection();
             try
             {
                 //NewConnection();
@@ -209,11 +213,11 @@ namespace Reservering
             try
             {
                 if (!NewConnection()) return false;
-                OracleCommand cmd = new OracleCommand("INSERT INTO ACCOUNT (\"ID\", \"GEBRUIKERSNAAM\", \"EMAIL\", \"ACTIVATIEHASH\", \"GEACTIVEERD\") VALUES(null, :gebruikersnaam, :email, :activatiehash, :geactiveerd");
-                cmd.Parameters.Add(":gebruikersnaam", _conn2).Value = username;
-                cmd.Parameters.Add(":email", _conn2).Value = email;
-                cmd.Parameters.Add(":activatiehash", _conn2).Value = Get_ActivationHash();
-                cmd.Parameters.Add(":geactiveerd", _conn2).Value = 1;
+                OracleCommand cmd = new OracleCommand("INSERT INTO ACCOUNT (\"ID\", \"gebruikersnaam\", \"email\", \"activatiehash\", \"geactiveerd\") VALUES(null, :gebruikersnaam, :email, :activatiehash, :geactiveerd)", _conn2);
+                cmd.Parameters.Add(":gebruikersnaam", OracleDbType.NVarchar2).Value = username;
+                cmd.Parameters.Add(":email", OracleDbType.NVarchar2).Value = email;
+                cmd.Parameters.Add(":activatiehash", OracleDbType.NVarchar2).Value = Get_ActivationHash();
+                cmd.Parameters.Add(":geactiveerd", OracleDbType.Int32).Value = 1;
 
                 Execute(cmd);
                 return true;
@@ -417,6 +421,27 @@ namespace Reservering
             return true;
         }
 
+        public List<Product> Find_Products()
+        {
+            List<Product> l = new List<Product>();
+
+            const string sql =
+                "SELECT p.\"merk\", p.\"prijs\", p.ID AS product_id, pc.\"naam\" FROM PRODUCT p, PRODUCTEXEMPLAAR pe, PRODUCTCAT pc WHERE pe.ID NOT IN (SELECT \"productexemplaar_id\" FROM VERHUUR) AND p.\"productcat_id\" = pc.ID";
+            var data = ExecuteQuery(sql);
+
+            foreach (var x in data)
+            {
+                string brand = Convert.ToString(x["merk"]);
+                int price = Convert.ToInt32(x["prijs"]);
+                int id = Convert.ToInt32(x["PRODUCT_ID"]);
+                string name = Convert.ToString(x["naam"]);
+
+                Product p = new Product(brand, price, id, name);
+                l.Add(p);
+            }
+
+            return l;
+        }
 
         
     }

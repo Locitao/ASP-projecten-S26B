@@ -16,7 +16,7 @@
             <p class="tekstinput">How many people:</p><br/>
         </div>
         <div class="myForm">
-            <asp:TextBox ID="tbLocation" CssClass="myForm" runat="server" TextMode="Number"></asp:TextBox><br/>
+            <asp:TextBox ID="tbLocation" CssClass="myForm" runat="server" TextMode="Number" MaxLength="3" OnTextChanged="tbLocation_TextChanged"></asp:TextBox><br/>
             <asp:TextBox ID="tbPeople" CssClass="myForm" runat="server" TextMode="Number"></asp:TextBox><br/>
         </div>
         <asp:Button runat="server" ID="btnReserve" Text="Create reservation." CssClass="button" OnClick="btnReserve_Click"/><br/>
