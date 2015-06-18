@@ -71,6 +71,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="InlogPagina.aspx" />
+    <Content Include="Item.aspx" />
     <Content Include="Javascript.js" />
     <Content Include="StyleSheet.css" />
     <Content Include="Web.config" />
@@ -92,6 +93,13 @@
     </Compile>
     <Compile Include="InlogPagina.aspx.designer.cs">
       <DependentUpon>InlogPagina.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Item.aspx.cs">
+      <DependentUpon>Item.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Item.aspx.designer.cs">
+      <DependentUpon>Item.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Index.aspx.cs">

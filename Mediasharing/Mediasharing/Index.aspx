@@ -16,13 +16,13 @@
         
         <!--Banner DIV-->        
         <div id="Banner">
-            <h1>Mediasharing applicatie!</h1>
+            <h1>Mediasharing application!</h1>
             <h2>ICT4EVENTS</h2>
         </div>
         
         <!--BerichtenBox DIV-->        
-        <div id="BerichtenBox">
-            <h3>Berichten</h3>
+        <div id="MessageBox">
+            <h3>Messages</h3>
             <asp:ListBox ID="lbMessages" runat="server" AutoPostBack="True" CssClass="listbox1" OnSelectedIndexChanged="lbMessages_SelectedIndexChanged"></asp:ListBox>
             <br />
             <table class="custom">
@@ -36,7 +36,7 @@
                 </tr>
             </table>
             <br />
-            <h3>Reacties</h3>
+            <h3>Reactions</h3>
             <asp:ListBox ID="lbReactions" runat="server" CssClass="listbox1"></asp:ListBox>
             <br />
             <table class="custom">
@@ -53,7 +53,7 @@
 
         <!--Categorie DIV-->
 
-        <div id="Categorie">
+        <div id="Categories">
             <asp:Label ID="lblCategorie" runat="server" Text="Categorie"></asp:Label>
             <asp:Repeater ID="RepeaterCategories" runat="server">
                  <ItemTemplate>
@@ -72,7 +72,7 @@
         </div>
         
         <!--Subcategorie DIV-->
-        <div id="SubCategorie">
+        <div id="SubCategories">
             <asp:Label ID="lblSubCategorie" runat="server" Text="Sub Categorie"></asp:Label>
             <asp:Repeater ID="RepeaterSubCategories" runat="server">
                  <ItemTemplate>
@@ -93,9 +93,28 @@
         <!--Mediaitem DIV-->
         <div id="MediaItems">
             <asp:Label ID="lblMediaItems" runat="server" Text="Media Items"></asp:Label>
-            <asp:Repeater ID="MediaItems" runat="server"></asp:Repeater>
+            <asp:Repeater ID="RepeaterMediaItems" runat="server">
+                <ItemTemplate>
+                        <table class = "custom">
+                            <tr>
+                                <td>
+                                    <a href="/Item/<%# Eval("ID") %>">
+                                        <asp:Label runat="server" Text='<%# Eval("BESTANDSLOCATIE") %>'>
+                                        </asp:Label>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </ItemTemplate>
+            </asp:Repeater>
         </div>
         
+        <!--ItemView DIV-->
+        <div id="ItemView">
+            <asp:Label ID="lblItemView" runat="server" Text="Item View"></asp:Label>
+            <asp:Repeater ID="RepeaterItemView" runat="server">
+            </asp:Repeater>
+        </div>       
     </div>
     </form>
 </body>

@@ -29,10 +29,15 @@ namespace Mediasharing
             //Only reloads the categories when the page isn't a postback.
             if (!IsPostBack)
             {
-                LoadMessages();
+                List<Bericht> messages = LoadMessages();
+                lbMessages.DataSource = messages;
+                lbMessages.DataTextField = "DisplayValue";
+                lbMessages.DataValueField = "MessageId";
+                lbMessages.DataBind();
             }
             LoadCategories();
             LoadSubCategories();
+            LoadMediaItems();
         }
 
         public void CheckIfLoggedIn()
@@ -61,7 +66,7 @@ namespace Mediasharing
                 else
                 {
                     Database database = Database.Instance;
-                    output = database.GetData("SELECT c.\"naam\", b.\"ID\" " +
+                    output = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
                                             "FROM BIJDRAGE b " +
                                             "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
                                             "WHERE \"bijdrage_id\" = " + categorieId);
@@ -79,12 +84,12 @@ namespace Mediasharing
         public void LoadSubCategories()
         {
             DataSet output = new DataSet();
+            Database database = Database.Instance;
 
             try
             {
                 if (categorieId == 0)
                 {
-                    Database database = Database.Instance;
                     output = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
                                               "FROM BIJDRAGE b " +
                                               "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" "+
@@ -92,8 +97,7 @@ namespace Mediasharing
                 }
                 else
                 {
-                    Database database = Database.Instance;
-                    output = database.GetData("SELECT c.\"naam\", b.\"ID\" " +
+                    output = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
                                               "FROM BIJDRAGE b " +
                                               "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
                                               "WHERE \"categorie_id\" = " + categorieId);
@@ -110,19 +114,28 @@ namespace Mediasharing
         public void LoadMediaItems()
         {
             DataSet output = new DataSet();
+            Database database = Database.Instance;
 
             try
             {
                 if (categorieId == 0)
                 {
-                    Database database = Database.Instance;
-                    output = database.GetData("SELECT be.\"naam\" AS NAAM, b.\"ID\" AS ID " +
-                                              "FROM BIJDRAGE b " +
-                                              "JOIN BESTAND be ON b.\"ID\" = c.\"bijdrage_id\" " +
-                                              "WHERE \"categorie_id\" IS NULL");
+                    output = database.GetData("SELECT bij.\"ID\" AS ID, bes.\"bestandslocatie\" AS BESTANDSLOCATIE " +
+                                              "FROM BIJDRAGE bij, BESTAND bes " +
+                                              "WHERE bij.\"ID\" = bes.\"bijdrage_id\" " +
+                                              "AND bij.\"soort\" = 'bestand' " +
+                                              "AND bes.\"categorie_id\" IS NULL");
                 }
-                RepeaterSubCategories.DataSource = output;
-                RepeaterSubCategories.DataBind();
+                else
+                {
+                    output = database.GetData("SELECT bij.\"ID\" AS ID, bes.\"bestandslocatie\" AS BESTANDSLOCATIE " +
+                                              "FROM BIJDRAGE bij, BESTAND bes " +
+                                              "WHERE bij.\"ID\" = bes.\"bijdrage_id\" " +
+                                              "AND bij.\"soort\" = 'bestand' " +
+                                              "AND bes.\"categorie_id\" = " + categorieId);
+                }
+                RepeaterMediaItems.DataSource = output;
+                RepeaterMediaItems.DataBind();
             }
             catch (OracleException ex)
             {
@@ -130,7 +143,7 @@ namespace Mediasharing
             }
         }
 
-        public void LoadMessages()
+        public List<Bericht> LoadMessages()
         {
             try
             {
@@ -153,18 +166,16 @@ namespace Mediasharing
                 }
 
                 //Binds the messages to the listbox.
-                lbMessages.DataSource = messages;
-                lbMessages.DataTextField = "DisplayValue";
-                lbMessages.DataValueField = "MessageId";
-                lbMessages.DataBind();
+                return messages;
             }
             catch (OracleException ex)
             {
                 System.Diagnostics.Debug.WriteLine("error message: " + ex.Message + "\n" + "error code:" + ex.ErrorCode);
             }
+                return null;
         }
 
-        public void LoadReactions(int messageId)
+        public List<Bericht> LoadReactions(int messageId)
         {
             try
             {
@@ -187,15 +198,13 @@ namespace Mediasharing
                 }
 
                 //Binds the messages to the listbox.
-                lbReactions.DataSource = reactions;
-                lbReactions.DataTextField = "DisplayValue";
-                lbReactions.DataValueField = "MessageId";
-                lbReactions.DataBind();
+                return reactions;
             }
             catch (OracleException ex)
             {
                 System.Diagnostics.Debug.WriteLine("error message: " + ex.Message + "\n" + "error code:" + ex.ErrorCode);
             }
+            return null;
         }
 
         /// <summary>
@@ -206,7 +215,13 @@ namespace Mediasharing
         protected void lbMessages_SelectedIndexChanged(object sender, EventArgs e)
         {
             int messageId = Convert.ToInt32(lbMessages.SelectedValue);
-            LoadReactions(messageId);
+            List<Bericht> reactions = LoadReactions(messageId);
+
+            //Bind to reactions lbReactions
+            lbReactions.DataSource = reactions;
+            lbReactions.DataTextField = "DisplayValue";
+            lbReactions.DataValueField = "MessageId";
+            lbReactions.DataBind();
         }
 
     }
