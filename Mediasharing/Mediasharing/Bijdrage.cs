@@ -23,5 +23,26 @@ namespace Mediasharing
             Poster = poster;
             Date = date;
         }
+
+        public static int GetLikes(int id)
+        {
+            Database database = Database.Instance;
+            List<Dictionary<string, object>> output = database.GetLikes(id);
+            int likes = Convert.ToInt32(output[0]["LIKES"]);
+            return likes;
+        }
+
+        public static bool IsLiked(int id, int userId)
+        {
+            Database database = Database.Instance;
+            List<Dictionary<string, object>> output = database.GetLikedByUser(id, userId);
+            int liked = Convert.ToInt32(output[0]["LIKED"]);
+
+            if (liked > 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -6,8 +6,7 @@
 <head runat="server">
     <title>Mediasharing Applicatie</title>
     <link href="StyleSheet.css" rel="stylesheet" />
-    <style type="text/css">
-        </style>
+    <style type="text/css"></style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -24,6 +23,7 @@
         <div id="MessageBox">
             <h3>Messages</h3>
             <asp:ListBox ID="lbMessages" runat="server" AutoPostBack="True" CssClass="listbox1" OnSelectedIndexChanged="lbMessages_SelectedIndexChanged"></asp:ListBox>
+            <asp:Label ID="lblMessageLikes" runat="server" Text="Label"></asp:Label>
             <br />
             <table class="custom">
                 <tr>
@@ -38,6 +38,7 @@
             <br />
             <h3>Reactions</h3>
             <asp:ListBox ID="lbReactions" runat="server" CssClass="listbox1"></asp:ListBox>
+            <asp:Label ID="lblReactionLikes" runat="server" Text="Label"></asp:Label>
             <br />
             <table class="custom">
                 <tr>

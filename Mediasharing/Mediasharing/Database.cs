@@ -146,7 +146,8 @@ namespace Mediasharing
                                                                             "(SELECT bb.\"bericht_id\" " +
                                                                             "FROM BIJDRAGE_BERICHT bb, BIJDRAGE bij " +
                                                                             "WHERE bb.\"bijdrage_id\" = bij.\"ID\" " +
-                                                                            "AND bij.\"soort\" = 'bericht')");
+                                                                            "AND (bij.\"soort\" = 'bericht' " +
+                                                                            "OR bij.\"soort\" = 'bestand'))");
             return ExecuteQuery(cmd);
         }
 
@@ -163,6 +164,50 @@ namespace Mediasharing
 
             return ExecuteQuery(cmd);
         }
+
+        public List<Dictionary<string, object>> GetLikes (int id)
+        {
+            OracleCommand cmd = new OracleCommand("SELECT COUNT(*) AS LIKES " +
+                                                  "FROM ACCOUNT_BIJDRAGE ab, BIJDRAGE bij " +
+                                                  "WHERE bij.\"ID\" = ab.\"bijdrage_id\" " +
+                                                  "AND ab.\"like\" = 1 " +
+                                                  "AND bij.\"ID\" = :id");
+            cmd.Parameters.Add("id", id);
+
+            return ExecuteQuery(cmd);
+        }
+
+        public List<Dictionary<string, object>> GetLikedByUser(int id, int userId)
+        {
+            OracleCommand cmd =
+                new OracleCommand("SELECT COUNT(*) AS LIKED " +
+                                  "FROM ACCOUNT_BIJDRAGE ab, BIJDRAGE bij, ACCOUNT acc " +
+                                  "WHERE bij.\"ID\" = ab.\"bijdrage_id\" " +
+                                  "AND acc.\"ID\" = ab.\"account_id\" " +
+                                  "AND ab.\"like\" = 1 " +
+                                  "AND bij.\"ID\" = :id " +
+                                  "AND ab.\"account_id\" = :userId;");
+
+            cmd.Parameters.Add("id", id);
+            cmd.Parameters.Add("userId", userId);
+
+            return ExecuteQuery(cmd);
+        }
+
+        public List<Dictionary<string, object>> GetItemMessages(int itemMessageId)
+        {
+            OracleCommand cmd = new OracleCommand("SELECT bij.\"ID\" AS ID, acc.\"gebruikersnaam\" AS GEBRUIKERSNAAM, ber.\"titel\" AS TITEL, ber.\"inhoud\" AS INHOUD " +
+                                                  "FROM BIJDRAGE bij, BERICHT ber, ACCOUNT acc WHERE bij.\"account_id\" = acc.\"ID\" " +
+                                                  "AND ber.\"bijdrage_id\" = bij.\"ID\" " +
+                                                  "AND bij.\"ID\" IN " +
+                                                                        "(SELECT \"bericht_id\" " +
+                                                                        "FROM BIJDRAGE_BERICHT " +
+                                                                        "WHERE \"bijdrage_id\" = :itemMessageId)");
+            cmd.Parameters.Add("itemMessageId", itemMessageId);
+
+            return ExecuteQuery(cmd);
+        }
+
         #endregion
 
         #region Execute and NonExecute

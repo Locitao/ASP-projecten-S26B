@@ -42,6 +42,12 @@
 }
 #ItemView {
     float: left;
+    width: 500px;
+    border: 1px solid black;
+    min-height: 200px;
+}
+#MessageView {
+    float: left;
     width: 300px;
     border: 1px solid black;
     min-height: 200px;
@@ -91,6 +97,10 @@ a {
 
 .listbox1 {
     width: 950px;
+}
+
+.listbox2 {
+    width: 300px;
 }
 
 .custom > td {

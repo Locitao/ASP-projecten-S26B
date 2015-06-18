@@ -37,10 +37,10 @@ namespace Mediasharing
             else
             {
                 //Log in
-                int idInt = Convert.ToInt32(dataset.Tables[0].Rows[0]["ID"]);
-                string gebruikersnaam = dataset.Tables[0].Rows[0]["gebruikersnaam"].ToString();
-                Account account = new Account(idInt, gebruikersnaam);
-                Session["account"] = account;
+                int userId = Convert.ToInt32(dataset.Tables[0].Rows[0]["ID"]);
+                string userName = dataset.Tables[0].Rows[0]["GEBRUIKERSNAAM"].ToString();
+                Account account = new Account(userId, userName);
+                Session["user"] = account;
                 Response.Redirect("Index/0", true);
             }
         }

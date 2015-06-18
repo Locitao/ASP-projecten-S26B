@@ -31,6 +31,15 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.ListBox lbMessages;
         
         /// <summary>
+        /// lblMessageLikes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMessageLikes;
+        
+        /// <summary>
         /// btnLikeMessage control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,15 @@ namespace Mediasharing {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox lbReactions;
+        
+        /// <summary>
+        /// lblReactionLikes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblReactionLikes;
         
         /// <summary>
         /// btnLikeReaction control.

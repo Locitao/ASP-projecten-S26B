@@ -12,11 +12,14 @@ namespace Mediasharing
     public partial class WebForm1 : System.Web.UI.Page
     {
         private int categorieId;
+        private Account user;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Rout();
             CheckIfLoggedIn();
             LoadPage();
+            user = (Account)Session["user"];
         }
 
         public void Rout()
@@ -59,9 +62,9 @@ namespace Mediasharing
                 {
                     Database database = Database.Instance;
                     output = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
-                                                   "FROM BIJDRAGE b " +
-                                                   "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" "+
-                                                   "WHERE \"bijdrage_id\" IS NULL");
+                                              "FROM BIJDRAGE b " +
+                                              "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" "+
+                                              "WHERE \"bijdrage_id\" IS NULL");
                 }
                 else
                 {
@@ -205,6 +208,30 @@ namespace Mediasharing
                 System.Diagnostics.Debug.WriteLine("error message: " + ex.Message + "\n" + "error code:" + ex.ErrorCode);
             }
             return null;
+        }
+
+        public void UpdateLikes(int messageId)
+        {
+            //Static bijdrage method to get the number of likes.
+            int likes = Bijdrage.GetLikes(messageId);
+
+            if (likes == 0)
+            {
+                lblMessageLikes.Text = "Be the first to like this!";
+            }
+            else if (likes == 1)
+            {
+                lblMessageLikes.Text = likes + " Like";
+            }
+            else
+            {
+                lblMessageLikes.Text = likes + " Likes";
+            }
+        }
+
+        public void UpdateLikeButton(int id)
+        {
+            if Bijdrage.IsLiked(id, )
         }
 
         /// <summary>
