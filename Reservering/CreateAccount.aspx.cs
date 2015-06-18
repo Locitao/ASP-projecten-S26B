@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.DirectoryServices.AccountManagement;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Reservering;
 
 
 public partial class MaakAccount : System.Web.UI.Page
 {
-    Database _db = new Database();
+    readonly Database _db = new Database();
     ActiveDirectory _ad = new ActiveDirectory();
     
     protected void Page_Load(object sender, EventArgs e)
@@ -63,7 +57,7 @@ public partial class MaakAccount : System.Web.UI.Page
     }
     protected void btnSubmitReserve_Click(object sender, EventArgs e)
     {
-        if (Insert_Person());
+        if (Insert_Person())
         {
             Response.Redirect("CreateReservation.aspx");
         }

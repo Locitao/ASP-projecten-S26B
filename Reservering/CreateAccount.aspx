@@ -21,8 +21,8 @@
                 <p class="tekstinput">City:</p><br/>
                 <p class="tekstinput">Bank account:</p><br/>
                 <p class="tekstinput">Email:</p><br/>
-                <p class="tekstinput">Username for event:</p>
-                <p class="tekstinput">Password for account:</p>
+                <p class="tekstinput">Username for event:</p><br />
+                <p class="tekstinput">Password for account:</p><br/>
             </div>
             <div class="myForm">
                 <asp:TextBox ID="tbName" CssClass="myForm" runat="server"></asp:TextBox><br/>

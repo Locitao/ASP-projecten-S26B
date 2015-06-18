@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Reservering;
 
 public partial class MaakReservering : System.Web.UI.Page
 {
-    Database _db = new Database();
+    readonly Database _db = new Database();
     private Person _p;
     private Account _acc;
     protected void Page_Load(object sender, EventArgs e)
@@ -19,7 +17,7 @@ public partial class MaakReservering : System.Web.UI.Page
             Page home = HttpContext.Current.Handler as Page;
             if (home != null)
             {
-                ScriptManager.RegisterStartupScript(home, home.GetType(), "err_msg", "alert('You need to log in first.');window.location='Signup.aspx';", true);
+                ScriptManager.RegisterStartupScript(home, home.GetType(), "err_msg", "alert('You need to log in first.');window.location='CreateAccount.aspx';", true);
             }
         }
 
@@ -47,7 +45,7 @@ public partial class MaakReservering : System.Web.UI.Page
     }
     protected void btnReserve_Click(object sender, EventArgs e)
     {
-
+        Create_Reservation();
     }
 
     /// <summary>
@@ -56,14 +54,16 @@ public partial class MaakReservering : System.Web.UI.Page
     /// <returns></returns>
     protected bool Create_Reservation()
     {
+        if (tbPeople.Text == "") return false;
+
         int personId = _db.Person_Id(_p.Voornaam, _p.Achternaam, _p.Straat);
         DateTime now = DateTime.Now;
         DateTime end = new DateTime(2015, 7, 1);
         _db.Insert_Reservation(personId, now, end, 1);
-        if (!_db.New_Wristband())
-        {
-            return false;
-        }
+
+        int accId = _db.Find_Acc(_acc.Username);
+        return _db.Insert_Res_Band(accId);
+
 
     }
 }

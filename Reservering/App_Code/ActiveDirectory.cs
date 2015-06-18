@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.DirectoryServices.AccountManagement;
-using System.Data;
-using System.Configuration;
-
 
 /// <summary>
 /// Summary description for ActiveDirectory
@@ -131,7 +125,6 @@ public class ActiveDirectory
     /// <summary>
     /// Creates a new user in the database
     /// </summary>
-    /// <param name="sOu"></param>
     /// <param name="username"></param>
     /// <param name="password"></param>
     /// <param name="givename"></param>
@@ -143,12 +136,10 @@ public class ActiveDirectory
         {
             PrincipalContext oPrincipalContext = GetPrincipalContext();
 
-            UserPrincipal oUserPrincipal = new UserPrincipal(oPrincipalContext, username, password, true/*Enabled or not*/);
+            UserPrincipal oUserPrincipal = new UserPrincipal(oPrincipalContext, username, password, true
+                /*Enabled or not*/) {UserPrincipalName = username, GivenName = givename, Surname = surname};
 
             //User Log on Name
-            oUserPrincipal.UserPrincipalName = username;
-            oUserPrincipal.GivenName = givename;
-            oUserPrincipal.Surname = surname;
             oUserPrincipal.Save();
 
             return oUserPrincipal;
@@ -172,11 +163,11 @@ public class ActiveDirectory
     /// <summary>
     /// Gets info over the specified principal context.
     /// </summary>
-    /// <param name="sOU"></param>
+    /// <param name="sOu"></param>
     /// <returns></returns>
-    public PrincipalContext GetPrincipalContext(string sOU)
+    public PrincipalContext GetPrincipalContext(string sOu)
     {
-        PrincipalContext oPrincipalContext = new PrincipalContext(ContextType.Domain, SDomain, sOU, ContextOptions.SimpleBind, SServiceUser, SServicePassword);
+        PrincipalContext oPrincipalContext = new PrincipalContext(ContextType.Domain, SDomain, sOu, ContextOptions.SimpleBind, SServiceUser, SServicePassword);
         return oPrincipalContext;
     }
 
