@@ -19,54 +19,10 @@ namespace MaterialRenting
             //Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Hello this is an Alert')</SCRIPT>");
             pnlPopUpLeenItem.Visible = false;
             pnlPopUpReserveerItem.Visible = false;
-            LoadAllItems();
+            LoadItems();
         }
 
-        public void LoadAllItems()
-        {
-            string query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID order by \"barcode\"";
-            List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
-            List<Material> matList = new List<Material>();
-            List<DateTime[]> dates = new List<DateTime[]>();
-            string barcode = "";
-            Material material = null;
-            foreach (Dictionary<string, object> dic in output)
-            {
-                if (barcode == "")
-                {
-                    // first time this for loop will be called
-                    barcode = (string)dic["barcode"];
-                    dates = new List<DateTime[]>();
-                    material = new Material((int)(long)dic["ID"], (string)dic["merk"], (string)dic["serie"], (int)(decimal)dic["prijs"], (string)dic["barcode"], null);
-                }
-                else if (barcode != (string) dic["barcode"])
-                {
-                    // if the barcode doesnt match the previous one the material will be saved.
-                    material.RentingTimes = dates;
-                    matList.Add(material);
-                    barcode = (string)dic["barcode"];
-                    dates = new List<DateTime[]>();
-                    material = new Material((int)(long)dic["ID"], (string)dic["merk"], (string)dic["serie"], (int)(decimal)dic["prijs"], (string)dic["barcode"], null);
-                }
-                else
-                {
-                    // if we already have an instance with this barcode the dates will be added to that list.
-                    DateTime[] tempDateTimes = new DateTime[2];
-                    tempDateTimes[0] = (DateTime) dic["datumIn"];
-                    tempDateTimes[1] = (DateTime) dic["datumUit"];
-                    dates.Add(tempDateTimes);
-                }
-
-            }
-            foreach (Material mat in matList)
-            {
-                lbProducts.Items.Add(mat.ToString());
-            }
-            
-            
-        }
-
-
+       
         public void LoadItems()
         {
             List<string> barcodes = new List<string>();
@@ -78,33 +34,55 @@ namespace MaterialRenting
             }
 
             List<Material> materials = GetMaterialsInRented(barcodes);
+            foreach (Material mat in materials)
+            {
+                lbProducts.Items.Add(mat.ToString());
+            }
         }
 
         public List<Material> GetMaterialsInRented(List<string> barcodes)
         {
+            List<Material> materials = new List<Material>();
             foreach (string barcode in barcodes)
             {
-                string query = "select count(*) as value from verhuur v, productexemplaar pe where \"productexemplaar_id\" = pe.id and \"barcode\" = '" + barcode + "'";
+                string query = "select count(*) as VALUE from verhuur v, productexemplaar pe where \"productexemplaar_id\" = pe.id and \"barcode\" = '" + barcode + "'";
                 List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
 
-                if ((int) output[0]["value"] == 1)
+                if ((int) (decimal)output[0]["VALUE"] == 1)
                 {
-                    //TODO: product uit database halen via onderstaande query en meteen in new Material() stoppen
-                    //query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID where \"barcode\" = '" + barcode + "'";
+                    query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID and \"barcode\" = '" + barcode + "'";
+                    List<Dictionary<string, object>> outputMaterials = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
+                    List<DateTime[]> datesList = new List<DateTime[]>();
+                    DateTime[] dates = new DateTime[2];
+                    dates[0] = (DateTime) outputMaterials[0]["datumIn"];
+                    dates[1] = (DateTime) outputMaterials[0]["datumUit"];
+                    datesList.Add(dates);
+                    materials.Add(new Material((int)(long)outputMaterials[0]["ID"], (string)outputMaterials[0]["merk"], (string)outputMaterials[0]["serie"] , (int)(decimal)outputMaterials[0]["prijs"], (string)outputMaterials[0]["barcode"], datesList));
                 }
-                if ((int) output[0]["value"] > 1)
+                if ((int) (decimal)output[0]["VALUE"] > 1)
                 {
-                    //TODO: product uit database halen en vervolgens voor iedere tijd een tijd toevoegen
+                    query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID and \"barcode\" = '" + barcode + "'";
+                    List<Dictionary<string, object>> outputMaterials = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
+                    Material mat = null;
+                    foreach (Dictionary<string, object> dic in outputMaterials)
+                    {
+                        if (mat == null) mat = new Material((int)(long)dic["ID"], (string)dic["merk"], (string)dic["serie"] , (int)(decimal)dic["prijs"], (string)dic["barcode"], new List<DateTime[]>());
+                        mat.AddDates((DateTime)dic["datumIn"], (DateTime)dic["datumUit"]);
+                    }
+                    materials.Add(mat);
                 }
-                if ((int) output[0]["value"] == 0)
+                if ((int) (decimal)output[0]["VALUE"] == 0)
                 {
-                    //TODO: product uit tabbelen product en productexemplaar halen, dit product staat NIET in verhuur;
+                    query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\" from product p, productexemplaar pe where p.ID = pe.\"product_id\" and \"barcode\" = '" + barcode + "'";
+                    List<Dictionary<string, object>> outputMaterial = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
+                    Dictionary<string, object> dic = outputMaterial[0];
+                        materials.Add(new Material((int)(long)dic["ID"], (string)dic["merk"], (string)dic["serie"], (int)(decimal)dic["prijs"], (string)dic["barcode"], new List<DateTime[]>()));
                 }
                 
             }
 
 
-            return null;
+            return materials;
         }
 
         public void RefreshAllItems()

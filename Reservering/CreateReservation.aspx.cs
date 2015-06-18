@@ -55,6 +55,7 @@ public partial class MaakReservering : System.Web.UI.Page
     protected bool Create_Reservation()
     {
         if (tbPeople.Text == "") return false;
+        if (tbLocation.Text == "") return false;
 
         int personId = _db.Person_Id(_p.Voornaam, _p.Achternaam, _p.Straat);
         DateTime now = DateTime.Now;
@@ -62,8 +63,11 @@ public partial class MaakReservering : System.Web.UI.Page
         _db.Insert_Reservation(personId, now, end, 1);
 
         int accId = _db.Find_Acc(_acc.Username);
+        int resId = _db.Max_Res();
+        _db.Insert_Res_Spot(resId, Convert.ToInt32(tbLocation.Text));
         return _db.Insert_Res_Band(accId);
 
 
     }
+    
 }

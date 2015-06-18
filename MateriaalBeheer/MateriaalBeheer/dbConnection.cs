@@ -24,15 +24,12 @@ namespace MaterialRenting
 
         private DbConnection()
         {
-            
+            connection.ConnectionString = "User Id=proftaak;Password=proftaak;Data Source=localhost/XE";
         }
 
 
         private void OpenConnection()
         {
-
-            connection.ConnectionString = "User Id=proftaak;Password=proftaak;Data Source=localhost/XE";
-
             try
             {
                 connection.Open();
