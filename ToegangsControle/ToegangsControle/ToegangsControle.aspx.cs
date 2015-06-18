@@ -8,10 +8,19 @@ using System.Drawing;
 
 namespace ToegangsControle
 {
+    /// <summary>
+    /// This form will be used to manage Accesscontrol.
+    /// </summary>
     public partial class ToegangsControle : System.Web.UI.Page
     {
         readonly SqlQueries sqlQueries = new SqlQueries(); 
-        bool refresh = true;        
+        bool refresh = true;
+        /// <summary>
+        /// Loads the page with all reservations into the listbox.
+        /// Gets called when page reloads.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_PreRender(object sender, EventArgs e)
         {           
             if (refresh != false)
@@ -55,6 +64,11 @@ namespace ToegangsControle
             }            
         }
 
+        /// <summary>
+        /// Button refresh, refreshes the page which is followed by page_preRender.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void bttnRefresh_Click(object sender, EventArgs e)
         {
             bttnAanwezig.Enabled = true;
@@ -64,6 +78,11 @@ namespace ToegangsControle
             refresh = true;
         }
 
+        /// <summary>
+        /// Button shows all users which are on the terrain in the listbox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void bttnAanwezig_Click(object sender, EventArgs e)
         {            
             try
@@ -99,6 +118,11 @@ namespace ToegangsControle
             }
         }
 
+        /// <summary>
+        /// Button deletes the reservation of the selected reservation in the listbox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void bttnAnuleren_Click(object sender, EventArgs e)
         {
             string reserveringsID = lbGegevens.SelectedItem.ToString().Substring(16, 1);
@@ -107,6 +131,11 @@ namespace ToegangsControle
             sqlQueries.Delete_reservering(reserveringsID);
         }
 
+        /// <summary>
+        /// Button changes paid to 1 or 0 of the selected reservation in the listbox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void bttnBetaald_Click(object sender, EventArgs e)
         {
             tbBarcode.Text = "Scan Code";
@@ -117,16 +146,51 @@ namespace ToegangsControle
             
             refresh = false;
         }
+
+        /// <summary>
+        /// When the page gets reloaded and the textbox is changed, the text gets checked for text length and changes present to 1 or 0.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void tbBarcode_TextChanged(object sender, System.EventArgs e)
         {
             if (tbBarcode.Text.Length == 13)
             {                
-                string barcode = tbBarcode.Text;
-                string userID = sqlQueries.HaalGebruikerIDVanBarcode(barcode);
-                sqlQueries.Update_Aanwezig(userID);
-                verversOpGebruiker(userID);
+                string barcode = tbBarcode.Text;                
+                bool numericOnly = true;
+
+                foreach (char c in barcode)
+                {
+                    if (!Char.IsDigit(c))
+                        numericOnly = false;
+                }
+
+                if (numericOnly != false)
+                {
+                    string accountID = sqlQueries.HaalGebruikerIDVanBarcode(barcode);
+                    string heeftBetaald = sqlQueries.checkBetaaldOnAccountID(accountID);                    
+                    if (heeftBetaald != "0")
+                    {
+                        sqlQueries.Update_Aanwezig(accountID);
+                        tbBarcode.Text = "";
+                    }
+                    else
+                    {
+                        tbBarcode.Text = "Gebruiker heeft nog niet betaald";
+                    }
+                    verversOpGebruiker(accountID);                    
+                }
+                else
+                {
+                    tbBarcode.Text = "Ongeldige input";
+                }
             }
         }
+
+        /// <summary>
+        /// Method which loads the reservation of the given "gebruikerID" into the listbox.
+        /// </summary>
+        /// <param name="gebruikerID"></param>        
         public void verversOpGebruiker(string gebruikerID)
         {
             try

@@ -23,15 +23,88 @@ namespace MaterialRenting
         }
 
         public void LoadAllItems()
-        {/*
-            string query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID";
+        {
+            string query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID order by \"barcode\"";
             List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
             List<Material> matList = new List<Material>();
+            List<DateTime[]> dates = new List<DateTime[]>();
+            string barcode = "";
+            Material material = null;
             foreach (Dictionary<string, object> dic in output)
             {
-                matList.Add(new Material((int)dic["ID"], (string)dic["merk"], ));
+                if (barcode == "")
+                {
+                    // first time this for loop will be called
+                    barcode = (string)dic["barcode"];
+                    dates = new List<DateTime[]>();
+                    material = new Material((int)(long)dic["ID"], (string)dic["merk"], (string)dic["serie"], (int)(decimal)dic["prijs"], (string)dic["barcode"], null);
+                }
+                else if (barcode != (string) dic["barcode"])
+                {
+                    // if the barcode doesnt match the previous one the material will be saved.
+                    material.RentingTimes = dates;
+                    matList.Add(material);
+                    barcode = (string)dic["barcode"];
+                    dates = new List<DateTime[]>();
+                    material = new Material((int)(long)dic["ID"], (string)dic["merk"], (string)dic["serie"], (int)(decimal)dic["prijs"], (string)dic["barcode"], null);
+                }
+                else
+                {
+                    // if we already have an instance with this barcode the dates will be added to that list.
+                    DateTime[] tempDateTimes = new DateTime[2];
+                    tempDateTimes[0] = (DateTime) dic["datumIn"];
+                    tempDateTimes[1] = (DateTime) dic["datumUit"];
+                    dates.Add(tempDateTimes);
+                }
 
-            }*/
+            }
+            foreach (Material mat in matList)
+            {
+                lbProducts.Items.Add(mat.ToString());
+            }
+            
+            
+        }
+
+
+        public void LoadItems()
+        {
+            List<string> barcodes = new List<string>();
+            string query = "select distinct \"barcode\" from productexemplaar";
+            List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
+            foreach (Dictionary<string, object> dic in output)
+            {
+                    barcodes.Add((string)dic["barcode"]);
+            }
+
+            List<Material> materials = GetMaterialsInRented(barcodes);
+        }
+
+        public List<Material> GetMaterialsInRented(List<string> barcodes)
+        {
+            foreach (string barcode in barcodes)
+            {
+                string query = "select count(*) as value from verhuur v, productexemplaar pe where \"productexemplaar_id\" = pe.id and \"barcode\" = '" + barcode + "'";
+                List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
+
+                if ((int) output[0]["value"] == 1)
+                {
+                    //TODO: product uit database halen via onderstaande query en meteen in new Material() stoppen
+                    //query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID where \"barcode\" = '" + barcode + "'";
+                }
+                if ((int) output[0]["value"] > 1)
+                {
+                    //TODO: product uit database halen en vervolgens voor iedere tijd een tijd toevoegen
+                }
+                if ((int) output[0]["value"] == 0)
+                {
+                    //TODO: product uit tabbelen product en productexemplaar halen, dit product staat NIET in verhuur;
+                }
+                
+            }
+
+
+            return null;
         }
 
         public void RefreshAllItems()
