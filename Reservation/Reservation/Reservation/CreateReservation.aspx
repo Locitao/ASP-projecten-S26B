@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateReservation.aspx.cs" Inherits="MaakReservering" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CreateReservation.aspx.cs" Inherits="Reservation.MaakReservering" %>
 
 <!DOCTYPE html>
 

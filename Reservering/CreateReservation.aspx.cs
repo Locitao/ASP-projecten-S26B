@@ -64,9 +64,9 @@ public partial class MaakReservering : System.Web.UI.Page
 
         int accId = _db.Find_Acc(_acc.Username);
         int resId = _db.Max_Res();
+        Session["resid"] = resId;
         _db.Insert_Res_Spot(resId, Convert.ToInt32(tbLocation.Text));
         return _db.Insert_Res_Band(accId);
-
 
     }
     
