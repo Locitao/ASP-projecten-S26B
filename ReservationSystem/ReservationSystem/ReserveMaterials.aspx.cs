@@ -29,8 +29,8 @@ namespace ReservationSystem
                 _p = (Person)Session["UserData"];
                 _acc = (Account)Session["Acc"];
             }
+            
             */
-
             if (!IsPostBack)
             {
                 Fill_List();
@@ -45,6 +45,11 @@ namespace ReservationSystem
             {
                 lbMaterials.Items.Add(x.ToString());
             }
+        }
+
+        protected bool Insert_Mat_Res(int productId, int price)
+        {
+            return true;
         }
     }
 }
