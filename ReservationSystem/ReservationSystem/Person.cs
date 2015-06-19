@@ -13,9 +13,9 @@ public class Person
     public string Straat { get; set; }
     public int Huisnr { get; set; }
     public string Woonplaats { get; set; }
-    public int Banknr { get; set; }
+    public string Banknr { get; set; }
 
-	public Person(string voornaam, string tussenvoegsel, string achternaam, string straat, int huisnr, string woonplaats, int banknr)
+	public Person(string voornaam, string tussenvoegsel, string achternaam, string straat, int huisnr, string woonplaats, string banknr)
 	{
 	    Voornaam = voornaam;
 	    Tussenvoegsel = tussenvoegsel;

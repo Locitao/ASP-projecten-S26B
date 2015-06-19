@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C72CE7A4-7579-4F68-921F-AA1E73BF1FE0}</ProjectGuid>
+    <ProjectGuid>{F1DFAB0D-3573-4C86-A763-6B3ADE8222C7}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Reservation</RootNamespace>
-    <AssemblyName>Reservation</AssemblyName>
+    <RootNamespace>ReservationSystem</RootNamespace>
+    <AssemblyName>ReservationSystem</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -39,13 +39,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Oracle.DataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+    <Reference Include="Oracle.DataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86" />
     <Reference Include="Oracle.DataAccess.EntityFramework, Version=6.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL" />
     <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL" />
     <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL" />
-    <Reference Include="Oracle.Web, Version=4.112.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=AMD64" />
+    <Reference Include="Oracle.Web, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.DirectoryServices.Protocols" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -64,74 +66,49 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Oracle.DataAccess.dll" />
-    <Content Include="bin\Oracle.DataAccess.EntityFramework.dll" />
-    <Content Include="bin\Oracle.ManagedDataAccess.EntityFramework.dll" />
-    <Content Include="bin\Oracle.Web.dll" />
-    <Content Include="CreateAccount.aspx" />
-    <Content Include="CreateReservation.aspx" />
     <Content Include="FrontPage.aspx" />
+    <Content Include="NewAccount.aspx" />
+    <Content Include="NewReservation.aspx" />
     <Content Include="ReserveMaterial.aspx" />
     <Content Include="style.css" />
-    <Content Include="TestForm.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datab.cs" />
-    <Compile Include="ReserveMaterial.aspx.cs">
-      <DependentUpon>ReserveMaterial.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TestForm.aspx.cs">
-      <DependentUpon>TestForm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TestForm.aspx.designer.cs">
-      <DependentUpon>TestForm.aspx</DependentUpon>
-    </Compile>
-    <Content Include="App_Code\Account.cs" />
-    <Content Include="App_Code\ActiveDirectory.cs" />
-    <Content Include="App_Code\Database.cs" />
-    <Content Include="App_Code\Location.cs" />
-    <Content Include="App_Code\Person.cs" />
-    <Content Include="App_Code\Product.cs" />
-    <Compile Include="CreateAccount.aspx.cs">
-      <DependentUpon>CreateAccount.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CreateReservation.aspx.cs">
-      <DependentUpon>CreateReservation.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Account.cs" />
+    <Compile Include="ActiveDirectory.cs" />
+    <Compile Include="Database.cs" />
     <Compile Include="FrontPage.aspx.cs">
       <DependentUpon>FrontPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Location.cs" />
+    <Compile Include="NewAccount.aspx.cs">
+      <DependentUpon>NewAccount.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="NewAccount.aspx.designer.cs">
+      <DependentUpon>NewAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NewReservation.aspx.cs">
+      <DependentUpon>NewReservation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewReservation.aspx.designer.cs">
+      <DependentUpon>NewReservation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Person.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReserveMaterial.aspx.cs">
+      <DependentUpon>ReserveMaterial.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\desktop.ini" />
-    <Content Include="App_Data\desktop.ini" />
-    <Content Include="App_Data\PublishProfiles\desktop.ini" />
-    <None Include="App_Data\PublishProfiles\Reservation.pubxml" />
-    <Content Include="bin\Oracle.DataAccess.EntityFramework.dll.refresh" />
-    <Content Include="bin\Oracle.ManagedDataAccess.EntityFramework.dll.refresh" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="obj\Debug\Reservation.csprojResolveAssemblyReference.cache" />
-    <Content Include="desktop.ini" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <Content Include="website.publishproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -146,9 +123,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>25341</DevelopmentServerPort>
+          <DevelopmentServerPort>26702</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:25341/</IISUrl>
+          <IISUrl>http://localhost:26702/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

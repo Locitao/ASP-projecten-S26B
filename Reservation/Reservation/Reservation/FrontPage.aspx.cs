@@ -2,9 +2,9 @@
 
 namespace Reservation
 {
-    public partial class Voorpagina : System.Web.UI.Page
+    public class FrontPage : System.Web.UI.Page
     {
-        Database _db = new Database();
+        //Database _db = new Database();
         
         protected void Page_Load(object sender, EventArgs e)
         {
