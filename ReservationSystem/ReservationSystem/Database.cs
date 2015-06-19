@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Windows.Markup;
 using Oracle.DataAccess.Client;
 
 
@@ -438,7 +439,7 @@ namespace ReservationSystem
             List<Product> l = new List<Product>();
 
             const string sql =
-                "SELECT pe.ID, p.\"merk\", p.\"prijs\", pc.\"naam\" FROM PRODUCTEXEMPLAAR pe, PRODUCT p, PRODUCTCAT pc WHERE pe.ID NOT IN (SELECT \"productexemplaar_id\" FROM VERHUUR) AND pe.\"product_id\" = p.ID AND p.\"product_id\" = p.ID AND p.\"productcat_id\" = pc.ID";
+                "SELECT pe.ID, p.\"merk\", p.\"prijs\", pc.\"naam\" FROM PRODUCTEXEMPLAAR pe, PRODUCT p, PRODUCTCAT pc WHERE pe.ID NOT IN (SELECT \"productexemplaar_id\" FROM VERHUUR) AND pe.\"product_id\" = p.ID AND p.\"productcat_id\" = pc.ID";
 
             var data = ExecuteQuery(sql);
 
@@ -454,6 +455,29 @@ namespace ReservationSystem
             }
 
             return l;
+        }
+
+        /// <summary>
+        /// Inserts a reservation of a material with the given dates into the database.
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="price"></param>
+        /// <returns>True or false if it succeeded or not.</returns>
+        public bool Insert_Mat_Res(int productId, DateTime start, DateTime end, int price)
+        {
+            int resId = Max_Res();
+
+            OracleCommand cmd = new OracleCommand("INSERT INTO VERHUUR (ID, \"productexemplaar_id\", \"res_pb_id\", \"datumIn\", \"datumUit\", \"prijs\", \"betaald\") VALUES (null, :peId, :resId, :dateIn, :dateOut, :price, :paid)");
+            cmd.Parameters.Add(":peId", OracleDbType.Int32).Value = productId;
+            cmd.Parameters.Add(":resId", OracleDbType.Int32).Value = resId;
+            cmd.Parameters.Add(":dateIn", OracleDbType.Date).Value = start;
+            cmd.Parameters.Add("dateOut", OracleDbType.Date).Value = end;
+            cmd.Parameters.Add(":price", OracleDbType.Int32).Value = price;
+
+            Execute(cmd);
+            return true;
         }
 
         

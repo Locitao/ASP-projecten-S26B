@@ -9,10 +9,32 @@ namespace ReservationSystem
 {
     public partial class ReserveMaterials : System.Web.UI.Page
     {
-        Database _db = new Database();
+        readonly Database _db = new Database();
+        private Account _acc;
+        private Person _p;
         protected void Page_Load(object sender, EventArgs e)
         {
+            /*
+            if (Session["UserData"] == null)
+            {
+                Page home = HttpContext.Current.Handler as Page;
+                if (home != null)
+                {
+                    ScriptManager.RegisterStartupScript(home, home.GetType(), "err_msg", "alert('You need to log in first.');window.location='NewAccount.aspx';", true);
+                }
+            }
 
+            else
+            {
+                _p = (Person)Session["UserData"];
+                _acc = (Account)Session["Acc"];
+            }
+            */
+
+            if (!IsPostBack)
+            {
+                Fill_List();
+            }
         }
 
         protected void Fill_List()
