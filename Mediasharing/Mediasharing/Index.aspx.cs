@@ -11,9 +11,12 @@ namespace Mediasharing
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
+        #region Fields
         private int categorieId;
         private Account user;
+        #endregion
 
+        #region Page Load
         protected void Page_Load(object sender, EventArgs e)
         {
             user = (Account)Session["user"];
@@ -21,7 +24,9 @@ namespace Mediasharing
             CheckIfLoggedIn();
             LoadPage();
         }
+        #endregion
 
+        #region Misc Methods
         public void Rout()
         {
             categorieId = Convert.ToInt32(Page.RouteData.Values["id"]);
@@ -50,8 +55,9 @@ namespace Mediasharing
                 Response.Redirect("InlogPagina.aspx", true);
             }
         }
+        #endregion
 
-
+        #region Load Methods
         public void LoadCategories()
         {
             DataSet output = new DataSet();
@@ -210,6 +216,9 @@ namespace Mediasharing
             return null;
         }
 
+        #endregion
+
+        #region Update Methods
         public void UpdateLikes(int messageId, string type)
         {
             int likes = Bijdrage.GetLikes(messageId);
@@ -275,7 +284,9 @@ namespace Mediasharing
                     break;
             }
         }
+        #endregion
 
+        #region Events
         /// <summary>
         /// Loads the reactions in a listbox for the selected message in the other listbox.
         /// </summary>
@@ -298,7 +309,6 @@ namespace Mediasharing
             UpdateReportButton(messageId, "message");
         }
 
-        #region Report and Like Messages
         protected void btnLikeMessage_Click(object sender, EventArgs e)
         {
             int messageId = Convert.ToInt32(lbMessages.SelectedValue);
@@ -324,9 +334,6 @@ namespace Mediasharing
             UpdateReportButton(messageId, "message");
         }
 
-        #endregion
-
-        #region Report and Like Reactions
         protected void btnLikeReaction_Click(object sender, EventArgs e)
         {
             int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
@@ -351,7 +358,6 @@ namespace Mediasharing
             Bijdrage.Report(reactionId, user.Id);
             UpdateReportButton(reactionId, "reaction");
         }
-        #endregion
 
         protected void lbReactions_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -360,5 +366,6 @@ namespace Mediasharing
             UpdateLikeButton(reactionId, "reaction");
             UpdateLikes(reactionId, "reaction");
         }
+        #endregion
     }
 }

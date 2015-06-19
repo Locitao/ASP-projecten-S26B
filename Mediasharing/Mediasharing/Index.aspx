@@ -38,7 +38,7 @@
             </table>
             <br />
             <h3>Reactions</h3>
-            <asp:ListBox ID="lbReactions" runat="server" CssClass="listbox1" OnSelectedIndexChanged="lbReactions_SelectedIndexChanged"></asp:ListBox>
+            <asp:ListBox ID="lbReactions" runat="server" CssClass="listbox1" AutoPostBack="True" OnSelectedIndexChanged="lbReactions_SelectedIndexChanged"></asp:ListBox>
             <br />
             <asp:Label ID="lblReactionLikes" runat="server"></asp:Label>
             <br />
