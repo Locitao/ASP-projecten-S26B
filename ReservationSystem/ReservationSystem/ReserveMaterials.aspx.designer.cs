@@ -49,6 +49,24 @@ namespace ReservationSystem {
         protected global::System.Web.UI.WebControls.TextBox tbMatThree;
         
         /// <summary>
+        /// tbStartDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbStartDate;
+        
+        /// <summary>
+        /// tbEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbEndDate;
+        
+        /// <summary>
         /// lbMaterials control.
         /// </summary>
         /// <remarks>

@@ -16,8 +16,8 @@
         
     <asp:Panel runat="server" ID="pnlMain">
     <div>
-        From: <asp:TextBox ID="tbDateFrom" runat="server"></asp:TextBox> Format 'DD-MM-YYYY'<br/>
-        To: <asp:TextBox ID="tbDateTo" runat="server"></asp:TextBox> Format 'DD-MM-YYYY'<br/>
+        From: <asp:TextBox ID="tbStartDate" runat="server" TextMode="Date"/><br/>
+        To: <asp:TextBox ID="tbEndDate" runat="server" TextMode="Date"/><br/>
         <asp:Button runat="server" CssClass="button" ID="btnRefresh" Text="Refresh" OnClick="btnRefresh_OnClick"/><br/>
         <asp:ListBox ID="lbProducts" runat="server" Height="149px" Width="400px"></asp:ListBox><br/>
     </div>
@@ -64,11 +64,11 @@
                 </tr>
                 <tr style="border: hidden;">
                     <td>Lend Date:</td>
-                    <td><asp:TextBox ID="tbReserveLendDate" runat="server" >21/09/2016</asp:TextBox></td>
+                    <td><asp:TextBox ID="tbReserveLendDate" runat="server" >21-09-2016</asp:TextBox></td>
                 </tr>
                 <tr style="border: hidden;">
                     <td>Return Date:</td>
-                    <td><asp:TextBox ID="tbReserveReturnDate" runat="server" >22/09/2016</asp:TextBox></td>
+                    <td><asp:TextBox ID="tbReserveReturnDate" runat="server" >22-09-2016</asp:TextBox></td>
                 </tr>
             </table>
         <asp:Button ID="btnReservePopUp" CssClass="button" runat="server" Text="Reserve Item" OnClick="btnReservePopUp_OnClick"/>

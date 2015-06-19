@@ -31,22 +31,22 @@ namespace MaterialRenting {
         protected global::System.Web.UI.WebControls.Panel pnlMain;
         
         /// <summary>
-        /// tbDateFrom control.
+        /// tbStartDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbDateFrom;
+        protected global::System.Web.UI.WebControls.TextBox tbStartDate;
         
         /// <summary>
-        /// tbDateTo control.
+        /// tbEndDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbDateTo;
+        protected global::System.Web.UI.WebControls.TextBox tbEndDate;
         
         /// <summary>
         /// btnRefresh control.
