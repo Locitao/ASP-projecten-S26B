@@ -120,8 +120,8 @@ namespace MaterialRenting
         public void RefreshAllItems()
         {
             lbProducts.Items.Clear();
-            if (tbDateFrom.Text.Length == 0
-                || tbDateTo.Text.Length == 0)
+            if (tbStartDate.Text.Length == 0
+                || tbEndDate.Text.Length == 0)
             {
                 foreach (Material mat in _materialList)
                 {
@@ -133,8 +133,8 @@ namespace MaterialRenting
             {
                 foreach (Material mat in _materialList)
                 {
-                    DateTime dateFrom = DateTime.ParseExact(tbDateFrom.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    DateTime dateTo = DateTime.ParseExact(tbDateTo.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    DateTime dateFrom = DateTime.ParseExact(tbStartDate.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    DateTime dateTo = DateTime.ParseExact(tbEndDate.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     mat.CheckStatus(dateFrom, dateTo);
                     lbProducts.Items.Add(mat.ToString());
                 }
