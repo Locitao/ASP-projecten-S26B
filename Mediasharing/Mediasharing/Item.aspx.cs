@@ -11,10 +11,18 @@ namespace Mediasharing
 {
     public partial class Item : System.Web.UI.Page
     {
+        #region Fields
         private int itemId;
         //An item can be posted with a desciption message, the itemMessageId stores the id of this message.
         private int itemMessageId;
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// The page load method, get's called everytime the page is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckIfLoggedIn();
@@ -27,6 +35,17 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// Routes the user to the correct page.
+        /// </summary>
+        public void Rout()
+        {
+            itemId = Convert.ToInt32(Page.RouteData.Values["id"]);
+        }
+
+        /// <summary>
+        /// Checks if the user is currently logged in, if not, the user gets redirected to the login page.
+        /// </summary>
         public void CheckIfLoggedIn()
         {
             if (Session["user"] == null)
@@ -35,11 +54,9 @@ namespace Mediasharing
             }
         }
 
-        public void Rout()
-        {
-           itemId = Convert.ToInt32(Page.RouteData.Values["id"]);
-        }
-
+        /// <summary>
+        /// Gets the imagelocation from the database and sets the uploadedImage Image's path.
+        /// </summary>
         public void LoadImage()
         {
             Database database = Database.Instance;
@@ -48,6 +65,9 @@ namespace Mediasharing
             uploadedImage.ImageUrl = imagePath;
         }
 
+        /// <summary>
+        /// Loads the message that belongs to the corresponding item.
+        /// </summary>
         public void LoadItemMessage()
         {
             //Initialize
@@ -77,6 +97,9 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// Loads the messages that are replies to the message that belongs to the corresponding item.
+        /// </summary>
         public void LoadItemMessages()
         {
             try
@@ -113,6 +136,11 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// Loads the reactions that are reactions to the messages posted by other people.
+        /// </summary>
+        /// <param name="messageId"> the id of the selected message</param>
+        /// <returns></returns>
         public List<Bericht> LoadReactions(int messageId)
         {
             try
@@ -144,6 +172,10 @@ namespace Mediasharing
             }
             return null;
         }
+
+        #endregion
+
+        #region Events
         protected void lbItemMessages_SelectedIndexChanged(object sender, EventArgs e)
         {
             int messageId = Convert.ToInt32(lbItemMessages.SelectedValue);
@@ -155,5 +187,6 @@ namespace Mediasharing
             lbReactions.DataValueField = "MessageId";
             lbReactions.DataBind();
         }
+        #endregion
     }
 }
