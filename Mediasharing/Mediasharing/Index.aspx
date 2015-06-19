@@ -52,7 +52,7 @@
                         <asp:Label ID="Label2" runat="server" Text="Content: "></asp:Label>
                     </td>
                     <td>
-                        <asp:TextBox ID="tbContent" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="tbContent" runat="server" TextMode="MultiLine"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
@@ -108,7 +108,7 @@
                         </table>
                     </ItemTemplate>
             </asp:Repeater>
-            <asp:Button ID="btnReportCategory" runat="server" CssClass="button" Text="Report Category"/>
+            <asp:Button ID="btnReportCategory" runat="server" CssClass="button" Text="Report Category" OnClick="btnReportCategory_Click"/>
             <asp:Button ID="btnAddPost" runat="server" CssClass="addbutton" Text="Add Message" OnClick="btnAddPost_Click" />
         </div>
         

@@ -252,9 +252,9 @@ namespace Mediasharing
 
         #region Update Methods
 
-        public void UpdateLikes(int messageId, string type)
+        public void UpdateLikes(int id, string type)
         {
-            var likes = Bijdrage.GetLikes(messageId);
+            var likes = Bijdrage.GetLikes(id);
             string likeString = "";
 
             switch (likes)
@@ -325,7 +325,7 @@ namespace Mediasharing
                     }
                 }
             }
-            //The type isn't a message so it's a reaction, but let's check to be sure.
+            //The type is a reaction, but let's check to be sure.
             else if (type == "reaction")
             {
                 //Let's checked if the user reported the reaction.
@@ -359,6 +359,25 @@ namespace Mediasharing
                         btnLikeReaction.CssClass = "button";
                         btnLikeReaction.Enabled = true;
                     }
+                }
+            }
+            //the type is a category
+            else if (type == "category")
+            {
+                //Check if the category is reported or not, and changes the buttons accordingly.
+                if (Bijdrage.IsReported(id, _user.Id))
+                {
+                    //the category is reported!
+                    btnReportCategory.Enabled = false;
+                    btnReportCategory.CssClass = "buttonenabled";
+                    btnReportCategory.Text = "Reported";
+                }
+                else
+                {
+                    //The category isn't reported yet.
+                    btnReportCategory.Enabled = true;
+                    btnReportCategory.CssClass = "button";
+                    btnReportCategory.Text = "Report";
                 }
             }
         }
@@ -484,10 +503,26 @@ namespace Mediasharing
             LoadSubCategories();
         }
 
+        /// <summary>
+        /// Event that inserts a reaction into the database if a message is entered.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnReaction_Click(object sender, EventArgs e)
         {
-            Database database = Database.Instance;
-            database.InsertReaction();
+            //Checks wheter data is filled in or not.
+            if (tbTitle.Text == "" && tbContent.Text == "")
+            {
+                //What's the point of a message if it's empty? Show error.
+                lblErrorMessage.Visible = true;
+                lblErrorMessage.Text = "Please enter a message.";
+            }
+            else
+            {
+                //Insert reaction into the database.
+                Database database = Database.Instance;
+                database.InsertReaction(_user.Id, tbTitle.Text, tbContent.Text);
+            }
         }
 
         /// <summary>
@@ -550,6 +585,18 @@ namespace Mediasharing
         protected void btnAddPost_Click(object sender, EventArgs e)
         {
             Response.Redirect("/PostMessage/" + _categoryId, true);
+        }
+
+        /// <summary>
+        /// Inserts a report about a category, and updates the buttons afterward.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnReportCategory_Click(object sender, EventArgs e)
+        {
+            Database database = Database.Instance;
+            database.InsertReport(_user.Id, _categoryId);
+            UpdateButtons(_categoryId, "category");
         }
         #endregion
     }

@@ -173,7 +173,7 @@ namespace Mediasharing
         #region Events
         protected void lbItemMessages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int messageId = Convert.ToInt32(lbItemMessages.SelectedValue);
+            int messageId = Convert.ToInt32(lbMessages.SelectedValue);
             List<Bericht> reactions = LoadReactions(messageId);
 
             //Bind to reactions lbReactions
@@ -182,6 +182,41 @@ namespace Mediasharing
             lbReactions.DataValueField = "MessageId";
             lbReactions.DataBind();
         }
-        #endregion
+
+        protected void btnReaction_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnLikeMessage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnReportMessage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnLikeReaction_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnReportReaction_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void lbMessages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void lbReactions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+    #endregion
     }
 }

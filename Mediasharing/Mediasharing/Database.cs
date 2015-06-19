@@ -380,6 +380,31 @@ namespace Mediasharing
 
                 cmd.Parameters.Add("userId", userId);
                 Execute(cmd);
+
+                //We need the id we just created, let's get it from the database.
+                int reactionId = GetMaxBijdrageId();
+
+                  //Create a bericht with the bijdrage id from the above query.
+                OracleCommand cmdTwo =
+                    new OracleCommand("INSERT INTO BERICHT" +
+                                      "(\"bijdrage_id\", \"titel\", \"inhoud\") VALUES " +
+                                      "(:reactionId, :title, :content)");
+
+                cmdTwo.Parameters.Add("reactionId", reactionId);
+                cmdTwo.Parameters.Add("title", title);
+                cmdTwo.Parameters.Add("content", content);
+                Execute(cmdTwo);
+
+                return true;
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query");
+                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+                return false;
             }
         }
 
