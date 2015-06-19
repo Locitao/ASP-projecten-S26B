@@ -15,7 +15,7 @@ namespace ToegangsControle
     /// </summary>
     public class Connection
     {
-        readonly OracleConnection conn = new OracleConnection();
+        readonly OracleConnection _conn = new OracleConnection();
         /// <summary>
         /// Tries to open a connection with the database, returns true if succeeded, false if failed.
         /// </summary>
@@ -26,12 +26,12 @@ namespace ToegangsControle
             const string pw = "HRs7Usr4Bz";
             const string test = "fhictora";
 
-            conn.ConnectionString = "User Id=" + user + ";Password=" + pw + ";Data Source=" +
+            _conn.ConnectionString = "User Id=" + user + ";Password=" + pw + ";Data Source=" +
                                     "//192.168.15.50:1521/" + test + ";";
             try
             {
 
-                conn.Open();
+                _conn.Open();
                 return true;
             }
             catch (Exception)
@@ -46,7 +46,7 @@ namespace ToegangsControle
         /// </summary>
         public void CloseConnection()
         {
-            conn.Close();
+            _conn.Close();
         }
         /// <summary>
         /// Sends the given query to the database, returns it's result as a List of dictionary objects.
@@ -66,7 +66,7 @@ namespace ToegangsControle
             {
                 try
                 {
-                    OracleDataReader resultReader = new OracleCommand(query, connection.conn).ExecuteReader();
+                    OracleDataReader resultReader = new OracleCommand(query, connection._conn).ExecuteReader();
 
                     while (resultReader.Read())
                     {
@@ -80,7 +80,7 @@ namespace ToegangsControle
                         result.Add(row);
 
                     }
-                    connection.conn.Close();
+                    connection._conn.Close();
                     return result;
                 }
                 catch (Exception ex)
@@ -94,7 +94,7 @@ namespace ToegangsControle
 
 
             }
-            connection.conn.Close();
+            connection._conn.Close();
             return result;
         }
         /// <summary>
@@ -109,11 +109,11 @@ namespace ToegangsControle
 
             if (!NewConnection()) return;
             // Command opzetten voor het uitvoeren van de query
-            OracleCommand cmd = new OracleCommand(query, conn);
+            OracleCommand cmd = new OracleCommand(query, _conn);
 
             // Query uitvoeren, er wordt geen waarde terug gegeven
             cmd.ExecuteNonQuery();
-            conn.Close();
+            _conn.Close();
         }
     }
 }

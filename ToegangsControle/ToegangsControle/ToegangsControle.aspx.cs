@@ -23,7 +23,7 @@ namespace ToegangsControle
         /// <param name="e"></param>
         protected void Page_PreRender(object sender, EventArgs e)
         {           
-            if (refresh != false)
+            if (refresh)
             {
                 lbGegevens.Items.Clear();
                 try

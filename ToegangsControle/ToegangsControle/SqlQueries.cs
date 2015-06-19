@@ -23,6 +23,11 @@ namespace ToegangsControle
             return data;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="acountID"></param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> Select_ReserveringAccountID(string acountID)
         {
             var sql = "SELECT rp.\"reservering_id\",rp.\"account_id\", p.\"barcode\", a.\"gebruikersnaam\", r.\"betaald\", rp.\"aanwezig\" FROM RESERVERING_POLSBANDJE rp, POLSBANDJE p, ACCOUNT a, RESERVERING r WHERE p.\"ID\" = rp.\"polsbandje_id\" AND r.\"ID\" = rp.\"reservering_id\" AND a.\"ID\" = rp.\"account_id\" AND rp.\"account_id\" = '" + acountID + "'";
