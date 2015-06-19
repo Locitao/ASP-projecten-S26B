@@ -28,7 +28,7 @@ namespace ToegangsControle
                 lbGegevens.Items.Clear();
                 try
                 {
-                    var reservation = sqlQueries.Select_Reserveringen();
+                    var reservation = sqlQueries.Select_Reservation();
                     
                     foreach (Dictionary<string, object> row in reservation)
                     {
@@ -93,7 +93,7 @@ namespace ToegangsControle
                 bttnAnuleren.Enabled = false;
                 bttnBetaald.Enabled = false;
 
-                var attendees = sqlQueries.Select_alleAanwezigen();
+                var attendees = sqlQueries.Select_allAttendees();
 
                 foreach (Dictionary<string, object> row in attendees)
                 {
@@ -168,7 +168,7 @@ namespace ToegangsControle
                 if (numericOnly != false)
                 {
                     string userID = sqlQueries.HaalGebruikerIDVanBarcode(barcode);
-                    string hasPayed = sqlQueries.checkBetaaldOnAccountID(userID);                    
+                    string hasPayed = sqlQueries.checkBetaaldOnUserID(userID);                    
                     if (hasPayed != "0")
                     {
                         sqlQueries.Update_Aanwezig(userID);
@@ -196,7 +196,7 @@ namespace ToegangsControle
             try
             {
                 lbGegevens.Items.Clear();
-                var reservering = sqlQueries.Select_ReserveringAccountID(userID);
+                var reservering = sqlQueries.Select_reservationUserID(userID);
 
                 foreach (Dictionary<string, object> row in reservering)
                 {

@@ -15,7 +15,7 @@ namespace ToegangsControle
         /// <summary>
         /// All the select statements.
         /// </summary>       
-        public List<Dictionary<string, object>> Select_Reserveringen()
+        public List<Dictionary<string, object>> Select_Reservation()
         {
             var sql = "SELECT rp.\"reservering_id\",rp.\"account_id\", p.\"barcode\", a.\"gebruikersnaam\", r.\"betaald\", rp.\"aanwezig\" FROM RESERVERING_POLSBANDJE rp, POLSBANDJE p, ACCOUNT a, RESERVERING r WHERE p.\"ID\" = rp.\"polsbandje_id\" AND r.\"ID\" = rp.\"reservering_id\" AND a.\"ID\" = rp.\"account_id\"";
 
@@ -26,26 +26,26 @@ namespace ToegangsControle
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="acountID"></param>
+        /// <param name="userID"></param>
         /// <returns></returns>
-        public List<Dictionary<string, object>> Select_ReserveringAccountID(string acountID)
+        public List<Dictionary<string, object>> Select_reservationUserID(string userID)
         {
-            var sql = "SELECT rp.\"reservering_id\",rp.\"account_id\", p.\"barcode\", a.\"gebruikersnaam\", r.\"betaald\", rp.\"aanwezig\" FROM RESERVERING_POLSBANDJE rp, POLSBANDJE p, ACCOUNT a, RESERVERING r WHERE p.\"ID\" = rp.\"polsbandje_id\" AND r.\"ID\" = rp.\"reservering_id\" AND a.\"ID\" = rp.\"account_id\" AND rp.\"account_id\" = '" + acountID + "'";
+            var sql = "SELECT rp.\"reservering_id\",rp.\"account_id\", p.\"barcode\", a.\"gebruikersnaam\", r.\"betaald\", rp.\"aanwezig\" FROM RESERVERING_POLSBANDJE rp, POLSBANDJE p, ACCOUNT a, RESERVERING r WHERE p.\"ID\" = rp.\"polsbandje_id\" AND r.\"ID\" = rp.\"reservering_id\" AND a.\"ID\" = rp.\"account_id\" AND rp.\"account_id\" = '" + userID + "'";
 
             var data = Connection.ExecuteQuery(sql);
             return data;
         }
-        public List<Dictionary<string, object>> Select_alleAanwezigen()
+        public List<Dictionary<string, object>> Select_allAttendees()
         {
             var sql = "SELECT rp.\"reservering_id\", a.ID, a.\"gebruikersnaam\", rp.\"aanwezig\" FROM account a, reservering_polsbandje rp WHERE a.ID = rp.\"account_id\" AND rp.\"aanwezig\" = 1";
 
             var data = Connection.ExecuteQuery(sql);
             return data;
         }
-        public string checkBetaald(string reserveringID)
+        public string checkPayed(string reservationID)
         {
             string betaald = "2";
-            var sql = "SELECT r.\"betaald\" FROM RESERVERING r WHERE r.\"ID\" = " + reserveringID;
+            var sql = "SELECT r.\"betaald\" FROM RESERVERING r WHERE r.\"ID\" = " + reservationID;
 
             var data = Connection.ExecuteQuery(sql);
             foreach (Dictionary<string, object> row in data)
@@ -55,10 +55,10 @@ namespace ToegangsControle
 
             return betaald;            
         }
-        public string checkBetaaldOnAccountID(string accountID)
+        public string checkPayedOnUserID(string userID)
         {
             string betaald = "2";
-            var sql = "SELECT r.\"betaald\" FROM RESERVERING r, RESERVERING_POLSBANDJE rp WHERE r.\"ID\" = rp.\"reservering_id\" AND rp.\"account_id\" = " + accountID;
+            var sql = "SELECT r.\"betaald\" FROM RESERVERING r, RESERVERING_POLSBANDJE rp WHERE r.\"ID\" = rp.\"reservering_id\" AND rp.\"account_id\" = " + userID;
 
             var data = Connection.ExecuteQuery(sql);
             foreach (Dictionary<string, object> row in data)
@@ -68,7 +68,7 @@ namespace ToegangsControle
 
             return betaald;
         }
-        public string checkAanwezig(string userID)
+        public string checkPresent(string userID)
         {
             string aanwezig = "";
             var sql = "SELECT \"aanwezig\" FROM RESERVERING_POLSBANDJE WHERE \"account_id\" = " + userID;
@@ -81,7 +81,7 @@ namespace ToegangsControle
             return aanwezig;
         }
 
-        public string HaalGebruikerIDVanBarcode(string barcode)
+        public string getUserIDFromBarcode(string barcode)
         {
             string userID = "";
             var sql = "SELECT rp.\"account_id\" FROM POLSBANDJE p JOIN RESERVERING_POLSBANDJE rp ON p.ID = rp.\"polsbandje_id\" WHERE p.\"barcode\" = " + barcode;
@@ -96,22 +96,22 @@ namespace ToegangsControle
         /// <summary>
         /// All the update statements.
         /// </summary>       
-        public string Update_Betaald(string reserveringID)
+        public string Update_Payed(string reservationID)
         {
             try
             {
-                int betaald = 0;
-                string huidigeStatus = checkBetaald(reserveringID);
+                int payed = 0;
+                string currentStatus = checkPayed(reservationID);
 
-                if (huidigeStatus == "1")
+                if (currentStatus == "1")
                 {
-                    betaald = 0;
+                    payed = 0;
                 }
                 else
                 {
-                    betaald = 1;
+                    payed = 1;
                 }
-                string query = "UPDATE RESERVERING r SET r.\"betaald\" = '" + betaald + "' WHERE r.\"ID\" = '" + reserveringID + "'";
+                string query = "UPDATE RESERVERING r SET r.\"betaald\" = '" + payed + "' WHERE r.\"ID\" = '" + reservationID + "'";
                 connect.Execute(query);
 
                 return "gebruiker heeft nu betaald";
@@ -121,22 +121,22 @@ namespace ToegangsControle
                 return "Error, update gefaald";
             }
         }
-        public bool Update_Aanwezig(string userID)
+        public bool Update_Present(string userID)
         {
             try
             {
-                int aanwezig = 0;
-                string huidigeStatus = checkAanwezig(userID);
+                int present = 0;
+                string currentStatus = checkPresent(userID);
 
-                if (huidigeStatus == "1")
+                if (currentStatus == "1")
                 {
-                    aanwezig = 0;
+                    present = 0;
                 }
                 else
                 {
-                    aanwezig = 1;
+                    present = 1;
                 }
-                string query = "UPDATE RESERVERING_POLSBANDJE r SET r.\"aanwezig\" = '" + aanwezig + "' WHERE r.\"account_id\" = '" + userID + "'";
+                string query = "UPDATE RESERVERING_POLSBANDJE r SET r.\"aanwezig\" = '" + present + "' WHERE r.\"account_id\" = '" + userID + "'";
                 connect.Execute(query);
 
                 return true;
@@ -149,11 +149,11 @@ namespace ToegangsControle
         /// <summary>
         /// All the delete statements.
         /// </summary>       
-        public bool Delete_reservering(string reserveringID)
+        public bool Delete_Reservation(string reservationID)
         {
             try
             {
-                string query = "DELETE FROM RESERVERING WHERE id = '" + reserveringID + "'";
+                string query = "DELETE FROM RESERVERING WHERE id = '" + reservationID + "'";
                 connect.Execute(query);
                 return true;
             }
@@ -162,11 +162,11 @@ namespace ToegangsControle
                 return false;
             }
         }
-        public bool Delete_reserveringPolsbandje(string reserveringID)
+        public bool Delete_reservationPolsbandje(string reservationID)
         {
             try
             {
-                string query = "DELETE FROM RESERVERING_POLSBANDJE WHERE \"reservering_id\" = '" + reserveringID + "'";
+                string query = "DELETE FROM RESERVERING_POLSBANDJE WHERE \"reservering_id\" = '" + reservationID + "'";
                 connect.Execute(query);
                 return true;
             }
@@ -175,12 +175,12 @@ namespace ToegangsControle
                 return false;
             }
         }
-        public bool Delete_reserveringVerhuur(string reserveringID)
+        public bool Delete_reservationRent(string reservationID)
         {
             try
             {
                 string id = "";
-                var sql = "SELECT rp.id FROM VERHUUR v JOIN RESERVERING_POLSBANDJE rp ON v.\"res_pb_id\" = rp.id WHERE rp.\"reservering_id\" = " + reserveringID;
+                var sql = "SELECT rp.id FROM VERHUUR v JOIN RESERVERING_POLSBANDJE rp ON v.\"res_pb_id\" = rp.id WHERE rp.\"reservering_id\" = " + reservationID;
 
                 var data = Connection.ExecuteQuery(sql);
                 foreach (Dictionary<string, object> row in data)
