@@ -10,10 +10,14 @@ using Oracle.DataAccess.Client;
 
 namespace MaterialRenting
 {
-    public partial class MateriaalBeheer : System.Web.UI.Page
+    public partial class MateriaalBeheer : Page
     {
         List<Material> materialList; 
 
+        /// <summary>
+        /// this gets fired when the page gets loaded.
+        /// when its not a postback everything will be loaded from the database
+        /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -31,6 +35,9 @@ namespace MaterialRenting
         }
 
        
+        /// <summary>
+        /// Load all items and put them in materialList
+        /// </summary>
         public void LoadItems()
         {
             List<string> barcodes = new List<string>();
@@ -44,6 +51,11 @@ namespace MaterialRenting
             materialList = GetMaterialsInRented(barcodes);
         }
 
+        /// <summary>
+        /// this method loads all materials from the database
+        /// </summary>
+        /// <param name="barcodes">a list with all barcodes for the materials that should be loaded</param>
+        /// <returns>the list with all materials that excist in the database</returns>
         public List<Material> GetMaterialsInRented(List<string> barcodes)
         {
             List<Material> materials = new List<Material>();
@@ -92,6 +104,9 @@ namespace MaterialRenting
             return materials;
         }
 
+        /// <summary>
+        /// this method refreshes all materials that are shown on the screen
+        /// </summary>
         public void RefreshAllItems()
         {
             lbProducts.Items.Clear();
@@ -118,6 +133,10 @@ namespace MaterialRenting
             
         }
 
+        /// <summary>
+        /// this method checks if a material is available for the selected period
+        /// </summary>
+        /// <returns>wether the check has gone good or if the input was wrong</returns>
         private bool CheckMaterialStatus()
         {
             try
@@ -133,11 +152,18 @@ namespace MaterialRenting
             }
             catch
             {
-                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Hello this is an Alert\")</SCRIPT>");
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured\")</SCRIPT>");
                 return false;
             }
         }
 
+        /// <summary>
+        /// lend the inputted material to the user with the inputted barcode until the inputted return date
+        /// </summary>
+        /// <param name="mat">the Material that will be lend</param>
+        /// <param name="barCode">the barcode to which user this material will be lend</param>
+        /// <param name="dateReturn">the date when the item will be lend</param>
+        /// <returns>wether the input was correct</returns>
         public bool LendItem(Material mat, string barCode, DateTime dateReturn)
         {
             if (barCode.Length == 12 && dateReturn > DateTime.Now)
@@ -157,7 +183,11 @@ namespace MaterialRenting
             }
         }
 
-        public void btnLeenUit_Click(object sender, EventArgs e)
+        /// <summary>
+        /// this method gathers all information about the material that should be lend
+        /// then the lendItem() gets fired with the needed information
+        /// </summary>
+        private void LendMaterial()
         {
             Material selectedProduct = null;
             foreach (Material mat in materialList)
@@ -181,16 +211,21 @@ namespace MaterialRenting
             }
             catch
             {
-                
-            }
 
+            }
+        }
+
+
+        public void btnLeenUit_Click(object sender, EventArgs e)
+        {
+            LendMaterial();
         }
 
         public void btnLeenUitPopUp_Click(object sender, EventArgs e)
         {
             if (CheckMaterialStatus())
             {
-                LendItem((Material)Session["selectedMaterial"], "027393000146", DateTime.Now.AddDays(1));   
+                LendItem((Material)Session["selectedMaterial"], tbLeenRFID.Text, DateTime.Now.AddDays(1));   
                 pnlMain.Visible = true;
                 pnlPopUpLeenItem.Visible = false;
             }
