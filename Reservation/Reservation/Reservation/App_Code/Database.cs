@@ -5,7 +5,7 @@ using System.Linq;
 using Oracle.DataAccess.Client;
 
 
-namespace Reservering
+namespace Reservation
 {
     /// <summary>
     /// This class will be used to connect to the database, and close the connection again.
