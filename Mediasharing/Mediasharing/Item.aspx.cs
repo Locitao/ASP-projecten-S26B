@@ -118,10 +118,10 @@ namespace Mediasharing
                 }
 
                 //Binds the messages to the listbox.
-                lbItemMessages.DataSource = itemMessages;
-                lbItemMessages.DataTextField = "DisplayValue";
-                lbItemMessages.DataValueField = "MessageId";
-                lbItemMessages.DataBind();
+                lbMessages.DataSource = itemMessages;
+                lbMessages.DataTextField = "DisplayValue";
+                lbMessages.DataValueField = "MessageId";
+                lbMessages.DataBind();
                 
             }
             catch (OracleException ex)

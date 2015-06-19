@@ -68,6 +68,7 @@ namespace Mediasharing
                 lbMessages.DataTextField = "DisplayValue";
                 lbMessages.DataValueField = "MessageId";
                 lbMessages.DataBind();
+                UpdateButtons(_user.Id, "category");
             }
             LoadCategories();
             LoadSubCategories();
@@ -299,6 +300,11 @@ namespace Mediasharing
                     btnLikeMessage.Text = "Reported";
                     btnLikeMessage.CssClass = "buttondisabled";
                     btnLikeMessage.Enabled = false;
+
+                    //Let's disable the report button.
+                    btnReportMessage.Text = "Reported";
+                    btnReportMessage.CssClass = "buttondisabled";
+                    btnLikeMessage.Enabled = false;
                 }
                 else
                 {
@@ -322,6 +328,11 @@ namespace Mediasharing
                         btnLikeMessage.Text = "Like";
                         btnLikeMessage.CssClass = "button";
                         btnLikeMessage.Enabled = true;
+
+                        //This means we can report the message.
+                        btnReportMessage.Text = "Report";
+                        btnReportMessage.CssClass = "button";
+                        btnReportMessage.Enabled = true;
                     }
                 }
             }
@@ -334,6 +345,11 @@ namespace Mediasharing
                     //The selected reaction is reported, so we can't like it!
                     btnLikeReaction.Text = "Reported";
                     btnLikeReaction.CssClass = "buttondisabled";
+                    btnLikeReaction.Enabled = false;
+
+                    //Let's disable the report button.
+                    btnReportReaction.Text = "Reported";
+                    btnReportReaction.CssClass = "buttondisabled";
                     btnLikeReaction.Enabled = false;
                 }
                 else
@@ -358,26 +374,40 @@ namespace Mediasharing
                         btnLikeReaction.Text = "Like";
                         btnLikeReaction.CssClass = "button";
                         btnLikeReaction.Enabled = true;
+
+                        //This means we can report the message.
+                        btnReportReaction.Text = "Report";
+                        btnReportReaction.CssClass = "button";
+                        btnReportReaction.Enabled = true;
                     }
                 }
             }
             //the type is a category
             else if (type == "category")
             {
-                //Check if the category is reported or not, and changes the buttons accordingly.
-                if (Bijdrage.IsReported(id, _user.Id))
+                if (id != 0)
                 {
-                    //the category is reported!
-                    btnReportCategory.Enabled = false;
-                    btnReportCategory.CssClass = "buttonenabled";
-                    btnReportCategory.Text = "Reported";
+                    //Check if the category is reported or not, and changes the buttons accordingly.
+                    if (Bijdrage.IsReported(id, _user.Id))
+                    {
+                        //the category is reported!
+                        btnReportCategory.Enabled = false;
+                        btnReportCategory.CssClass = "buttonenabled";
+                        btnReportCategory.Text = "Reported";
+                    }
+                    else
+                    {
+                        //The category isn't reported yet.
+                        btnReportCategory.Enabled = true;
+                        btnReportCategory.CssClass = "button";
+                        btnReportCategory.Text = "Report";
+                    }
                 }
                 else
                 {
-                    //The category isn't reported yet.
-                    btnReportCategory.Enabled = true;
-                    btnReportCategory.CssClass = "button";
-                    btnReportCategory.Text = "Report";
+                    btnReportCategory.Enabled = false;
+                    btnReportCategory.CssClass = "buttonenabled";
+                    btnReportCategory.Text = "Root Category";
                 }
             }
         }
@@ -452,13 +482,13 @@ namespace Mediasharing
         {
             int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
 
-            if (btnLikeMessage.Text == "Like")
+            if (btnLikeReaction.Text == "Like")
             {
                 Bijdrage.Like(reactionId, _user.Id);
                 UpdateButtons(reactionId, "reaction");
                 UpdateLikes(reactionId, "reaction");
             }
-            else if (btnLikeMessage.Text == "Unlike")
+            else if (btnLikeReaction.Text == "Unlike")
             {
                 Bijdrage.Unlike(reactionId, _user.Id);
                 UpdateButtons(reactionId, "reaction");
