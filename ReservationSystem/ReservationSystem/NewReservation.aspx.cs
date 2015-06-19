@@ -1,33 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace ReservationSystem
 {
-    public partial class NewReservation : System.Web.UI.Page
+    public partial class NewReservation : Page
     {
-        readonly Database _db = new Database();
-        private Person _p;
+        /// <summary>
+        /// Fields.
+        /// </summary>
+        private readonly Database _db = new Database();
         private Account _acc;
+        private Person _p;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (Session["UserData"] == null)
             {
-                Page home = HttpContext.Current.Handler as Page;
+                var home = HttpContext.Current.Handler as Page;
                 if (home != null)
                 {
-                    ScriptManager.RegisterStartupScript(home, home.GetType(), "err_msg", "alert('You need to log in first.');window.location='NewAccount.aspx';", true);
+                    ScriptManager.RegisterStartupScript(home, home.GetType(), "err_msg",
+                        "alert('You need to log in first.');window.location='NewAccount.aspx';", true);
                 }
             }
 
             else
             {
-                _p = (Person)Session["UserData"];
-                _acc = (Account)Session["Acc"];
+                _p = (Person) Session["UserData"];
+                _acc = (Account) Session["Acc"];
             }
 
 
@@ -37,15 +38,24 @@ namespace ReservationSystem
             }
         }
 
+        /// <summary>
+        /// Fills the listbox with possible locations which are still free on the camping.
+        /// </summary>
         private void Fill_Listbox()
         {
-            List<Location> locations = _db.Find_Locations();
+            var locations = _db.Find_Locations();
 
             foreach (var x in locations)
             {
                 lbLocations.Items.Add(x.ToString());
             }
         }
+
+        /// <summary>
+        /// Tries to create a reservation then sends the user to the page to reserve materials.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnReserve_Click(object sender, EventArgs e)
         {
             if (Create_Reservation())
@@ -55,7 +65,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Gonna use this method to do everything in regards to inserting a reservation.
+        ///     Gonna use this method to do everything in regards to inserting a reservation.
         /// </summary>
         /// <returns></returns>
         protected bool Create_Reservation()
@@ -63,17 +73,16 @@ namespace ReservationSystem
             if (tbPeople.Text == "") return false;
             if (tbLocation.Text == "") return false;
 
-            int personId = _db.Person_Id(_p.Voornaam, _p.Achternaam, _p.Straat);
-            DateTime now = DateTime.Now;
-            DateTime end = new DateTime(2015, 7, 1);
+            var personId = _db.Person_Id(_p.Voornaam, _p.Achternaam, _p.Straat);
+            var now = DateTime.Now;
+            var end = new DateTime(2015, 7, 1);
             _db.Insert_Reservation(personId, now, end, 1);
 
-            int accId = _db.Find_Acc(_acc.Username);
-            int resId = _db.Max_Res();
+            var accId = _db.Find_Acc(_acc.Username);
+            var resId = _db.Max_Res();
             Session["resid"] = resId;
             _db.Insert_Res_Spot(resId, Convert.ToInt32(tbLocation.Text));
             return _db.Insert_Res_Band(accId);
-
         }
     }
 }

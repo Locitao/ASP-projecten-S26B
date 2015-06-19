@@ -1,38 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
-using System.Windows.Markup;
 using Oracle.DataAccess.Client;
-
 
 namespace ReservationSystem
 {
     /// <summary>
-    /// This class will be used to connect to the database, and close the connection again.
+    ///     This class will be used to connect to the database, and close the connection again.
     /// </summary>
     public class Database
     {
-        /// <summary>
-        /// Fields.
-        /// </summary>
-        readonly OracleConnection _conn = new OracleConnection();
-        readonly  OracleConnection _conn2 = new OracleConnection();
         private const string User = "system";
         private const string Pw = "wachtwoord";
         private const string Test = "xe";
 
         /// <summary>
-        /// This method tries to open the connection.
+        ///     Fields.
+        /// </summary>
+        private readonly OracleConnection _conn = new OracleConnection();
+
+        private readonly OracleConnection _conn2 = new OracleConnection();
+
+        /// <summary>
+        ///     This method tries to open the connection.
         /// </summary>
         /// <returns>A bool to check if opening the connection succeeded.</returns>
         public bool NewConnection()
         {
             _conn.ConnectionString = "User Id=" + User + ";Password=" + Pw + ";Data Source=" +
-                                    "//localhost:1521/" + Test + ";";
+                                     "//localhost:1521/" + Test + ";";
             _conn2.ConnectionString = "User Id=" + User + ";Password=" + Pw + ";Data Source=" +
-                                    "//localhost:1521/" + Test + ";";
-            
+                                      "//localhost:1521/" + Test + ";";
+
             try
             {
                 _conn.Open();
@@ -46,7 +47,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Closes the connection.
+        ///     Closes the connection.
         /// </summary>
         public void CloseConnection()
         {
@@ -55,28 +56,28 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Method to get data out of the database.
+        ///     Method to get data out of the database.
         /// </summary>
-        /// <param name="query"></param>    
+        /// <param name="query"></param>
         /// <returns>A list of dictionary objects with database information.</returns>
         public static List<Dictionary<string, object>> ExecuteQuery(string query)
         {
-            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            var result = new List<Dictionary<string, object>>();
 
-            Database database = new Database();
+            var database = new Database();
             database.CloseConnection();
-            
+
             if (database.NewConnection())
             {
-                OracleDataReader reader = new OracleCommand(query, database._conn).ExecuteReader();
+                var reader = new OracleCommand(query, database._conn).ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Dictionary<string, object> row = new Dictionary<string, object>();
-                        
+                    var row = new Dictionary<string, object>();
+
                     //Loop through the fields, add them to row
 
-                    for (int fieldId = 0; fieldId < reader.FieldCount; fieldId++)
+                    for (var fieldId = 0; fieldId < reader.FieldCount; fieldId++)
                         row.Add(reader.GetName(fieldId), reader.GetValue(fieldId));
 
                     result.Add(row);
@@ -89,17 +90,17 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Executes a string that is given to it.
+        ///     Executes a string that is given to it.
         /// </summary>
         /// <param name="sql">The string that is passed along.</param>
         public void Execute_withString(string sql)
         {
-            string query = sql;
+            var query = sql;
 
 
             if (!NewConnection()) return;
             // Command opzetten voor het uitvoeren van de query
-            OracleCommand cmd = new OracleCommand(query, _conn);
+            var cmd = new OracleCommand(query, _conn);
 
             // Query uitvoeren, er wordt geen waarde terug gegeven
             cmd.ExecuteNonQuery();
@@ -107,7 +108,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Runs the given command on the database.
+        ///     Runs the given command on the database.
         /// </summary>
         /// <param name="cmd">The command.</param>
         /// <returns>True or false.</returns>
@@ -122,7 +123,7 @@ namespace ReservationSystem
             }
             catch (OracleException e)
             {
-                System.Diagnostics.Debug.WriteLine(e.Message + e.ErrorCode);
+                Debug.WriteLine(e.Message + e.ErrorCode);
                 return false;
             }
 
@@ -133,7 +134,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Inserts a reservation into the database.
+        ///     Inserts a reservation into the database.
         /// </summary>
         /// <param name="persoonId">ID of the person to whom the reservation belongs.</param>
         /// <param name="startDateTime">Start time/date of the reservation.</param>
@@ -142,12 +143,11 @@ namespace ReservationSystem
         /// <returns>Succes string or error message.</returns>
         public string Insert_Reservation(int persoonId, DateTime startDateTime, DateTime endDateTime, int betaald)
         {
-
             try
             {
                 const string x = "Connection failed";
                 if (!NewConnection()) return x;
-                OracleCommand cmd = new OracleCommand("Insert_Reservation", _conn2)
+                var cmd = new OracleCommand("Insert_Reservation", _conn2)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -168,9 +168,8 @@ namespace ReservationSystem
             }
         }
 
-
         /// <summary>
-        /// Will couple a reservation to a visitor's wristband.
+        ///     Will couple a reservation to a visitor's wristband.
         /// </summary>
         /// <returns>True or false.</returns>
         public bool New_Wristband()
@@ -182,15 +181,14 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Inserts a new person into the database.
+        ///     Inserts a new person into the database.
         /// </summary>
         /// <param name="p">Instance of the Person class.</param>
         public void Insert_Person(Person p)
         {
-
             if (!NewConnection()) return;
 
-            OracleCommand cmd = new OracleCommand("Insert_Persoon", _conn2) {CommandType = CommandType.StoredProcedure};
+            var cmd = new OracleCommand("Insert_Persoon", _conn2) {CommandType = CommandType.StoredProcedure};
 
             cmd.Parameters.Add("VOORNAAM", OracleDbType.NVarchar2).Value = p.Voornaam;
             cmd.Parameters.Add("TUSSENVOEGSEL", OracleDbType.NVarchar2).Value = p.Tussenvoegsel;
@@ -204,7 +202,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Inserts an account into the database.
+        ///     Inserts an account into the database.
         /// </summary>
         /// <param name="username">Users' chosen username</param>
         /// <param name="email">Email of the user.</param>
@@ -214,7 +212,10 @@ namespace ReservationSystem
             try
             {
                 if (!NewConnection()) return false;
-                OracleCommand cmd = new OracleCommand("INSERT INTO ACCOUNT (\"ID\", \"gebruikersnaam\", \"email\", \"activatiehash\", \"geactiveerd\") VALUES(null, :gebruikersnaam, :email, :activatiehash, :geactiveerd)", _conn2);
+                var cmd =
+                    new OracleCommand(
+                        "INSERT INTO ACCOUNT (\"ID\", \"gebruikersnaam\", \"email\", \"activatiehash\", \"geactiveerd\") VALUES(null, :gebruikersnaam, :email, :activatiehash, :geactiveerd)",
+                        _conn2);
                 cmd.Parameters.Add(":gebruikersnaam", OracleDbType.NVarchar2).Value = username;
                 cmd.Parameters.Add(":email", OracleDbType.NVarchar2).Value = email;
                 cmd.Parameters.Add(":activatiehash", OracleDbType.NVarchar2).Value = Get_ActivationHash();
@@ -230,7 +231,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Creates a new activation hash for use with a users' account.   
+        ///     Creates a new activation hash for use with a users' account.
         /// </summary>
         /// <returns>Random hash (string).</returns>
         private string Get_ActivationHash()
@@ -239,13 +240,13 @@ namespace ReservationSystem
             var random = new Random();
             var result = new string(
                 Enumerable.Repeat(chars, 20)
-                          .Select(s => s[random.Next(s.Length)])
-                          .ToArray());
+                    .Select(s => s[random.Next(s.Length)])
+                    .ToArray());
             return result;
         }
 
         /// <summary>
-        /// Generates a new code for a new wrist band. 
+        ///     Generates a new code for a new wrist band.
         /// </summary>
         /// <returns>String of the band code.</returns>
         private string Get_Band_Code()
@@ -257,7 +258,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Just a test.
+        ///     Just a test.
         /// </summary>
         /// <returns>Move along citizen.</returns>
         public List<Dictionary<string, object>> Select_Test_Personen()
@@ -268,7 +269,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Find a persons' ID.
+        ///     Find a persons' ID.
         /// </summary>
         /// <param name="voornaam"></param>
         /// <param name="achternaam"></param>
@@ -278,7 +279,7 @@ namespace ReservationSystem
         {
             try
             {
-                int id = 0;
+                var id = 0;
                 var sql = "SELECT \"ID\" FROM PERSOON WHERE \"voornaam\" = '" + voornaam + "' AND \"achternaam\" = '" +
                           achternaam + "' AND \"straat\" = '" + straat + "')";
                 var data = ExecuteQuery(sql);
@@ -288,7 +289,6 @@ namespace ReservationSystem
                     id = Convert.ToInt32(x["ID"]);
                 }
                 return id;
-
             }
             catch (Exception)
             {
@@ -297,12 +297,12 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Find the latest wristband that was added to the database.
+        ///     Find the latest wristband that was added to the database.
         /// </summary>
         /// <returns></returns>
         public int Max_Polsbandje()
         {
-            int id = 0;
+            var id = 0;
             const string sql = "SELECT MAX(\"ID\") FROM POLSBANDJE";
             var data = ExecuteQuery(sql);
 
@@ -314,12 +314,12 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Find the latest reservation that was added to the database.
+        ///     Find the latest reservation that was added to the database.
         /// </summary>
         /// <returns></returns>
         public int Max_Res()
         {
-            int id = 0;
+            var id = 0;
             const string sql = "SELECT MAX(\"ID\") FROM RESERVERING";
             var data = ExecuteQuery(sql);
 
@@ -331,7 +331,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Checks if the given username already exists.
+        ///     Checks if the given username already exists.
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
@@ -340,13 +340,13 @@ namespace ReservationSystem
             const string sql = "SELECT \"gebruikersnaam\" FROM \"ACCOUNT\"";
             var data = ExecuteQuery(sql);
 
-            List<string> unames = data.Select(x => Convert.ToString(x["gebruikersnaam"])).ToList();
+            var unames = data.Select(x => Convert.ToString(x["gebruikersnaam"])).ToList();
 
             return unames.Any(s => username == s);
         }
 
         /// <summary>
-        /// Returns a list of all locations that haven't been reserved yet.
+        ///     Returns a list of all locations that haven't been reserved yet.
         /// </summary>
         /// <returns></returns>
         public List<Location> Find_Locations()
@@ -355,14 +355,14 @@ namespace ReservationSystem
                 "SELECT ID, \"nummer\", \"capaciteit\" FROM PLEK WHERE ID NOT IN (SELECT \"plek_id\" FROM PLEK_RESERVERING)";
             var data = ExecuteQuery(sql);
 
-            List<Location> locations = new List<Location>();
+            var locations = new List<Location>();
 
             foreach (var x in data)
             {
-                int id = Convert.ToInt32(x["ID"]);
-                int number = Convert.ToInt32(x["nummer"]);
-                int capacity = Convert.ToInt32(x["capaciteit"]);
-                Location l = new Location(id, capacity, number);
+                var id = Convert.ToInt32(x["ID"]);
+                var number = Convert.ToInt32(x["nummer"]);
+                var capacity = Convert.ToInt32(x["capaciteit"]);
+                var l = new Location(id, capacity, number);
                 locations.Add(l);
             }
 
@@ -370,7 +370,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Inserts a record into reservering_polsbandje.
+        ///     Inserts a record into reservering_polsbandje.
         /// </summary>
         /// <param name="accId"></param>
         /// <returns></returns>
@@ -378,13 +378,16 @@ namespace ReservationSystem
         {
             if (!New_Wristband()) return false;
 
-            int band = Max_Polsbandje();
-            int res = Max_Res();
+            var band = Max_Polsbandje();
+            var res = Max_Res();
             const int present = 1;
 
             if (!NewConnection()) return false;
 
-            OracleCommand cmd = new OracleCommand("INSERT INTO RESERVERING_POLSBANDJE (ID, \"reservering_id\", \"polsbandje_id\", \"account_id\", \"aanwezig\") VALUES (null, :resid, :band_id, :acc_id, :present)", _conn2);
+            var cmd =
+                new OracleCommand(
+                    "INSERT INTO RESERVERING_POLSBANDJE (ID, \"reservering_id\", \"polsbandje_id\", \"account_id\", \"aanwezig\") VALUES (null, :resid, :band_id, :acc_id, :present)",
+                    _conn2);
             cmd.Parameters.Add(":resid", OracleDbType.Int32).Value = res;
             cmd.Parameters.Add(":band_id", OracleDbType.Int32).Value = band;
             cmd.Parameters.Add(":acc_id", OracleDbType.Int32).Value = accId;
@@ -395,13 +398,13 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Find the ID of the account with the given username.
+        ///     Find the ID of the account with the given username.
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
         public int Find_Acc(string username)
         {
-            int x = 0;
+            var x = 0;
 
             var sql = "SELECT ID FROM ACCOUNT WHERE \"gebruikersnaam\" = '" + username + "'";
             var data = ExecuteQuery(sql);
@@ -414,7 +417,7 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Insert a Reservation_Spot in the database, to set the given spot on reserved.
+        ///     Insert a Reservation_Spot in the database, to set the given spot on reserved.
         /// </summary>
         /// <param name="resId"></param>
         /// <param name="locId"></param>
@@ -423,7 +426,10 @@ namespace ReservationSystem
         {
             if (!NewConnection()) return false;
 
-            OracleCommand cmd = new OracleCommand("INSERT INTO PLEK_RESERVERING (ID, \"plek_id\", \"reservering_id\") VALUES (null, :location, :reservation)", _conn2);
+            var cmd =
+                new OracleCommand(
+                    "INSERT INTO PLEK_RESERVERING (ID, \"plek_id\", \"reservering_id\") VALUES (null, :location, :reservation)",
+                    _conn2);
             cmd.Parameters.Add(":location", OracleDbType.Int32).Value = locId;
             cmd.Parameters.Add(":reservation", OracleDbType.Int32).Value = resId;
             Execute(cmd);
@@ -431,12 +437,12 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Find a list of all products that haven't been rented out yet.
+        ///     Find a list of all products that haven't been rented out yet.
         /// </summary>
         /// <returns></returns>
         public List<Product> Find_Products()
         {
-            List<Product> l = new List<Product>();
+            var l = new List<Product>();
 
             const string sql =
                 "SELECT pe.ID, p.\"merk\", p.\"prijs\", pc.\"naam\" FROM PRODUCTEXEMPLAAR pe, PRODUCT p, PRODUCTCAT pc WHERE pe.ID NOT IN (SELECT \"productexemplaar_id\" FROM VERHUUR) AND pe.\"product_id\" = p.ID AND p.\"productcat_id\" = pc.ID";
@@ -445,12 +451,12 @@ namespace ReservationSystem
 
             foreach (var x in data)
             {
-                string brand = Convert.ToString(x["merk"]);
-                int price = Convert.ToInt32(x["prijs"]);
-                int id = Convert.ToInt32(x["ID"]);
-                string name = Convert.ToString(x["naam"]);
+                var brand = Convert.ToString(x["merk"]);
+                var price = Convert.ToInt32(x["prijs"]);
+                var id = Convert.ToInt32(x["ID"]);
+                var name = Convert.ToString(x["naam"]);
 
-                Product p = new Product(brand, price, id, name);
+                var p = new Product(brand, price, id, name);
                 l.Add(p);
             }
 
@@ -458,29 +464,32 @@ namespace ReservationSystem
         }
 
         /// <summary>
-        /// Inserts a reservation of a material with the given dates into the database.
+        ///     Inserts a reservation of a material with the given dates into the database.
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="price"></param>
+        /// <param name="paid"></param>
         /// <returns>True or false if it succeeded or not.</returns>
-        public bool Insert_Mat_Res(int productId, DateTime start, DateTime end, int price)
+        public bool Insert_Mat_Res(int productId, DateTime start, DateTime end, int price, int paid)
         {
-            int resId = Max_Res();
+            var resId = Max_Res();
 
-            OracleCommand cmd = new OracleCommand("INSERT INTO VERHUUR (ID, \"productexemplaar_id\", \"res_pb_id\", \"datumIn\", \"datumUit\", \"prijs\", \"betaald\") VALUES (null, :peId, :resId, :dateIn, :dateOut, :price, :paid)");
+            if (!NewConnection()) return false;
+            var cmd =
+                new OracleCommand(
+                    "INSERT INTO VERHUUR (ID, \"productexemplaar_id\", \"res_pb_id\", \"datumIn\", \"datumUit\", \"prijs\", \"betaald\") VALUES (null, :peId, :resId, :dateIn, :dateOut, :price, :paid)",
+                    _conn2);
             cmd.Parameters.Add(":peId", OracleDbType.Int32).Value = productId;
             cmd.Parameters.Add(":resId", OracleDbType.Int32).Value = resId;
             cmd.Parameters.Add(":dateIn", OracleDbType.Date).Value = start;
             cmd.Parameters.Add("dateOut", OracleDbType.Date).Value = end;
             cmd.Parameters.Add(":price", OracleDbType.Int32).Value = price;
+            cmd.Parameters.Add(":paid", OracleDbType.Int32).Value = paid;
 
             Execute(cmd);
             return true;
         }
-
-        
     }
-
 }

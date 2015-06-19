@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace ReservationSystem
 {
-    public partial class NewAccount : System.Web.UI.Page
+    public partial class NewAccount : Page
     {
-        readonly Database _db = new Database();
-        ActiveDirectory _ad = new ActiveDirectory();
+        private readonly Database _db = new Database();
+        private ActiveDirectory _ad = new ActiveDirectory();
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
         }
 
         /// <summary>
@@ -23,33 +18,37 @@ namespace ReservationSystem
         /// <returns></returns>
         protected bool Insert_Person()
         {
-            if (tbName.Text == "" || tbSurname.Text == "" || tbBankAccount.Text == "" || tbStreet.Text == "" || tbHouseNumber.Text == "" || tbCity.Text == "" || tbUsername.Text == "" || tbEmail.Text == "" || tbPassword.Text == "")
+            if (tbName.Text == "" || tbSurname.Text == "" || tbBankAccount.Text == "" || tbStreet.Text == "" ||
+                tbHouseNumber.Text == "" || tbCity.Text == "" || tbUsername.Text == "" || tbEmail.Text == "" ||
+                tbPassword.Text == "")
             {
-                ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage", "alert('One of the required fields was not filled in.')", true);
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage",
+                    "alert('One of the required fields was not filled in.')", true);
                 return false;
             }
 
-            string name = tbName.Text;
-            string addition = tbAddition.Text;
-            string lastname = tbSurname.Text;
-            string bank = tbBankAccount.Text;
-            string street = tbStreet.Text;
-            int housenr = Convert.ToInt32(tbHouseNumber.Text);
-            string place = tbCity.Text;
-            string uname = tbUsername.Text;
-            string password = tbPassword.Text;
-            string email = tbEmail.Text;
+            var name = tbName.Text;
+            var addition = tbAddition.Text;
+            var lastname = tbSurname.Text;
+            var bank = tbBankAccount.Text;
+            var street = tbStreet.Text;
+            var housenr = Convert.ToInt32(tbHouseNumber.Text);
+            var place = tbCity.Text;
+            var uname = tbUsername.Text;
+            var password = tbPassword.Text;
+            var email = tbEmail.Text;
 
             if (_db.Check_Username(uname))
             {
-                ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage", "alert('That username already exists.')", true);
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage",
+                    "alert('That username already exists.')", true);
                 return false;
             }
             //New user in AD, commented away because no AD on this laptop.
             //UserPrincipal user = _ad.CreateNewUser(uname, password, name + " " + addition, lastname);
 
-            Person p = new Person(name, addition, lastname, street, housenr, place, bank);
-            Account acc = new Account(uname, email);
+            var p = new Person(name, addition, lastname, street, housenr, place, bank);
+            var acc = new Account(uname, email);
 
             Session["UserData"] = p;
             Session["Acc"] = acc;
@@ -59,13 +58,18 @@ namespace ReservationSystem
             _db.Insert_Account(uname, email);
             return true;
         }
+
+        /// <summary>
+        /// Inserts user, sends user to NewReservation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnSubmitReserve_Click(object sender, EventArgs e)
         {
             if (Insert_Person())
             {
                 Response.Redirect("NewReservation.aspx");
             }
-
         }
     }
 }
