@@ -1,99 +1,98 @@
 ﻿body {
     background-color: lightgrey;
-	font: 13px Helvetica,sans-serif;	
-	overflow: hidden;
+    font: 13px Helvetica, sans-serif;
+    overflow: hidden;
 }
 
-h1{
-    text-align: center;
+h1 { text-align: center; }
+
+.inhoud {
+    height: 95%;
+    left: 2.5%;
+    position: absolute;
+    top: 2.5%;
+    width: 95%;
 }
 
-.inhoud{
-    position:absolute;
-    top:2.5%;
-    left:2.5%;
-    height:95%;
-    width:95%;
-}
-
-.textbox{
+.textbox {
     background-color: #fff;
-    border-radius: 4px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     color: #555;
+    display: inline-block;
     font-size: 14px;
     line-height: 20px;
     padding: 6px 12px;
-    display: inline-block;  
     text-align: center;
 }
 
-.listbox{
+.listbox {
     background-color: #fff;
-    border-radius: 4px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     color: #555;
+    display: inline-block;
     font-size: 14px;
     line-height: 20px;
     padding: 6px 12px;
-    display: inline-block;  
     text-align: left;
 }
 
 .button {
-    position:relative;
-    float: left;
-    width: 20%;
-    margin-right:6.66%;
     background-color: #428bca;
+    border: 1px solid transparent;
     border-color: #357ebd;
     border-radius: 4px;
-    border: 1px solid transparent;
     color: #fff;
     cursor: pointer;
     display: block;
+    float: left;
     font-size: 14px;
     line-height: 20px;
+    margin-right: 6.66%;
     padding: 6px 12px;
+    position: relative;
+    width: 20%;
 }
 
-.aspNetDisabled{
-    position:relative;
-    float: left;
-    width: 20%;
-    margin-right:6.66%;
+.aspNetDisabled {
     background-color: #3071a9;
+    border: 1px solid transparent;
     border-color: #285e8e;
     border-radius: 4px;
-    border: 1px solid transparent;
-    color: #fff;   
+    color: #fff;
     display: block;
+    float: left;
     font-size: 14px;
     line-height: 20px;
+    margin-right: 6.66%;
     padding: 6px 12px;
+    position: relative;
+    width: 20%;
 }
 
-.button1{
-    position:relative;
-    float: left;
-    width: 20%;    
+.button1 {
     background-color: #428bca;
+    border: 1px solid transparent;
     border-color: #357ebd;
     border-radius: 4px;
-    border: 1px solid transparent;
     color: #fff;
     cursor: pointer;
     display: block;
+    float: left;
     font-size: 14px;
     line-height: 20px;
     padding: 6px 12px;
+    position: relative;
+    width: 20%;
 }
 
-.button:hover{
+.button:hover {
     background-color: #3071a9;
-    border-color: #285e8e;    
+    border-color: #285e8e;
 }
+
 .button1:hover {
     background-color: #3071a9;
-    border-color: #285e8e;   
+    border-color: #285e8e;
 }

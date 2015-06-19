@@ -1,40 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Drawing;
 
 namespace ToegangsControle
 {
     /// <summary>
-    /// This form will be used to manage Accesscontrol.
+    ///     This form will be used to manage Accesscontrol.
     /// </summary>
-    public partial class ToegangsControle : System.Web.UI.Page
+    public partial class ToegangsControle : Page
     {
-        readonly SqlQueries sqlQueries = new SqlQueries(); 
-        bool refresh = true;
+        private readonly SqlQueries sqlQueries = new SqlQueries();
+        private bool refresh = true;
+
         /// <summary>
-        /// Loads the page with all reservations into the listbox.
-        /// Gets called when page reloads.
+        ///     Loads the page with all reservations into the listbox.
+        ///     Gets called when page reloads.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void Page_PreRender(object sender, EventArgs e)
-        {           
+        {
             if (refresh)
             {
                 lbGegevens.Items.Clear();
                 try
                 {
                     var reservation = sqlQueries.Select_Reservation();
-                    
-                    foreach (Dictionary<string, object> row in reservation)
+
+                    foreach (var row in reservation)
                     {
-                        string present = Convert.ToString(row["aanwezig"]);
-                        string payed = Convert.ToString(row["betaald"]);
-                        string barcode = Convert.ToString(row["barcode"]);                        
+                        var present = Convert.ToString(row["aanwezig"]);
+                        var payed = Convert.ToString(row["betaald"]);
+                        var barcode = Convert.ToString(row["barcode"]);
 
                         if (present != "0")
                         {
@@ -51,21 +47,23 @@ namespace ToegangsControle
                         else
                         {
                             payed = "nee";
-                        }                        
-                        lbGegevens.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " + row["account_id"] + ". Barcode: " + barcode + ". Name: " + row["gebruikersnaam"] + ". payed?: " + payed + ". Present?: " + present);
-
+                        }
+                        lbGegevens.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " +
+                                             row["account_id"] + ". Barcode: " + barcode + ". Name: " +
+                                             row["gebruikersnaam"] + ". payed?: " + payed + ". Present?: " + present);
                     }
                     refresh = false;
                 }
                 catch (Exception ex)
                 {
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert(" + ex.Message + ");</script>");
-                } 
-            }            
+                    Page.ClientScript.RegisterStartupScript(GetType(), "Scripts",
+                        "<script>alert(" + ex.Message + ");</script>");
+                }
+            }
         }
 
         /// <summary>
-        /// Button refresh, refreshes the page which is followed by page_preRender.
+        ///     Button refresh, refreshes the page which is followed by page_preRender.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -79,12 +77,12 @@ namespace ToegangsControle
         }
 
         /// <summary>
-        /// Button shows all users which are on the terrain in the listbox.
+        ///     Button shows all users which are on the terrain in the listbox.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void bttnAanwezig_Click(object sender, EventArgs e)
-        {            
+        {
             try
             {
                 lbGegevens.Items.Clear();
@@ -95,9 +93,9 @@ namespace ToegangsControle
 
                 var attendees = sqlQueries.Select_allAttendees();
 
-                foreach (Dictionary<string, object> row in attendees)
+                foreach (var row in attendees)
                 {
-                    string present = Convert.ToString(row["aanwezig"]);
+                    var present = Convert.ToString(row["aanwezig"]);
 
                     if (present != "0")
                     {
@@ -108,67 +106,70 @@ namespace ToegangsControle
                         present = "nee";
                     }
 
-                    lbGegevens.Items.Add("Reservering_ID: " + row["reservering_id"] + ". Account_ID: " + row["ID"] + ". Name: " + row["gebruikersnaam"] + ". Present?: " + present);
+                    lbGegevens.Items.Add("Reservering_ID: " + row["reservering_id"] + ". Account_ID: " + row["ID"] +
+                                         ". Name: " + row["gebruikersnaam"] + ". Present?: " + present);
                     refresh = false;
-                }                
+                }
             }
             catch (Exception ex)
             {
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert(" + ex.Message + ");</script>");
+                Page.ClientScript.RegisterStartupScript(GetType(), "Scripts",
+                    "<script>alert(" + ex.Message + ");</script>");
             }
         }
 
         /// <summary>
-        /// Button deletes the reservation of the selected reservation in the listbox.
+        ///     Button deletes the reservation of the selected reservation in the listbox.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void bttnAnuleren_Click(object sender, EventArgs e)
         {
-            string reserveringsID = lbGegevens.SelectedItem.ToString().Substring(16, 1);
+            var reserveringsID = lbGegevens.SelectedItem.ToString().Substring(16, 1);
             sqlQueries.Delete_reserveringVerhuur(reserveringsID);
-            sqlQueries.Delete_reserveringPolsbandje(reserveringsID);            
+            sqlQueries.Delete_reserveringPolsbandje(reserveringsID);
             sqlQueries.Delete_reservering(reserveringsID);
         }
 
         /// <summary>
-        /// Button changes paid to 1 or 0 of the selected reservation in the listbox.
+        ///     Button changes paid to 1 or 0 of the selected reservation in the listbox.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void bttnBetaald_Click(object sender, EventArgs e)
         {
             tbBarcode.Text = "Scan Code";
-            string reservationID = lbGegevens.SelectedItem.ToString().Substring(16,1);
-            string userID = lbGegevens.SelectedItem.ToString().Substring(31, 1);
+            var reservationID = lbGegevens.SelectedItem.ToString().Substring(16, 1);
+            var userID = lbGegevens.SelectedItem.ToString().Substring(31, 1);
             string payed = sqlQueries.Update_Betaald(reservationID);
             refreshOnUserID(userID);
-            
+
             refresh = false;
         }
 
         /// <summary>
-        /// When the page gets reloaded and the textbox is changed, the text gets checked for text length and changes present to 1 or 0.
+        ///     When the page gets reloaded and the textbox is changed, the text gets checked for text length and changes present
+        ///     to 1 or 0.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void tbBarcode_TextChanged(object sender, System.EventArgs e)
+        protected void tbBarcode_TextChanged(object sender, EventArgs e)
         {
             if (tbBarcode.Text.Length == 13)
-            {                
-                string barcode = tbBarcode.Text;                
-                bool numericOnly = true;
+            {
+                var barcode = tbBarcode.Text;
+                var numericOnly = true;
 
-                foreach (char c in barcode)
+                foreach (var c in barcode)
                 {
                     if (!Char.IsDigit(c))
                         numericOnly = false;
                 }
 
-                if (numericOnly != false)
+                if (numericOnly)
                 {
                     string userID = sqlQueries.HaalGebruikerIDVanBarcode(barcode);
-                    string hasPayed = sqlQueries.checkBetaaldOnUserID(userID);                    
+                    string hasPayed = sqlQueries.checkBetaaldOnUserID(userID);
                     if (hasPayed != "0")
                     {
                         sqlQueries.Update_Aanwezig(userID);
@@ -178,7 +179,7 @@ namespace ToegangsControle
                     {
                         tbBarcode.Text = "User has not payed yet";
                     }
-                    refreshOnUserID(userID);                    
+                    refreshOnUserID(userID);
                 }
                 else
                 {
@@ -188,9 +189,9 @@ namespace ToegangsControle
         }
 
         /// <summary>
-        /// Method which loads the reservation of the given "gebruikerID" into the listbox.
+        ///     Method which loads the reservation of the given "gebruikerID" into the listbox.
         /// </summary>
-        /// <param name="userID"></param>        
+        /// <param name="userID"></param>
         public void refreshOnUserID(string userID)
         {
             try
@@ -198,11 +199,11 @@ namespace ToegangsControle
                 lbGegevens.Items.Clear();
                 var reservering = sqlQueries.Select_reservationUserID(userID);
 
-                foreach (Dictionary<string, object> row in reservering)
+                foreach (var row in reservering)
                 {
-                    string aanwezig = Convert.ToString(row["aanwezig"]);
-                    string betaald = Convert.ToString(row["betaald"]);
-                    string barcode = Convert.ToString(row["barcode"]);
+                    var aanwezig = Convert.ToString(row["aanwezig"]);
+                    var betaald = Convert.ToString(row["betaald"]);
+                    var barcode = Convert.ToString(row["barcode"]);
 
                     if (aanwezig != "0")
                     {
@@ -220,16 +221,17 @@ namespace ToegangsControle
                     {
                         betaald = "nee";
                     }
-                    lbGegevens.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " + row["account_id"] + ". Barcode: " + barcode + ". Name: " + row["gebruikersnaam"] + ". Betaald?: " + betaald + ". Aanwezig?: " + aanwezig);
-
+                    lbGegevens.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " +
+                                         row["account_id"] + ". Barcode: " + barcode + ". Name: " +
+                                         row["gebruikersnaam"] + ". Betaald?: " + betaald + ". Aanwezig?: " + aanwezig);
                 }
                 refresh = false;
             }
             catch (Exception ex)
             {
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "Scripts", "<script>alert(" + ex.Message + ");</script>");
+                Page.ClientScript.RegisterStartupScript(GetType(), "Scripts",
+                    "<script>alert(" + ex.Message + ");</script>");
             }
         }
-
     }
 }
