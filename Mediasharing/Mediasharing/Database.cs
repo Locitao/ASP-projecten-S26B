@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Runtime.CompilerServices;
 using Oracle.DataAccess.Client;
 
 namespace Mediasharing
@@ -367,6 +368,59 @@ namespace Mediasharing
             }
         }
 
+        public bool InsertReaction(int userId, string title, string content)
+        {
+            try
+            {
+                //Create a bijdrage, needed to create a bericht.
+                OracleCommand cmd =
+                    new OracleCommand("INSERT INTO BIJDRAGE" +
+                                      "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
+                                      "(NULL, :userId, sysdate, 'categorie')");
+
+                cmd.Parameters.Add("userId", userId);
+                Execute(cmd);
+            }
+        }
+
+        public bool InsertCategory(string name, int userId)
+        {
+            try
+            {
+                //Create a bijdrage, needed to create a bericht.
+                OracleCommand cmd =
+                    new OracleCommand("INSERT INTO BIJDRAGE" +
+                                      "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
+                                      "(NULL, :userId, sysdate, 'categorie')");
+
+                cmd.Parameters.Add("userId", userId);
+                Execute(cmd);
+
+                //We need the id we just created, let's get it from the database.
+                int categoryId = GetMaxBijdrageId();
+
+                //Create the corresponding category.
+                OracleCommand cmdTwo =
+                    new OracleCommand("INSERT INTO CATEGORIE" +
+                                      "(\"bijdrage_id\", \"categorie_id\", \"naam\") VALUES " +
+                                      "(:categoryId, NULL, :name')");
+
+                cmdTwo.Parameters.Add("categoryId", categoryId);
+                cmdTwo.Parameters.Add("name", name);
+                Execute(cmdTwo);
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query");
+                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+                return false;
+            }
+            return true;
+        }
+
         public bool InsertItem(int userId, int categoryId, string title, string content, string fileLocation, int size)
         {
             try
@@ -401,11 +455,11 @@ namespace Mediasharing
                                       "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
                                       "(NULL, :userId, sysdate, 'bericht')");
 
-                 //We need the id we just created, let's get it from the database.
-                int messageId = GetMaxBijdrageId();
-
                 cmdThree.Parameters.Add("userId", userId);
-                Execute(cmdTwo);
+                Execute(cmdThree);
+
+                //We need the id we just created, let's get it from the database.
+                int messageId = GetMaxBijdrageId();
 
                 //Create a bericht with the bijdrage id from the above query.
                 OracleCommand cmdFour =
@@ -416,7 +470,7 @@ namespace Mediasharing
                 cmdFour.Parameters.Add("messageId", messageId);
                 cmdFour.Parameters.Add("title", title);
                 cmdFour.Parameters.Add("content", content);
-                Execute(cmdTwo);
+                Execute(cmdFour);
 
                 //Finally, we link the message(bericht) and file(bestand) togheter in the BIJDRAGE_BESTAND table.
                 OracleCommand cmdFive =

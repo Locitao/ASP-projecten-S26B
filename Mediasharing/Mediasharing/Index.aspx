@@ -6,7 +6,10 @@
 <head runat="server">
     <title>Mediasharing Applicatie</title>
     <link href="StyleSheet.css" rel="stylesheet" />
-    <style type="text/css"></style>
+    <style type="text/css">        .auto-style1 {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -31,6 +34,33 @@
                     </td>
                     <td>
                         <asp:Button ID="btnReportMessage" runat="server" CssClass="buttondisabled" Text="Report" Enabled="False" OnClick="btnReportMessage_Click" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class="auto-style1">
+                <tr>
+                    <td>
+                        <asp:Label ID="Label1" runat="server" Text="Title: "></asp:Label>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbTitle" runat="server"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="Label2" runat="server" Text="Content: "></asp:Label>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbContent" runat="server"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Button ID="btnReaction" runat="server" CssClass="button" OnClick="btnReaction_Click" Text="Post Reaction" />
+                    </td>
+                    <td>
+                        <asp:Label ID="lblErrorMessage" runat="server" CssClass="error" Visible="False"></asp:Label>
                     </td>
                 </tr>
             </table>
@@ -101,7 +131,7 @@
             </asp:Repeater>
             <asp:TextBox ID="tbCategoryName" runat="server" CssClass="addbox"></asp:TextBox>
             <br />
-            <asp:Button ID="btnAddCategory" runat="server" CssClass="addbutton" Text="Create category" />
+            <asp:Button ID="btnAddCategory" runat="server" CssClass="addbutton" Text="Create category" OnClick="btnAddCategory_Click" />
         </div>
         
         <!--Mediaitem DIV-->

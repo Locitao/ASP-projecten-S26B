@@ -9,8 +9,12 @@ namespace Mediasharing
 {
     public partial class WebForm1 : Page
     {
-        #region Page Load
+        #region Fields
+        private int _categoryId;
+        private Account _user;
+        #endregion
 
+        #region Page Load
         /// <summary>
         ///     The page load method, get's called everytime the page is loaded.
         /// </summary>
@@ -23,75 +27,6 @@ namespace Mediasharing
             CheckIfLoggedIn();
             LoadPage();
         }
-
-        #endregion
-
-        /// <summary>
-        ///     Searches the database for either categories, or media items that match the search term inputted by the user.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            //Initialize.
-            Database database = Database.Instance;
-            string searchTerm = tbSearch.Text;
-
-            //We're searching for a category.
-            if (ddlSearch.SelectedValue == "Category")
-            {
-                //Fill DataSet with data.
-                DataSet foundCategories = new DataSet();
-                foundCategories = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
-                                                   "FROM BIJDRAGE b " +
-                                                   "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
-                                                   "WHERE c.\"naam\" LIKE " + "'%" + searchTerm + "%'");
-
-                //Bind data to repeater.
-                RepeaterSearchCategories.DataSource = foundCategories;
-                RepeaterSearchCategories.DataBind();
-
-                //Clear the other search repeaters data.
-                RepeaterSearchMediaItems.DataSource = null;
-                RepeaterSearchMediaItems.DataBind();
-            }
-
-            //We're searching for a media item.
-            else if (ddlSearch.SelectedValue == "Media Item")
-            {
-                //Fill DataSet with data.
-                DataSet foundMediaItems = new DataSet();
-                foundMediaItems =
-                    database.GetData("SELECT bij.\"ID\" AS ID, bes.\"bestandslocatie\" AS BESTANDSLOCATIE " +
-                                     "FROM BIJDRAGE bij, BESTAND bes " +
-                                     "WHERE bij.\"ID\" = bes.\"bijdrage_id\" " +
-                                     "AND bij.\"soort\" = 'bestand' " +
-                                     "AND bes.\"bestandslocatie\" LIKE " + "'%" + searchTerm + "%'");
-
-                //Bind data to repeater.
-                RepeaterSearchMediaItems.DataSource = foundMediaItems;
-                RepeaterSearchMediaItems.DataBind();
-
-                //Clear the other search repeaters data.
-                RepeaterSearchCategories.DataSource = null;
-                RepeaterSearchCategories.DataBind();
-            }
-        }
-
-        /// <summary>
-        ///     Redirects you to the post message page.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnAddPost_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("/PostMessage/" + _categoryId, true);
-        }
-
-        #region Fields
-
-        private int _categoryId;
-        private Account _user;
 
         #endregion
 
@@ -537,6 +472,85 @@ namespace Mediasharing
             UpdateLikes(reactionId, "reaction");
         }
 
+        /// <summary>
+        /// Inserts the category into the database and refreshes the subcategories.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnAddCategory_Click(object sender, EventArgs e)
+        {
+            Database database = Database.Instance;
+            database.InsertCategory(tbCategoryName.Text, _user.Id);
+            LoadSubCategories();
+        }
+
+        protected void btnReaction_Click(object sender, EventArgs e)
+        {
+            Database database = Database.Instance;
+            database.InsertReaction();
+        }
+
+        /// <summary>
+        ///     Searches the database for either categories, or media items that match the search term inputted by the user.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            //Initialize.
+            Database database = Database.Instance;
+            string searchTerm = tbSearch.Text;
+
+            //We're searching for a category.
+            if (ddlSearch.SelectedValue == "Category")
+            {
+                //Fill DataSet with data.
+                DataSet foundCategories = new DataSet();
+                foundCategories = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
+                                                   "FROM BIJDRAGE b " +
+                                                   "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
+                                                   "WHERE c.\"naam\" LIKE " + "'%" + searchTerm + "%'");
+
+                //Bind data to repeater.
+                RepeaterSearchCategories.DataSource = foundCategories;
+                RepeaterSearchCategories.DataBind();
+
+                //Clear the other search repeaters data.
+                RepeaterSearchMediaItems.DataSource = null;
+                RepeaterSearchMediaItems.DataBind();
+            }
+
+            //We're searching for a media item.
+            else if (ddlSearch.SelectedValue == "Media Item")
+            {
+                //Fill DataSet with data.
+                DataSet foundMediaItems = new DataSet();
+                foundMediaItems =
+                    database.GetData("SELECT bij.\"ID\" AS ID, bes.\"bestandslocatie\" AS BESTANDSLOCATIE " +
+                                     "FROM BIJDRAGE bij, BESTAND bes " +
+                                     "WHERE bij.\"ID\" = bes.\"bijdrage_id\" " +
+                                     "AND bij.\"soort\" = 'bestand' " +
+                                     "AND bes.\"bestandslocatie\" LIKE " + "'%" + searchTerm + "%'");
+
+                //Bind data to repeater.
+                RepeaterSearchMediaItems.DataSource = foundMediaItems;
+                RepeaterSearchMediaItems.DataBind();
+
+                //Clear the other search repeaters data.
+                RepeaterSearchCategories.DataSource = null;
+                RepeaterSearchCategories.DataBind();
+            }
+        }
+
+        /// <summary>
+        ///     Redirects you to the post message page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnAddPost_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/PostMessage/" + _categoryId, true);
+        }
         #endregion
     }
 }
