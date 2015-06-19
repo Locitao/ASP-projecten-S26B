@@ -36,7 +36,7 @@
                         <asp:Button ID="btnPost" runat="server" CssClass="button" OnClick="btnPost_Click" Text="Post" />
                     </td>
                     <td>
-                        <asp:Button ID="btnCancel" runat="server" CssClass="button" Text="Cancel" />
+                        <asp:Button ID="btnCancel" runat="server" CssClass="button" OnClick="btnCancel_Click" Text="Cancel" />
                     </td>
                 </tr>
                 <tr>

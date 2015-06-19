@@ -212,6 +212,17 @@ namespace Mediasharing
             return ExecuteQuery(cmd);
         }
 
+        public List<Dictionary<string, object>> GetItem(int itemId)
+        {
+            OracleCommand cmd = new OracleCommand("SELECT \"bestandslocatie\" AS BESTANDSLOCATIE " +
+                                                  "FROM BESTAND " +
+                                                  "WHERE \"bijdrage_id\" = :itemId");
+
+            cmd.Parameters.Add("itemId", itemId);
+
+            return ExecuteQuery(cmd);
+        }
+
         public List<Dictionary<string, object>> GetItemMessages(int itemMessageId)
         {
             OracleCommand cmd = new OracleCommand("SELECT bij.\"ID\" AS ID, acc.\"gebruikersnaam\" AS GEBRUIKERSNAAM, ber.\"titel\" AS TITEL, ber.\"inhoud\" AS INHOUD " +

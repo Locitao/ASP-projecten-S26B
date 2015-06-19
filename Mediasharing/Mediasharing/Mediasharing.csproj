@@ -74,7 +74,6 @@
     <Content Include="Item.aspx" />
     <Content Include="Javascript.js" />
     <Content Include="PostMessage.aspx" />
-    <Content Include="searchCategory.aspx" />
     <Content Include="StyleSheet.css" />
     <Content Include="UploadItem.aspx" />
     <Content Include="Web.config" />
@@ -118,13 +117,6 @@
     </Compile>
     <Compile Include="Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="searchCategory.aspx.cs">
-      <DependentUpon>searchCategory.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="searchCategory.aspx.designer.cs">
-      <DependentUpon>searchCategory.aspx</DependentUpon>
     </Compile>
     <Compile Include="UploadItem.aspx.cs">
       <DependentUpon>UploadItem.aspx</DependentUpon>

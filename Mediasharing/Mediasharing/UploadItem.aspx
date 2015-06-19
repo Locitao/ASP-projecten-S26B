@@ -25,7 +25,7 @@
                     <asp:Label ID="lblTitle" runat="server" Text="Title: "></asp:Label>
                 </td>
                 <td>
-                    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="tbTitle" runat="server"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -41,7 +41,7 @@
                     <asp:Button ID="btnUpload" runat="server" Text="Upload" CssClass="button" OnClick="btnUpload_Click" />
                 </td>
                 <td>
-                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="button" />
+                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="button" OnClick="btnCancel_Click" />
                 </td>
             </tr>
             <tr>

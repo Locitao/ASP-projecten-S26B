@@ -19,9 +19,10 @@ namespace Mediasharing
         {
             CheckIfLoggedIn();
             Rout();
-            LoadItemMessage();
+            LoadItemMessage();  
             if (!IsPostBack)
             {
+                LoadImage();
                 LoadItemMessages();
             }
         }
@@ -37,6 +38,14 @@ namespace Mediasharing
         public void Rout()
         {
            itemId = Convert.ToInt32(Page.RouteData.Values["id"]);
+        }
+
+        public void LoadImage()
+        {
+            Database database = Database.Instance;
+            List<Dictionary<string, object>> output = database.GetItem(itemId);
+            string imagePath = Convert.ToString(output[0]["BESTANDSLOCATIE"]);
+            uploadedImage.ImageUrl = imagePath;
         }
 
         public void LoadItemMessage()

@@ -44,5 +44,10 @@ namespace Mediasharing
                 lblErrorMessage.CssClass = "error";
             }
         }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Index/0", true);
+        }
     }
 }

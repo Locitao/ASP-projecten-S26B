@@ -14,6 +14,7 @@
     <div id ="Container">
         <!--ItemView DIV-->
         <div id ="ItemView">
+            <asp:Image ID="uploadedImage" runat="server" />
             <asp:Repeater ID="RepeaterItemView" runat="server">
                 <ItemTemplate>
                         <table class = "custom">

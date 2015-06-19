@@ -78,6 +78,7 @@
                         </table>
                     </ItemTemplate>
             </asp:Repeater>
+            <asp:Button ID="btnReportCategory" runat="server" CssClass="button" Text="Report Category"/>
             <asp:Button ID="btnAddPost" runat="server" CssClass="addbutton" Text="Add Message" OnClick="btnAddPost_Click" />
         </div>
         
