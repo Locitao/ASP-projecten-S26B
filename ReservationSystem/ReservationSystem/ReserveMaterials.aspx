@@ -25,7 +25,7 @@
             <asp:TextBox ID="tbStartDate" runat="server" TextMode="Date"></asp:TextBox><br/>
             <asp:TextBox ID="tbEndDate" runat="server" TextMode="Date"></asp:TextBox>
         </div>
-        <asp:Button runat="server" CssClass="button" Text="Complete Reservation"/><br/>
+        <asp:Button runat="server" CssClass="button" Text="Complete Reservation" ID="btnInsert" OnClick="btnInsert_Click"/><br/>
         <asp:ListBox ID="lbMaterials" runat="server" Height="176px" Width="290px"></asp:ListBox><br/>
     </div>
     </form>

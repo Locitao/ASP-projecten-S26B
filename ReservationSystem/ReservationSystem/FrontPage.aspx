@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="FrontPage.aspx.cs" Inherits="Voorpagina" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="FrontPage.aspx.cs" Inherits="ReservationSystem.Voorpagina" %>
 
 <!DOCTYPE html>
 
@@ -16,7 +16,8 @@
             <p>This social media event brings people together through the use of Social Media.</p><br/>
 
             <asp:Button ID="btnReserve" CssClass="button" runat="server" Text="Create a reservation" OnClick="btnReserve_Click" />
-            <asp:Label runat="server" ID="testlabel" Text=""></asp:Label>
+            <asp:Button runat="server" CssClass="button" ID="btnAcc" Text="Create an account"/>
+            <p>If one of your friends has already reserved for you, you only need to create an account.</p>
             
         </div>
                 

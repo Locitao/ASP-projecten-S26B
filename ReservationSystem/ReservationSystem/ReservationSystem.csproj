@@ -69,6 +69,7 @@
     <Content Include="FrontPage.aspx" />
     <Content Include="NewAccount.aspx" />
     <Content Include="NewReservation.aspx" />
+    <Content Include="OnlyAcc.aspx" />
     <Content Include="ReserveMaterials.aspx" />
     <Content Include="style.css" />
     <Content Include="Web.config" />
@@ -95,6 +96,13 @@
     </Compile>
     <Compile Include="NewReservation.aspx.designer.cs">
       <DependentUpon>NewReservation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OnlyAcc.aspx.cs">
+      <DependentUpon>OnlyAcc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OnlyAcc.aspx.designer.cs">
+      <DependentUpon>OnlyAcc.aspx</DependentUpon>
     </Compile>
     <Compile Include="Person.cs" />
     <Compile Include="Product.cs" />
