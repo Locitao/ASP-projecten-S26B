@@ -17,6 +17,11 @@ namespace Mediasharing
         #endregion
 
         #region Page Load
+        /// <summary>
+        /// The page load method, get's called everytime the page is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             user = (Account)Session["user"];
@@ -27,11 +32,17 @@ namespace Mediasharing
         #endregion
 
         #region Misc Methods
+        /// <summary>
+        /// Routes the user to the correct page.
+        /// </summary>
         public void Rout()
         {
             categorieId = Convert.ToInt32(Page.RouteData.Values["id"]);
         }
 
+        /// <summary>
+        /// Checks if the user is currently logged in, if not, the user gets redirected to the login page.
+        /// </summary>
         public void CheckIfLoggedIn()
         {
             if (Session["user"] == null)
@@ -42,6 +53,10 @@ namespace Mediasharing
         #endregion
 
         #region Load Methods
+
+        /// <summary>
+        /// This method loads the page by calling most of the load methods defined below.
+        /// </summary>
         public void LoadPage()
         {
             //Only reloads the categories when the page isn't a postback.
@@ -58,6 +73,9 @@ namespace Mediasharing
             LoadMediaItems();
         }
 
+        /// <summary>
+        /// This method shows the parentcategory of the current category, or parentcategories when in the rootfolder.
+        /// </summary>
         public void LoadCategories()
         {
             DataSet output = new DataSet();
@@ -90,6 +108,9 @@ namespace Mediasharing
 
         }
 
+        /// <summary>
+        /// This method loads all the sub categories of the current category.
+        /// </summary>
         public void LoadSubCategories()
         {
             DataSet output = new DataSet();
@@ -120,6 +141,9 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// This method loads all the media item of the  current category.
+        /// </summary>
         public void LoadMediaItems()
         {
             DataSet output = new DataSet();
@@ -152,6 +176,10 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// This method loads all the messages that aren't replies.
+        /// </summary>
+        /// <returns></returns>
         public List<Bericht> LoadMessages()
         {
             try
@@ -184,6 +212,11 @@ namespace Mediasharing
                 return null;
         }
 
+        /// <summary>
+        /// This method loads the reactions of the corresponding selected message.
+        /// </summary>
+        /// <param name="messageId"> the selected messageId from lbMessages</param>
+        /// <returns></returns>
         public List<Bericht> LoadReactions(int messageId)
         {
             try
@@ -205,7 +238,6 @@ namespace Mediasharing
                     Bericht message = new Bericht(id, account, title, content);
                     reactions.Add(message);
                 }
-
                 //Binds the messages to the listbox.
                 return reactions;
             }
@@ -248,6 +280,12 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// This method updates the like and report buttons for the message and reaction listboxes.
+        /// When a user liked a message or reaction, he or she can't report it and vice versa.
+        /// </summary>
+        /// <param name="id"> the id of the user</param>
+        /// <param name="type"> either a "message" or a "reaction"</param>
         public void UpdateButtons(int id, string type)
         {
             //The type is a message.
@@ -348,6 +386,11 @@ namespace Mediasharing
             UpdateButtons(messageId, "message");
         }
 
+        /// <summary>
+        /// Inserts a like of a message into the database, and changes the corresponding buttons.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnLikeMessage_Click(object sender, EventArgs e)
         {
             int messageId = Convert.ToInt32(lbMessages.SelectedValue);
@@ -366,6 +409,11 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// Inserts a report of a message into the database, and changes the corresponding buttons.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnReportMessage_Click(object sender, EventArgs e)
         {
             int messageId = Convert.ToInt32(lbMessages.SelectedValue);
@@ -373,6 +421,11 @@ namespace Mediasharing
             UpdateButtons(messageId, "message");
         }
 
+        /// <summary>
+        /// Inserts a like of a reaction into the database, and changes the corresponding buttons.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnLikeReaction_Click(object sender, EventArgs e)
         {
             int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
@@ -391,6 +444,11 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// Inserts a report of a reaction into the database, and changes the corresponding buttons.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnReportReaction_Click(object sender, EventArgs e)
         {
             int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
@@ -420,7 +478,6 @@ namespace Mediasharing
         protected void btnSearch_Click(object sender, EventArgs e)
         {  
             //Initialize.
-            DataSet emptyDataSet = new DataSet();
             Database database = Database.Instance;
             string searchTerm = tbSearch.Text;
 
@@ -432,14 +489,14 @@ namespace Mediasharing
                 foundCategories = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
                                                    "FROM BIJDRAGE b " +
                                                    "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
-                                                   "WHERE \"c.naam\" LIKE " + "%" + categorieId + "%");
+                                                   "WHERE c.\"naam\" LIKE " + "'%" + searchTerm + "%'");
 
                 //Bind data to repeater.
                 RepeaterSearchCategories.DataSource = foundCategories;
                 RepeaterSearchCategories.DataBind();
 
                 //Clear the other search repeaters data.
-                RepeaterSearchMediaItems.DataSource = emptyDataSet;
+                RepeaterSearchMediaItems.DataSource = null;
                 RepeaterSearchMediaItems.DataBind();
             }
 
@@ -452,14 +509,14 @@ namespace Mediasharing
                                                    "FROM BIJDRAGE bij, BESTAND bes " +
                                                    "WHERE bij.\"ID\" = bes.\"bijdrage_id\" " +
                                                    "AND bij.\"soort\" = 'bestand' " +
-                                                   "AND bes.\"bestandslocatie\" LIKE " + "%" + searchTerm + "%");
+                                                   "AND bes.\"bestandslocatie\" LIKE " + "'%" + searchTerm + "%'");
 
                 //Bind data to repeater.
                 RepeaterSearchMediaItems.DataSource = foundMediaItems;
                 RepeaterSearchMediaItems.DataBind();
 
                 //Clear the other search repeaters data.
-                RepeaterSearchCategories.DataSource = emptyDataSet;
+                RepeaterSearchCategories.DataSource = null;
                 RepeaterSearchCategories.DataBind();
             }
         }
