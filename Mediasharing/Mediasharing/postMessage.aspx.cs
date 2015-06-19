@@ -9,9 +9,12 @@ namespace Mediasharing
 {
     public partial class PostMessage : System.Web.UI.Page
     {
+        #region Fields
         private Account user;
         private int categoryId;
+        #endregion
 
+        #region Methods
         protected void Page_Load(object sender, EventArgs e)
         {
             user = (Account)Session["user"];
@@ -31,7 +34,15 @@ namespace Mediasharing
                 Response.Redirect("InlogPagina.aspx", true);
             }
         }
+        #endregion
 
+        #region Events
+
+        /// <summary>
+        /// Inserts a message(bericht) into the database, shows an error message if something went wrong.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnPost_Click(object sender, EventArgs e)
         {
             if (Bericht.InsertMessage(tbTitle.Text, tbContent.Text, categoryId, user.Id))
@@ -45,9 +56,15 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// Redirects you back to the page you came from.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Index/0", true);
+            Response.Redirect("/Index/" + categoryId, true);
         }
+        #endregion
     }
 }

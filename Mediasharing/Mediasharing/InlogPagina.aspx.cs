@@ -36,13 +36,14 @@ namespace Mediasharing
             int id = Convert.ToInt32(tbId.Text);
             string wachtwoord = tbWachtwoord.Text;
 
+            //Try to log in, if a wrong id is given the method returns null.
             Account user = Account.Login(id);
-            //Initialize
 
+            //If the user is null, the wrong id was given.
             if (user == null)
             {
                 //Wrong id and pasword combination!
-                lblGegevens.Text = "Foute gebruikersnaam en wachtwoord combinatie!";
+                lblGegevens.Text = "Wrong id!";
             }
             else
             {

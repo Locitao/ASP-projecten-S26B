@@ -11,7 +11,11 @@ namespace Mediasharing
 {
     public class Global : System.Web.HttpApplication
     {
-
+        #region Methods
+        /// <summary>
+        /// Register the route.
+        /// </summary>
+        /// <param name="routes"></param>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.MapPageRoute("Index", "Index/{id}", "~/index.aspx");
@@ -61,5 +65,7 @@ namespace Mediasharing
         {
 
         }
+
+        #endregion
     }
 }

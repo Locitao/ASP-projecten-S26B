@@ -72,7 +72,6 @@
     <Content Include="Global.asax" />
     <Content Include="InlogPagina.aspx" />
     <Content Include="Item.aspx" />
-    <Content Include="Javascript.js" />
     <Content Include="PostMessage.aspx" />
     <Content Include="StyleSheet.css" />
     <Content Include="UploadItem.aspx" />
@@ -82,9 +81,7 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="Bericht.cs" />
-    <Compile Include="Bestand.cs" />
     <Compile Include="Bijdrage.cs" />
-    <Compile Include="Categorie.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
