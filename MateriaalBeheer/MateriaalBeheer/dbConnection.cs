@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
 using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
-using Oracle.DataAccess;
 
 
 namespace MaterialRenting
@@ -13,7 +8,7 @@ namespace MaterialRenting
     public class DbConnection
     {
         #region Fields
-        private OracleConnection connection = new OracleConnection();
+        private readonly OracleConnection _connection = new OracleConnection();
         //Lazy instance of database, code example from cas eliens.
         private static readonly Lazy<DbConnection> instance = new Lazy<DbConnection>(() => new DbConnection());
         #endregion
@@ -24,7 +19,7 @@ namespace MaterialRenting
 
         private DbConnection()
         {
-            connection.ConnectionString = "User Id=proftaak;Password=proftaak;Data Source=localhost/XE";
+            _connection.ConnectionString = "User Id=proftaak;Password=proftaak;Data Source=localhost/XE";
         }
 
 
@@ -32,7 +27,7 @@ namespace MaterialRenting
         {
             try
             {
-                connection.Open();
+                _connection.Open();
             }
             catch (Exception ex)
             {
@@ -42,7 +37,7 @@ namespace MaterialRenting
 
         private void CloseConnection()
         {
-            connection.Close();
+            _connection.Close();
         }
 
         public List<Dictionary<string, object>> ExecuteQuery(OracleCommand oc)
@@ -52,7 +47,7 @@ namespace MaterialRenting
             try
             {
                 OpenConnection();
-                oc.Connection = connection;
+                oc.Connection = _connection;
                 using (OracleDataReader reader = oc.ExecuteReader())
                 {
                     while (reader.Read())

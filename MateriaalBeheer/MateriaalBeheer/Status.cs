@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace MaterialRenting
+﻿namespace MaterialRenting
 {
     /// <summary>
     /// Stores the current status off a Material: Undefined, Reserved or Free

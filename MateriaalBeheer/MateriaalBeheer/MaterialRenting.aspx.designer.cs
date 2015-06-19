@@ -10,7 +10,7 @@
 namespace MaterialRenting {
     
     
-    public partial class MateriaalBeheer {
+    public partial class MaterialRenting {
         
         /// <summary>
         /// form1 control.
@@ -67,94 +67,94 @@ namespace MaterialRenting {
         protected global::System.Web.UI.WebControls.ListBox lbProducts;
         
         /// <summary>
-        /// btnLeenUit control.
+        /// btnLendProduct control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLeenUit;
+        protected global::System.Web.UI.WebControls.Button btnLendProduct;
         
         /// <summary>
-        /// BtnReserveer control.
+        /// btnReserveProduct control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnReserveer;
+        protected global::System.Web.UI.WebControls.Button btnReserveProduct;
         
         /// <summary>
-        /// BtRetourneer control.
+        /// btnReturnProduct control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtRetourneer;
+        protected global::System.Web.UI.WebControls.Button btnReturnProduct;
         
         /// <summary>
-        /// BtnVeranderCategorie control.
+        /// btChangeCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnVeranderCategorie;
+        protected global::System.Web.UI.WebControls.Button btChangeCategory;
         
         /// <summary>
-        /// BtnNieuwItem control.
+        /// btnNewItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnNieuwItem;
+        protected global::System.Web.UI.WebControls.Button btnNewItem;
         
         /// <summary>
-        /// BtnNieuweCategorie control.
+        /// btNewCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnNieuweCategorie;
+        protected global::System.Web.UI.WebControls.Button btNewCategory;
         
         /// <summary>
-        /// pnlPopUpLeenItem control.
+        /// pnlPopUpLendItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPopUpLeenItem;
+        protected global::System.Web.UI.WebControls.Panel pnlPopUpLendItem;
         
         /// <summary>
-        /// lblLeenItem control.
+        /// lblLendItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblLeenItem;
+        protected global::System.Web.UI.WebControls.Label lblLendItem;
         
         /// <summary>
-        /// tbLeenRFID control.
+        /// tbLendBarcode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbLeenRFID;
+        protected global::System.Web.UI.WebControls.TextBox tbLendBarcode;
         
         /// <summary>
-        /// tbLeenTerugbrengDatum control.
+        /// tbLendReturnDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbLeenTerugbrengDatum;
+        protected global::System.Web.UI.WebControls.TextBox tbLendReturnDate;
         
         /// <summary>
         /// btnCheckStatus control.
@@ -166,57 +166,66 @@ namespace MaterialRenting {
         protected global::System.Web.UI.WebControls.Button btnCheckStatus;
         
         /// <summary>
-        /// btnLeenUitPopUp control.
+        /// btnLendPopUp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLeenUitPopUp;
+        protected global::System.Web.UI.WebControls.Button btnLendPopUp;
         
         /// <summary>
-        /// pnlPopUpReserveerItem control.
+        /// pnlPopUpReserveItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPopUpReserveerItem;
+        protected global::System.Web.UI.WebControls.Panel pnlPopUpReserveItem;
         
         /// <summary>
-        /// tbReserveerRFID control.
+        /// lblReserveItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbReserveerRFID;
+        protected global::System.Web.UI.WebControls.Label lblReserveItem;
         
         /// <summary>
-        /// tbReserveerUitleenDatum control.
+        /// tbReserveBarcode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbReserveerUitleenDatum;
+        protected global::System.Web.UI.WebControls.TextBox tbReserveBarcode;
         
         /// <summary>
-        /// tbReserveerTerugbrengDatum control.
+        /// tbReserveLendDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbReserveerTerugbrengDatum;
+        protected global::System.Web.UI.WebControls.TextBox tbReserveLendDate;
         
         /// <summary>
-        /// btnReserveerPopUp control.
+        /// tbReserveReturnDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReserveerPopUp;
+        protected global::System.Web.UI.WebControls.TextBox tbReserveReturnDate;
+        
+        /// <summary>
+        /// btnReservePopUp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReservePopUp;
     }
 }
