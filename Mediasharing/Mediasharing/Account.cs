@@ -6,6 +6,7 @@ using System.Web;
 
 namespace Mediasharing
 {
+
     public class Account
     {
         #region Properties
@@ -26,6 +27,7 @@ namespace Mediasharing
         }
         #endregion
 
+        
         //Nog implementeren
         public static Account Login(int id)
         {

@@ -13,10 +13,10 @@ namespace Mediasharing
     {
         #region Fields
 
-        private string username;
-        private string password;
-        private string host;
-        private OracleConnection connect = new OracleConnection();
+        private string _username;
+        private string _password;
+        private string _host;
+        private OracleConnection _connect = new OracleConnection();
 
         // Singleton
         private static readonly Lazy<Database> instance =
@@ -46,16 +46,16 @@ namespace Mediasharing
 
         private void Initialize()
         {
-            username = "ICT4EVENTS";
-            password = "ICT4EVENTS";
-            host = "localhost/xe";
+            _username = "ICT4EVENTS";
+            _password = "ICT4EVENTS";
+            _host = "localhost/xe";
 
-            string connectionstring = string.Format("Data Source= {0};User ID={1};Password={2};", host, username,
-                password);
+            string connectionstring = string.Format("Data Source= {0};User ID={1};Password={2};", _host, _username,
+                _password);
 
             try
             {
-                connect = new OracleConnection(connectionstring);
+                _connect = new OracleConnection(connectionstring);
             }
             catch (OracleException ex)
             {
@@ -76,7 +76,7 @@ namespace Mediasharing
             try
             {
                 System.Diagnostics.Debug.WriteLine("Opening Database Connection");
-                connect.Open();
+                _connect.Open();
             }
             catch (OracleException ex)
             {
@@ -98,7 +98,7 @@ namespace Mediasharing
             try
             {
                 System.Diagnostics.Debug.WriteLine("Closing Database Connection");
-                connect.Close();
+                _connect.Close();
                 System.Diagnostics.Debug.WriteLine("---------------");
                 return true;
             }
@@ -117,7 +117,7 @@ namespace Mediasharing
             try
             {
                 OpenConnection();
-                OracleDataAdapter o_adapter = new OracleDataAdapter(query, connect);
+                OracleDataAdapter o_adapter = new OracleDataAdapter(query, _connect);
                 DataSet dataSet = new DataSet();
                 o_adapter.Fill(dataSet);
                 return dataSet;
@@ -256,7 +256,7 @@ namespace Mediasharing
             try
             {
                 OpenConnection();
-                cmd.Connection = connect;
+                cmd.Connection = _connect;
                 cmd.ExecuteNonQuery();
                 System.Diagnostics.Debug.WriteLine("COMPLETE");
                 return true;
@@ -477,7 +477,7 @@ namespace Mediasharing
             {
                 OpenConnection();
 
-                cmd.Connection = connect;
+                cmd.Connection = _connect;
 
                 using (OracleDataReader resultReader = cmd.ExecuteReader())
                 {
