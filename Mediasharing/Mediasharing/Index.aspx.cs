@@ -32,6 +32,16 @@ namespace Mediasharing
             categorieId = Convert.ToInt32(Page.RouteData.Values["id"]);
         }
 
+        public void CheckIfLoggedIn()
+        {
+            if (Session["user"] == null)
+            {
+                Response.Redirect("InlogPagina.aspx", true);
+            }
+        }
+        #endregion
+
+        #region Load Methods
         public void LoadPage()
         {
             //Only reloads the categories when the page isn't a postback.
@@ -48,16 +58,6 @@ namespace Mediasharing
             LoadMediaItems();
         }
 
-        public void CheckIfLoggedIn()
-        {
-            if (Session["user"] == null)
-            {
-                Response.Redirect("InlogPagina.aspx", true);
-            }
-        }
-        #endregion
-
-        #region Load Methods
         public void LoadCategories()
         {
             DataSet output = new DataSet();
@@ -250,6 +250,28 @@ namespace Mediasharing
 
         public void UpdateLikeButton(int id, string type)
         {
+            if (lbMessages.SelectedValue == null)
+            {
+                btnLikeMessage.Enabled = false;
+                btnLikeMessage.CssClass = "buttondisabled";
+            }
+            else
+            {
+                btnLikeMessage.Enabled = true;
+                btnLikeMessage.CssClass = "button";
+            }
+
+            if (lbReactions.SelectedValue == null)
+            {
+                btnLikeReaction.Enabled = false;
+                btnLikeReaction.CssClass = "buttondisabled";
+            }
+            else
+            {
+                btnLikeReaction.Enabled = true;
+                btnLikeReaction.CssClass = "button";
+            }
+
             //Checks which button has to be updated
             switch (type)
             {
@@ -265,6 +287,28 @@ namespace Mediasharing
 
         public void UpdateReportButton(int id, string type)
         {
+            if (lbMessages.SelectedValue == null)
+            {
+                btnReportMessage.Enabled = false;
+                btnReportMessage.CssClass = "buttondisabled";
+            }
+            else
+            {
+                btnReportMessage.Enabled = true;
+                btnReportMessage.CssClass = "button";
+            }
+
+            if (lbReactions.SelectedValue == null)
+            {
+                btnReportReaction.Enabled = false;
+                btnReportReaction.CssClass = "buttondisabled";
+            }
+            else
+            {
+                btnReportReaction.Enabled = true;
+                btnReportReaction.CssClass = "button";
+            }
+
             //Checks which button has to be updated
             switch (type)
             {

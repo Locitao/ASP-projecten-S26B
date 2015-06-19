@@ -29,10 +29,10 @@
             <table class="custom">
                 <tr>
                     <td>
-                        <asp:Button ID="btnLikeMessage" runat="server" CssClass="button" Text="Like" OnClick="btnLikeMessage_Click" />
+                        <asp:Button ID="btnLikeMessage" runat="server" CssClass="buttondisabled" Text="Like" Enabled="False" OnClick="btnLikeMessage_Click" />
                     </td>
                     <td>
-                        <asp:Button ID="btnReportMessage" runat="server" CssClass="button" Text="Report" OnClick="btnReportMessage_Click" />
+                        <asp:Button ID="btnReportMessage" runat="server" CssClass="buttondisabled" Text="Report" Enabled="False" OnClick="btnReportMessage_Click" />
                     </td>
                 </tr>
             </table>
@@ -45,10 +45,10 @@
             <table class="custom">
                 <tr>
                     <td>
-                        <asp:Button ID="btnLikeReaction" runat="server" CssClass="button" Text="Like" OnClick="btnLikeReaction_Click" />
+                        <asp:Button ID="btnLikeReaction" runat="server" CssClass="buttondisabled" Text="Like" Enabled="False" OnClick="btnLikeReaction_Click" />
                     </td>
                     <td>
-                        <asp:Button ID="btnReportReaction" runat="server" CssClass="button" Text="Report" OnClick="btnReportReaction_Click" />
+                        <asp:Button ID="btnReportReaction" runat="server" CssClass="buttondisabled" Text="Report" Enabled="False" OnClick="btnReportReaction_Click" />
                     </td>
                 </tr>
             </table>
