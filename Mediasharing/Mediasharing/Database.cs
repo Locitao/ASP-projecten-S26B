@@ -226,6 +226,14 @@ namespace Mediasharing
             return ExecuteQuery(cmd);
         }
 
+        public int GetMaxBijdrageId()
+        {
+            OracleCommand cmd = new OracleCommand("SELECT MAX(\"ID\") AS MAXID FROM BIJDRAGE");
+            List<Dictionary<string, object>> output = ExecuteQuery(cmd);
+            int maxId = Convert.ToInt32(output[0]["MAXID"]);
+            return maxId;
+        }
+
         #endregion
 
         #region Execute and NonExecute
@@ -309,6 +317,46 @@ namespace Mediasharing
                 return false;
             }
  
+        }
+
+        public bool InsertMessageCategory(string title , string content , int categoryId , int userId)
+        {
+            try
+            {
+                //Create a bijdrage, needed to create a bericht.
+                OracleCommand cmd =
+                    new OracleCommand("INSERT INTO BIJDRAGE" +
+                                      "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
+                                      "(NULL, :userId, sysdate, 'bericht')");
+
+                cmd.Parameters.Add("userId", userId);
+                Execute(cmd);
+
+                //We need the id we just created, let's get it from the database.
+                int messageId = GetMaxBijdrageId();
+
+                //Create a bericht with the bijdrage id from the above query.
+                OracleCommand cmdTwo =
+                    new OracleCommand("INSERT INTO BERICHT" +
+                                      "(\"bijdrage_id\", \"titel\", \"inhoud\") VALUES " +
+                                      "(:messageId, :title, :content)");
+
+                cmdTwo.Parameters.Add("messageId", messageId);
+                cmdTwo.Parameters.Add("title", title);
+                cmdTwo.Parameters.Add("content", content);
+                Execute(cmdTwo);
+
+                return true;
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query");
+                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+                return false;
+            }
         }
         #endregion
 

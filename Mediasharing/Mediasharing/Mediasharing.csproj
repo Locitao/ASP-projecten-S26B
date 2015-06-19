@@ -73,8 +73,10 @@
     <Content Include="InlogPagina.aspx" />
     <Content Include="Item.aspx" />
     <Content Include="Javascript.js" />
+    <Content Include="PostMessage.aspx" />
     <Content Include="searchCategory.aspx" />
     <Content Include="StyleSheet.css" />
+    <Content Include="IploadItem.aspx" />
     <Content Include="Web.config" />
     <Content Include="Index.aspx" />
   </ItemGroup>
@@ -102,6 +104,13 @@
     <Compile Include="Item.aspx.designer.cs">
       <DependentUpon>Item.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PostMessage.aspx.cs">
+      <DependentUpon>PostMessage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PostMessage.aspx.designer.cs">
+      <DependentUpon>PostMessage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
@@ -116,6 +125,13 @@
     </Compile>
     <Compile Include="searchCategory.aspx.designer.cs">
       <DependentUpon>searchCategory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IploadItem.aspx.cs">
+      <DependentUpon>IploadItem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IploadItem.aspx.designer.cs">
+      <DependentUpon>IploadItem.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <PropertyGroup>

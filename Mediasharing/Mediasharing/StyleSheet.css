@@ -4,6 +4,7 @@
     margin: 0px auto;
     max-width: 1100px;
     margin: 0px auto;
+    border: 1px solid #357ebd;
 }
 #Banner{
     display: block;
@@ -118,6 +119,27 @@ a {
   margin: 3px 0px;
 }
 
+.addbutton {
+  background-color: #428bca;
+  border-color: #357ebd;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 6px 12px;
+  margin: 3px 0px;
+  bottom: 10px;
+  left: 10px;
+}
+
+.addbox {
+  bottom: 30px;
+  left: 10px;
+}
+
 .buttonsearch {
      background-color: #428bca;
   border-color: #357ebd;
@@ -153,6 +175,10 @@ a {
     margin-right: 40px;
 }
 
+.tbcontent {
+    width: 200px;
+    height: 200px;
+}
 .lblsearch {
     font-size: 20px;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -197,4 +223,10 @@ a {
   font-size: 14px;
   line-height: 20px;
   padding: 6px 12px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

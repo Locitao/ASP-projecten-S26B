@@ -520,5 +520,10 @@ namespace Mediasharing
                 RepeaterSearchCategories.DataBind();
             }
         }
+
+        protected void btnAddPost_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/PostMessage/" + categorieId, true);
+        }
     }
 }

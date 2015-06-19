@@ -78,6 +78,7 @@
                         </table>
                     </ItemTemplate>
             </asp:Repeater>
+            <asp:Button ID="btnAddPost" runat="server" CssClass="addbutton" Text="Add Message" OnClick="btnAddPost_Click" />
         </div>
         
         <!--Subcategorie DIV-->
@@ -97,8 +98,9 @@
                         </table>
                     </ItemTemplate>
             </asp:Repeater>
+            <asp:TextBox ID="tbCategoryName" runat="server" CssClass="addbox"></asp:TextBox>
             <br />
-            <asp:Button ID="btnAddCategory" runat="server" CssClass="button" Text="Button" />
+            <asp:Button ID="btnAddCategory" runat="server" CssClass="addbutton" Text="Create category" />
         </div>
         
         <!--Mediaitem DIV-->
@@ -119,7 +121,7 @@
                     </ItemTemplate>
             </asp:Repeater>
             <br />
-            <asp:Button ID="btnAddItem" runat="server" CssClass="button" Text="Button" />
+            <asp:Button ID="btnUploadItem" runat="server" CssClass="addbutton" Text="Upload Item" />
         </div>
             
         <!--SearchView DIV-->

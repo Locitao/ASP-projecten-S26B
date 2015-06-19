@@ -17,11 +17,20 @@ namespace Mediasharing
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            CheckIfLoggedIn();
             Rout();
             LoadItemMessage();
             if (!IsPostBack)
             {
                 LoadItemMessages();
+            }
+        }
+
+        public void CheckIfLoggedIn()
+        {
+            if (Session["user"] == null)
+            {
+                Response.Redirect("InlogPagina.aspx", true);
             }
         }
 

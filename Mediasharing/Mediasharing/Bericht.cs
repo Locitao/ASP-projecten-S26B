@@ -30,5 +30,11 @@ namespace Mediasharing
             Title = title;
             Content = content;
         }
+
+        public static bool InsertMessage(string title, string content, int categoryId, int userId)
+        {
+            Database database = Database.Instance;
+            return database.InsertMessageCategory(title, content, categoryId, userId);
+        }
     }
 }
