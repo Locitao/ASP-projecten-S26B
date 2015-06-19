@@ -69,14 +69,14 @@
     min-height: 200px;
 }
 #ItemView {
-    float: left;
-    width: 500px;
+    display: block;
+    width: auto;
     border: 1px solid #357ebd;
     min-height: 200px;
 }
 #MessageView {
-    float: left;
-    width: 300px;
+    display: block;
+    width: auto;
     border: 1px solid #357ebd;
     min-height: 200px;
 }

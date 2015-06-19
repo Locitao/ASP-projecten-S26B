@@ -14,6 +14,8 @@
     <div id ="Container">
         <!--ItemView DIV-->
         <div id ="ItemView">
+            <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="button" OnClick="btnBack_Click" />
+            <br/>
             <asp:Image ID="uploadedImage" runat="server" />
             <asp:Repeater ID="RepeaterItemView" runat="server">
                 <ItemTemplate>

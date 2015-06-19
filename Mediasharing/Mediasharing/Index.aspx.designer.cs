@@ -202,6 +202,15 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.Repeater RepeaterCategories;
         
         /// <summary>
+        /// btnRoot control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRoot;
+        
+        /// <summary>
         /// btnReportCategory control.
         /// </summary>
         /// <remarks>

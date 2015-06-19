@@ -68,7 +68,7 @@ namespace Mediasharing
                 lbMessages.DataTextField = "DisplayValue";
                 lbMessages.DataValueField = "MessageId";
                 lbMessages.DataBind();
-                UpdateButtons(_user.Id, "category");
+                UpdateButtons(_categoryId, "category");
             }
             LoadCategories();
             LoadSubCategories();
@@ -253,6 +253,11 @@ namespace Mediasharing
 
         #region Update Methods
 
+        /// <summary>
+        /// This method updates the labels that display the number of likes.
+        /// </summary>
+        /// <param name="id"> the id of the selected message </param>
+        /// <param name="type"> the type, is the selected id from a message or a reaction?</param>
         public void UpdateLikes(int id, string type)
         {
             var likes = Bijdrage.GetLikes(id);
@@ -387,12 +392,17 @@ namespace Mediasharing
             {
                 if (id != 0)
                 {
+                    //We're not in the root category, let's enable the go to root button.
+                    btnRoot.Enabled = true;
+                    btnRoot.Text = "Starting Category";
+                    btnRoot.CssClass = "button";
+
                     //Check if the category is reported or not, and changes the buttons accordingly.
                     if (Bijdrage.IsReported(id, _user.Id))
                     {
                         //the category is reported!
                         btnReportCategory.Enabled = false;
-                        btnReportCategory.CssClass = "buttonenabled";
+                        btnReportCategory.CssClass = "button";
                         btnReportCategory.Text = "Reported";
                     }
                     else
@@ -405,9 +415,15 @@ namespace Mediasharing
                 }
                 else
                 {
+                    //Can't report the root category!
                     btnReportCategory.Enabled = false;
-                    btnReportCategory.CssClass = "buttonenabled";
+                    btnReportCategory.CssClass = "buttondisabled";
                     btnReportCategory.Text = "Root Category";
+
+                    //Let's show the user he's in the root category!
+                    btnRoot.Enabled = false;
+                    btnRoot.Text = "First Category";
+                    btnRoot.CssClass = "buttondisabled";
                 }
             }
         }
@@ -629,5 +645,10 @@ namespace Mediasharing
             UpdateButtons(_categoryId, "category");
         }
         #endregion
+
+        protected void btnRoot_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Index/0", true);
+        }
     }
 }

@@ -237,10 +237,24 @@ namespace Mediasharing
 
         public int GetMaxBijdrageId()
         {
-            OracleCommand cmd = new OracleCommand("SELECT MAX(\"ID\") AS MAXID FROM BIJDRAGE");
+            OracleCommand cmd = new OracleCommand("SELECT MAX(\"ID\") AS MAXID " +
+                                                  "FROM BIJDRAGE");
+
             List<Dictionary<string, object>> output = ExecuteQuery(cmd);
             int maxId = Convert.ToInt32(output[0]["MAXID"]);
             return maxId;
+        }
+
+        public int GetCategoryIdWithItemId(int id)
+        {
+            OracleCommand cmd = new OracleCommand("SELECT \"categorie_id\" AS ID " +
+                                                  "FROM CATEGORIE WHERE \"bijdrage_id\" = :id");
+
+            cmd.Parameters.Add("id", id);
+
+            List<Dictionary<string, object>> output = ExecuteQuery(cmd);
+            int categoryId = Convert.ToInt32(output[0]["categorie_id"]);
+            return categoryId;
         }
 
         #endregion
