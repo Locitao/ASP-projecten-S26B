@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Oracle.DataAccess.Client;
+
 
 namespace MaterialRenting
 {
     public class DbConnection
     {
+        #region Fields
+        private readonly OracleConnection _connection = new OracleConnection();
         //Lazy instance of database, code example from cas eliens.
         private static readonly Lazy<DbConnection> instance = new Lazy<DbConnection>(() => new DbConnection());
-        private readonly OracleConnection _connection = new OracleConnection();
+        #endregion
+
+        #region Properties
+        public static DbConnection Instance { get { return instance.Value; } }
+        #endregion
 
         private DbConnection()
         {
             _connection.ConnectionString = "User Id=proftaak;Password=proftaak;Data Source=localhost/XE";
         }
 
-        public static DbConnection Instance
-        {
-            get { return instance.Value; }
-        }
 
         private void OpenConnection()
         {
@@ -63,7 +65,7 @@ namespace MaterialRenting
             }
             catch (OracleException ex)
             {
-                Debug.WriteLine(ex.ErrorCode + ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.ErrorCode + ex.Message);
             }
             finally
             {
@@ -77,12 +79,12 @@ namespace MaterialRenting
             try
             {
                 OpenConnection();
-                cmd.Connection = _connection;
                 cmd.ExecuteNonQuery();
             }
             catch (OracleException ex)
             {
-                Debug.WriteLine(ex.Message + ex.ErrorCode);
+
+                System.Diagnostics.Debug.WriteLine(ex.Message + ex.ErrorCode);
             }
             finally
             {
@@ -90,4 +92,6 @@ namespace MaterialRenting
             }
         }
     }
+
+    
 }
