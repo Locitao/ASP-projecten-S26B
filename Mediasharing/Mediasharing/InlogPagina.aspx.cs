@@ -10,49 +10,47 @@ namespace Mediasharing
 {
     public partial class InlogPagina : System.Web.UI.Page
     {
-        //Events
+        #region Methods
+        /// <summary>
+        /// The page load method, get's called everytime the page is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
+
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// This event handles the logging in of the user.
+        /// It checks wheter the input parameters match with the records in the database.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnInloggen_Click(object sender, EventArgs e)
         {
-            string id = tbId.Text;
+            //Gets data from the textboxes.
+            int id = Convert.ToInt32(tbId.Text);
             string wachtwoord = tbWachtwoord.Text;
-            Database database = Database.Instance;
-            DataSet dataset = new DataSet();
 
-            /*dataset = administratie.GetData("SELECT ID, Gebruikersnaam FROM ACCOUNT WHERE ID = " + "'" + id + "'" + " AND WACHTWOORD = " +
-                                  "'" + wachtwoord + "'");
-             */
+            Account user = Account.Login(id);
+            //Initialize
 
-            dataset = database.GetData("SELECT \"ID\" AS ID, \"gebruikersnaam\" AS GEBRUIKERSNAAM FROM ACCOUNT WHERE ID =  " + "'" + id + "'");
-
-            if (IsEmpty(dataset))
+            if (user == null)
             {
-                
                 //Wrong id and pasword combination!
                 lblGegevens.Text = "Foute gebruikersnaam en wachtwoord combinatie!";
             }
             else
             {
                 //Log in
-                int userId = Convert.ToInt32(dataset.Tables[0].Rows[0]["ID"]);
-                string userName = dataset.Tables[0].Rows[0]["GEBRUIKERSNAAM"].ToString();
-                Account account = new Account(userId, userName);
-                Session["user"] = account;
+                Session["user"] = user;
                 Response.Redirect("Index/0", true);
             }
         }
-
-        //Methods
-        /// <summary>
-        /// If the dataset is empty ->  returns true, else returns false. </summary>
-        /// <param name="dataSet"></param>
-        /// <returns></returns>
-        bool IsEmpty(DataSet dataSet)
-        {
-            return dataSet.Tables.Cast<DataTable>().All(table => table.Rows.Count == 0);
-        }
+        #endregion
     }
 }
