@@ -2,7 +2,7 @@
 
 #Container {
     margin: 0px auto;
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0px auto;
 }
 #Banner{
@@ -10,12 +10,32 @@
     width: auto;
     border: 1px solid #357ebd;
     margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 #MessageBox{
     display: block;
     width: auto;
     border: 1px solid #357ebd;
     margin-bottom: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+#SearchBox {
+    display: block;
+    width: auto;
+    border: 1px solid #357ebd;
+    margin-bottom: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 #Categories 
 {
@@ -34,6 +54,13 @@
     min-height: 200px;
 }
 #MediaItems {
+    float: left;
+    width: 200px;
+    border: 1px solid #357ebd;
+    margin-right: 10px;
+    min-height: 200px;
+}
+#SearchView {
     float: left;
     width: 200px;
     border: 1px solid #357ebd;
@@ -65,10 +92,11 @@ body {
 }
 
 h1, h3, h5 {
-    margin-bottom: 10px;
-    margin-top: 20px;
   margin-bottom: 10px;
   margin-top: 20px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-left: 40px;
 }
 
 
@@ -90,6 +118,20 @@ a {
   margin: 3px 0px;
 }
 
+.buttonsearch {
+     background-color: #428bca;
+  border-color: #357ebd;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #fff;
+  cursor: pointer;
+  display: inline;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 6px 12px;
+  margin: 3px 0px;
+}
+
 .buttondisabled {
   background-color: grey;
   border-color: grey;
@@ -104,6 +146,24 @@ a {
   margin: 3px 0px;
 }
 
+.tbsearch {
+    width: 500px;
+    border-color: #285e8e;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.lblsearch {
+    font-size: 20px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #3071a9;
+}
+
+.ddlsearch {
+    border-color: #285e8e;
+    margin-right: 40px;
+}
+
 .custom {
     width: auto;
     border: 1px solid transparent;
@@ -111,10 +171,12 @@ a {
 
 .listbox1 {
     width: 950px;
+    border-color: #285e8e;
 }
 
 .listbox2 {
     width: 300px;
+    border-color: #285e8e;
 }
 
 .custom > td {

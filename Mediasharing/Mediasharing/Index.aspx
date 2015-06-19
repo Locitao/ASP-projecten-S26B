@@ -10,13 +10,11 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <!--Container DIV-->
-    <div id="Container">
+        <div id="Container">
         
-        <!--Banner DIV-->        
-        <div id="Banner">
-            <h1>Mediasharing application!</h1>
-            <h2>ICT4EVENTS</h2>
+            <div id="Banner">
+                <h1>Mediasharing application!</h1>
+                <h1>ICT4EVENTS</h1>
         </div>
         
         <!--BerichtenBox DIV-->        
@@ -53,7 +51,15 @@
                 </tr>
             </table>
         </div>
-
+        
+        <!--SearchBox DIV-->
+        <div id="SearchBox">
+            <asp:Label ID="lblSearch" runat="server" Text="Search" CssClass="lblsearch"></asp:Label>
+            <asp:TextBox ID="tbSearch" runat="server" CssClass="tbsearch"></asp:TextBox><asp:DropDownList ID="ddlSearch" runat="server" CssClass="ddlsearch">
+                <asp:ListItem>Category</asp:ListItem>
+                <asp:ListItem>Media Item</asp:ListItem>
+            </asp:DropDownList><asp:Button ID="btnSearch" runat="server" Text="Go!" CssClass="buttonsearch" OnClick="btnSearch_Click" />
+        </div>
         <!--Categorie DIV-->
 
         <div id="Categories">
@@ -91,6 +97,8 @@
                         </table>
                     </ItemTemplate>
             </asp:Repeater>
+            <br />
+            <asp:Button ID="btnAddCategory" runat="server" CssClass="button" Text="Button" />
         </div>
         
         <!--Mediaitem DIV-->
@@ -110,7 +118,43 @@
                         </table>
                     </ItemTemplate>
             </asp:Repeater>
+            <br />
+            <asp:Button ID="btnAddItem" runat="server" CssClass="button" Text="Button" />
         </div>
+            
+        <!--SearchView DIV-->
+            <div id="SearchView">
+                 <asp:Label ID="lblResults" runat="server" Text="Search Results:"></asp:Label>
+                <asp:Repeater ID="RepeaterSearchCategories" runat="server">
+                     <ItemTemplate>
+                        <table class = "custom">
+                            <tr>
+                                <td>
+                                    <a href="/Index/<%# Eval("ID") %>">
+                                        <asp:Label runat="server" Text='<%# Eval("NAAM") %>'>
+                                        </asp:Label>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </ItemTemplate>
+                </asp:Repeater>
+
+                <asp:Repeater ID="RepeaterSearchMediaItems" runat="server">
+                    <ItemTemplate>
+                        <table class = "custom">
+                            <tr>
+                                <td>
+                                    <a href="/Item/<%# Eval("ID") %>">
+                                        <asp:Label runat="server" Text='<%# Eval("BESTANDSLOCATIE") %>'>
+                                        </asp:Label>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
     </div>
     </form>
 </body>

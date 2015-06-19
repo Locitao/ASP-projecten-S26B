@@ -73,6 +73,7 @@
     <Content Include="InlogPagina.aspx" />
     <Content Include="Item.aspx" />
     <Content Include="Javascript.js" />
+    <Content Include="searchCategory.aspx" />
     <Content Include="StyleSheet.css" />
     <Content Include="Web.config" />
     <Content Include="Index.aspx" />
@@ -108,6 +109,13 @@
     </Compile>
     <Compile Include="Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="searchCategory.aspx.cs">
+      <DependentUpon>searchCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="searchCategory.aspx.designer.cs">
+      <DependentUpon>searchCategory.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <PropertyGroup>

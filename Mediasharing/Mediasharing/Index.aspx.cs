@@ -398,6 +398,11 @@ namespace Mediasharing
             UpdateButtons(reactionId, "reaction");
         }
 
+        /// <summary>
+        /// When the index of the listbox containing reactions changes, the corresponding buttons change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void lbReactions_SelectedIndexChanged(object sender, EventArgs e)
         {
             int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
@@ -406,5 +411,57 @@ namespace Mediasharing
             UpdateLikes(reactionId, "reaction");
         }
         #endregion
+
+        /// <summary>
+        /// Searches the database for either categories, or media items that match the search term inputted by the user.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {  
+            //Initialize.
+            DataSet emptyDataSet = new DataSet();
+            Database database = Database.Instance;
+            string searchTerm = tbSearch.Text;
+
+            //We're searching for a Category.
+            if (ddlSearch.SelectedValue == "Category")
+            {
+                //Fill DataSet with data.
+                DataSet foundCategories = new DataSet();
+                foundCategories = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
+                                                   "FROM BIJDRAGE b " +
+                                                   "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
+                                                   "WHERE \"c.naam\" LIKE " + "%" + categorieId + "%");
+
+                //Bind data to repeater.
+                RepeaterSearchCategories.DataSource = foundCategories;
+                RepeaterSearchCategories.DataBind();
+
+                //Clear the other search repeaters data.
+                RepeaterSearchMediaItems.DataSource = emptyDataSet;
+                RepeaterSearchMediaItems.DataBind();
+            }
+
+            //We're searching for a Media Item.
+            else if (ddlSearch.SelectedValue == "Media Item")
+            {
+                //Fill DataSet with data.
+                DataSet foundMediaItems = new DataSet();
+                foundMediaItems = database.GetData("SELECT bij.\"ID\" AS ID, bes.\"bestandslocatie\" AS BESTANDSLOCATIE " +
+                                                   "FROM BIJDRAGE bij, BESTAND bes " +
+                                                   "WHERE bij.\"ID\" = bes.\"bijdrage_id\" " +
+                                                   "AND bij.\"soort\" = 'bestand' " +
+                                                   "AND bes.\"bestandslocatie\" LIKE " + "%" + searchTerm + "%");
+
+                //Bind data to repeater.
+                RepeaterSearchMediaItems.DataSource = foundMediaItems;
+                RepeaterSearchMediaItems.DataBind();
+
+                //Clear the other search repeaters data.
+                RepeaterSearchCategories.DataSource = emptyDataSet;
+                RepeaterSearchCategories.DataBind();
+            }
+        }
     }
 }
