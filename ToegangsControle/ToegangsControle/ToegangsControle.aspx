@@ -12,7 +12,7 @@
     <form id="Form" runat="server">
         <!-- Start content webpage -->
         <div class="inhoud">
-            <h1> ToegangsControle </h1>
+            <h1> Access Control</h1>
 
             <!-- start textbox -->
             <asp:TextBox class="textbox" ID="tbBarcode" runat="server" AutoPostBack="true" OnTextChanged="tbBarcode_TextChanged" Width="98%" MaxLength="13">Scan Code</asp:TextBox>
@@ -25,9 +25,9 @@
             <br /> <br />
 
             <!-- start buttons -->
-            <asp:Button class="button" ID="bttnBetaald" runat="server" Text="Betaald" OnClick="bttnBetaald_Click" />
-            <asp:Button class="button" ID="bttnAnuleren" runat="server" Text="Anuleren reservering" OnClick="bttnAnuleren_Click" />
-            <asp:Button class="button" ID="bttnAanwezig" runat="server" Text="Alle aanwezigen" OnClick="bttnAanwezig_Click" />
+            <asp:Button class="button" ID="bttnBetaald" runat="server" Text="Toggle paid" OnClick="bttnBetaald_Click" />
+            <asp:Button class="button" ID="bttnAnuleren" runat="server" Text="Cancel reservation" OnClick="bttnAnuleren_Click" />
+            <asp:Button class="button" ID="bttnAanwezig" runat="server" Text="List all attendees" OnClick="bttnAanwezig_Click" />
             <asp:Button class="button1" ID="bttnRefresh" runat="server" Text="Refresh" OnClick="bttnRefresh_Click" />
             <!-- end buttons -->
         </div>
