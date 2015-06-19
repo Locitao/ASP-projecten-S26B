@@ -8,20 +8,20 @@
 #Banner{
     display: block;
     width: auto;
-    border: 1px solid black;
+    border: 1px solid #357ebd;
     margin-bottom: 10px;
 }
 #MessageBox{
     display: block;
     width: auto;
-    border: 1px solid black;
+    border: 1px solid #357ebd;
     margin-bottom: 10px;
 }
 #Categories 
 {
     float: left;
     width: 200px;
-    border: 1px solid black;
+    border: 1px solid #357ebd;
     margin-right: 10px;
     min-height: 200px;
 }
@@ -29,27 +29,27 @@
 #SubCategories {
     float: left;
     width: 200px;
-    border: 1px solid black;
+    border: 1px solid #357ebd;
     margin-right: 10px;
     min-height: 200px;
 }
 #MediaItems {
     float: left;
     width: 200px;
-    border: 1px solid black;
+    border: 1px solid #357ebd;
     margin-right: 10px;
     min-height: 200px;
 }
 #ItemView {
     float: left;
     width: 500px;
-    border: 1px solid black;
+    border: 1px solid #357ebd;
     min-height: 200px;
 }
 #MessageView {
     float: left;
     width: 300px;
-    border: 1px solid black;
+    border: 1px solid #357ebd;
     min-height: 200px;
 }
 

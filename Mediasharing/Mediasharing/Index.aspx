@@ -111,13 +111,6 @@
                     </ItemTemplate>
             </asp:Repeater>
         </div>
-        
-        <!--ItemView DIV-->
-        <div id="ItemView">
-            <asp:Label ID="lblItemView" runat="server" Text="Item View"></asp:Label>
-            <asp:Repeater ID="RepeaterItemView" runat="server">
-            </asp:Repeater>
-        </div>       
     </div>
     </form>
 </body>

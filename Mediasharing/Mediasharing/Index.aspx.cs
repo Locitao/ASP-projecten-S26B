@@ -248,84 +248,79 @@ namespace Mediasharing
             }
         }
 
-        public void UpdateLikeButton(int id, string type)
+        public void UpdateButtons(int id, string type)
         {
-            if (lbMessages.SelectedValue == null)
+            //The type is a message.
+            if (type == "message")
             {
-                btnLikeMessage.Enabled = false;
-                btnLikeMessage.CssClass = "buttondisabled";
-            }
-            else
-            {
-                btnLikeMessage.Enabled = true;
-                btnLikeMessage.CssClass = "button";
-            }
-
-            if (lbReactions.SelectedValue == null)
-            {
-                btnLikeReaction.Enabled = false;
-                btnLikeReaction.CssClass = "buttondisabled";
-            }
-            else
-            {
-                btnLikeReaction.Enabled = true;
-                btnLikeReaction.CssClass = "button";
-            }
-
-            //Checks which button has to be updated
-            switch (type)
-            {
-                case "message":
-                    //If true, change the like button to unlike button.
-                    btnLikeMessage.Text = Bijdrage.IsLiked(id, user.Id) ? "Unlike" : "Like";
-                    break;
-                case "reaction":
-                    btnLikeReaction.Text = Bijdrage.IsLiked(id, user.Id) ? "Unlike" : "Like";
-                    break;
-            }
-        }
-
-        public void UpdateReportButton(int id, string type)
-        {
-            if (lbMessages.SelectedValue == null)
-            {
-                btnReportMessage.Enabled = false;
-                btnReportMessage.CssClass = "buttondisabled";
-            }
-            else
-            {
-                btnReportMessage.Enabled = true;
-                btnReportMessage.CssClass = "button";
-            }
-
-            if (lbReactions.SelectedValue == null)
-            {
-                btnReportReaction.Enabled = false;
-                btnReportReaction.CssClass = "buttondisabled";
-            }
-            else
-            {
-                btnReportReaction.Enabled = true;
-                btnReportReaction.CssClass = "button";
-            }
-
-            //Checks which button has to be updated
-            switch (type)
-            {
-                case "message":
-                    if (Bijdrage.IsReported(id, user.Id))
+                //Let's checked if the user reported the message
+                if (Bijdrage.IsReported(id, user.Id))
+                {
+                    //The selected message is reported, so we can't like it!
+                    btnLikeMessage.Text = "Reported";
+                    btnLikeMessage.CssClass = "buttondisabled";
+                    btnLikeMessage.Enabled = false;
+                }
+                else
+                {
+                    //The selected message isn't reported, we can like or unlike it!
+                    //Let's check if the user already liked the reaction, and edit the button to Like or Unlike.
+                    if (Bijdrage.IsLiked(id, user.Id))
                     {
-                        btnReportMessage.Enabled = false;
+                        //It's already liked!
+                        btnLikeMessage.Text = "Unlike";
+                        btnLikeMessage.CssClass = "button";
+                        btnLikeMessage.Enabled = true;
+
+                        //Let's disable the report button, we can't report liked files after all.
+                        btnReportMessage.Text = "Liked";
                         btnReportMessage.CssClass = "buttondisabled";
+                        btnReportMessage.Enabled = false;
                     }
-                    break;
-                case "reaction":
-                    if (Bijdrage.IsReported(id, user.Id))
+                    else
                     {
-                        btnReportReaction.Enabled = false;
-                        btnReportReaction.CssClass = "buttondisabled";
+                        //It's not liked yet!
+                        btnLikeMessage.Text = "Like";
+                        btnLikeMessage.CssClass = "button";
+                        btnLikeMessage.Enabled = true;
                     }
-                    break;
+                }
+            }
+            //The type isn't a message so it's a reaction, but let's check to be sure.
+            else if (type == "reaction")
+            {
+                //Let's checked if the user reported the reaction.
+                if (Bijdrage.IsReported(id, user.Id))
+                {
+                    //The selected reaction is reported, so we can't like it!
+                    btnLikeReaction.Text = "Reported";
+                    btnLikeReaction.CssClass = "buttondisabled";
+                    btnLikeReaction.Enabled = false;
+                }
+                else
+                {
+                    //The selected reaction isn't reported, we can like or unlike it!
+                    //Let's check if the user already liked the reaction, and edit the button to Like or Unlike.
+                    if (Bijdrage.IsLiked(id, user.Id))
+                    {
+                        //It's already liked!
+                        btnLikeReaction.Text = "Unlike";
+                        btnLikeReaction.CssClass = "button";
+                        btnLikeReaction.Enabled = true;
+
+                        //Let's disable the report button, we can't report liked reactions after all.
+                        btnReportReaction.Text = "Liked";
+                        btnReportReaction.CssClass = "buttondisabled";
+                        btnReportReaction.Enabled = false;
+                    }
+                    else
+                    {
+                        //It's not liked yet!
+                        btnLikeReaction.Text = "Like";
+                        btnLikeReaction.CssClass = "button";
+                        btnLikeReaction.Enabled = true;
+                    }
+                }
             }
         }
         #endregion
@@ -349,8 +344,8 @@ namespace Mediasharing
 
             //Updates the buttons
             UpdateLikes(messageId, "message");
-            UpdateLikeButton(messageId, "message");
-            UpdateReportButton(messageId, "message");
+            UpdateButtons(messageId, "message");
+            UpdateButtons(messageId, "message");
         }
 
         protected void btnLikeMessage_Click(object sender, EventArgs e)
@@ -360,13 +355,13 @@ namespace Mediasharing
             if (btnLikeMessage.Text == "Like")
             {
                 Bijdrage.Like(messageId, user.Id);
-                UpdateLikeButton(messageId, "message");
+                UpdateButtons(messageId, "message");
                 UpdateLikes(messageId, "message");
             }
             else if (btnLikeMessage.Text == "Unlike")
             {
                 Bijdrage.Unlike(messageId, user.Id);
-                UpdateLikeButton(messageId, "message");
+                UpdateButtons(messageId, "message");
                 UpdateLikes(messageId, "message");
             }
         }
@@ -375,7 +370,7 @@ namespace Mediasharing
         {
             int messageId = Convert.ToInt32(lbMessages.SelectedValue);
             Bijdrage.Report(messageId, user.Id);
-            UpdateReportButton(messageId, "message");
+            UpdateButtons(messageId, "message");
         }
 
         protected void btnLikeReaction_Click(object sender, EventArgs e)
@@ -385,13 +380,13 @@ namespace Mediasharing
             if (btnLikeMessage.Text == "Like")
             {
                 Bijdrage.Like(reactionId, user.Id);
-                UpdateLikeButton(reactionId, "reaction");
+                UpdateButtons(reactionId, "reaction");
                 UpdateLikes(reactionId, "reaction");
             }
             else if (btnLikeMessage.Text == "Unlike")
             {
                 Bijdrage.Unlike(reactionId, user.Id);
-                UpdateLikeButton(reactionId, "reaction");
+                UpdateButtons(reactionId, "reaction");
                 UpdateLikes(reactionId, "reaction");
             }
         }
@@ -400,14 +395,14 @@ namespace Mediasharing
         {
             int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
             Bijdrage.Report(reactionId, user.Id);
-            UpdateReportButton(reactionId, "reaction");
+            UpdateButtons(reactionId, "reaction");
         }
 
         protected void lbReactions_SelectedIndexChanged(object sender, EventArgs e)
         {
             int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
-            UpdateReportButton(reactionId, "reaction");
-            UpdateLikeButton(reactionId, "reaction");
+            UpdateButtons(reactionId, "reaction");
+            UpdateButtons(reactionId, "reaction");
             UpdateLikes(reactionId, "reaction");
         }
         #endregion
