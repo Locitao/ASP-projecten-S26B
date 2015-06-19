@@ -69,7 +69,7 @@
     <Content Include="FrontPage.aspx" />
     <Content Include="NewAccount.aspx" />
     <Content Include="NewReservation.aspx" />
-    <Content Include="ReserveMaterial.aspx" />
+    <Content Include="ReserveMaterials.aspx" />
     <Content Include="style.css" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -79,6 +79,7 @@
     <Compile Include="Database.cs" />
     <Compile Include="FrontPage.aspx.cs">
       <DependentUpon>FrontPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Location.cs" />
     <Compile Include="NewAccount.aspx.cs">
@@ -98,8 +99,12 @@
     <Compile Include="Person.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReserveMaterial.aspx.cs">
-      <DependentUpon>ReserveMaterial.aspx</DependentUpon>
+    <Compile Include="ReserveMaterials.aspx.cs">
+      <DependentUpon>ReserveMaterials.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReserveMaterials.aspx.designer.cs">
+      <DependentUpon>ReserveMaterials.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
