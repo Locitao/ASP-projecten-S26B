@@ -179,8 +179,17 @@ namespace ToegangsControle
         {
             try
             {
-                string query = "DELETE FROM VERHUUR WHERE \"res_pb_id\" = '" + reserveringID + "'";
-                connect.Execute(query);
+                string id = "";
+                var sql = "SELECT rp.id FROM VERHUUR v JOIN RESERVERING_POLSBANDJE rp ON v.\"res_pb_id\" = rp.id WHERE rp.\"reservering_id\" = " + reserveringID;
+
+                var data = Connection.ExecuteQuery(sql);
+                foreach (Dictionary<string, object> row in data)
+                {
+                    id = Convert.ToString(row["ID"]);
+                    string query = "DELETE FROM VERHUUR WHERE \"res_pb_id\" = '" + id + "'";
+                    connect.Execute(query);
+                }
+
                 return true;
             }
             catch
