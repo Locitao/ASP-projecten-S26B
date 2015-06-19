@@ -17,8 +17,8 @@ namespace ReservationSystem
         /// </summary>
         readonly OracleConnection _conn = new OracleConnection();
         readonly  OracleConnection _conn2 = new OracleConnection();
-        private const string User = "ICT4EVENTS";
-        private const string Pw = "ICT4EVENTS";
+        private const string User = "system";
+        private const string Pw = "wachtwoord";
         private const string Test = "xe";
 
         /// <summary>

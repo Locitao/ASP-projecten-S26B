@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="FrontPage.aspx.cs" Inherits="Reservation.FrontPage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="FrontPage.aspx.cs" Inherits="Voorpagina" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>FrontPage</title>
+    <title>Voorpagina</title>
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
