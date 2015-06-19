@@ -12,14 +12,22 @@ namespace MaterialRenting
 {
     public partial class MateriaalBeheer : System.Web.UI.Page
     {
-        
+        List<Material> materialList; 
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Hello this is an Alert')</SCRIPT>");
-            pnlPopUpLeenItem.Visible = false;
-            pnlPopUpReserveerItem.Visible = false;
-            LoadItems();
+            if (!IsPostBack)
+            {
+                pnlPopUpLeenItem.Visible = false;
+                pnlPopUpReserveerItem.Visible = false;
+                LoadItems();
+                RefreshAllItems();
+                Session["materialList"] = materialList;
+            }
+            else
+            {
+                materialList = (List<Material>) Session["materialList"];
+            }
         }
 
        
@@ -33,11 +41,7 @@ namespace MaterialRenting
                     barcodes.Add((string)dic["barcode"]);
             }
 
-            List<Material> materials = GetMaterialsInRented(barcodes);
-            foreach (Material mat in materials)
-            {
-                lbProducts.Items.Add(mat.ToString());
-            }
+            materialList = GetMaterialsInRented(barcodes);
         }
 
         public List<Material> GetMaterialsInRented(List<string> barcodes)
@@ -50,6 +54,7 @@ namespace MaterialRenting
 
                 if ((int) (decimal)output[0]["VALUE"] == 1)
                 {
+                    // products that have only 1 record in verhuur
                     query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID and \"barcode\" = '" + barcode + "'";
                     List<Dictionary<string, object>> outputMaterials = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
                     List<DateTime[]> datesList = new List<DateTime[]>();
@@ -61,6 +66,7 @@ namespace MaterialRenting
                 }
                 if ((int) (decimal)output[0]["VALUE"] > 1)
                 {
+                    // products that have multiple records in verhuur
                     query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\", \"datumIn\", \"datumUit\", \"betaald\" from product p, productexemplaar pe, verhuur v where p.ID = pe.\"product_id\" and v.\"productexemplaar_id\" = pe.ID and \"barcode\" = '" + barcode + "'";
                     List<Dictionary<string, object>> outputMaterials = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
                     Material mat = null;
@@ -73,6 +79,7 @@ namespace MaterialRenting
                 }
                 if ((int) (decimal)output[0]["VALUE"] == 0)
                 {
+                    // products that have no record in verhuur
                     query = "select pe.ID, \"merk\", \"serie\", p.\"prijs\", \"barcode\" from product p, productexemplaar pe where p.ID = pe.\"product_id\" and \"barcode\" = '" + barcode + "'";
                     List<Dictionary<string, object>> outputMaterial = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
                     Dictionary<string, object> dic = outputMaterial[0];
@@ -87,31 +94,106 @@ namespace MaterialRenting
 
         public void RefreshAllItems()
         {
+            lbProducts.Items.Clear();
             if (tbDateFrom.Text.Length == 0
                 || tbDateTo.Text.Length == 0)
             {
-                // laat alle aanwezige items zien
-                
-
+                foreach (Material mat in materialList)
+                {
+                    mat.Status = Status.Undefined;
+                    lbProducts.Items.Add(mat.ToString());
+                }
             }
             else
             {
-                
+                foreach (Material mat in materialList)
+                {
+                    DateTime dateFrom = DateTime.ParseExact(tbDateFrom.Text, "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                    DateTime dateTo = DateTime.ParseExact(tbDateTo.Text, "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                    mat.CheckStatus(dateFrom, dateTo);
+                    lbProducts.Items.Add(mat.ToString());
+                }
             }
 
+            
+        }
 
+        private bool CheckMaterialStatus()
+        {
+            try
+            {
+                DateTime dateToCheck = DateTime.ParseExact(tbLeenTerugbrengDatum.Text, "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                Material materialToCheck = (Material)Session["selectedMaterial"];
+                materialToCheck.CheckStatus(DateTime.Now, dateToCheck);
+                lblLeenItem.Text = "Name: " + materialToCheck.Brand + ", " + materialToCheck.Serie + "<br />price: " +
+                                   materialToCheck.Price.ToString() + "<br/>status: " +
+                                   materialToCheck.Status.ToString();
+                Session["selectedMaterial"] = materialToCheck;
+                return true;
+            }
+            catch
+            {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Hello this is an Alert\")</SCRIPT>");
+                return false;
+            }
+        }
+
+        public bool LendItem(Material mat, string barCode, DateTime dateReturn)
+        {
+            if (barCode.Length == 12 && dateReturn > DateTime.Now)
+            {
+                string query = "select rp.ID from polsbandje p, reservering_polsbandje rp where p.id = rp.\"polsbandje_id\" and \"barcode\" = :barcode and \"actief\" = 1";
+                OracleCommand oc = new OracleCommand(query);
+                oc.Parameters.Add("barcode", barCode);
+                List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
+                int id = (int) (long) output[0]["ID"];
+
+                return true;
+            }
+            else
+            {
+                // input is wrong
+                return false;
+            }
         }
 
         public void btnLeenUit_Click(object sender, EventArgs e)
         {
-            pnlMain.Visible = false;
-            pnlPopUpLeenItem.Visible = true;
+            Material selectedProduct = null;
+            foreach (Material mat in materialList)
+            {
+                if (mat.ToString() == lbProducts.SelectedItem.Text)
+                {
+                    Session["selectedMaterial"] = mat;
+                    selectedProduct = mat;
+                    break;
+                }
+            }
+            try
+            {
+                selectedProduct.CheckStatus(DateTime.Now, DateTime.Now.AddDays(1));
+                lblLeenItem.Text = "Name: " + selectedProduct.Brand + ", " + selectedProduct.Serie + "<br />price: " +
+                                   selectedProduct.Price.ToString() + "<br/>status: " +
+                                   selectedProduct.Status.ToString();
+                tbLeenTerugbrengDatum.Text = DateTime.Now.AddDays(1).ToString("dd-MM-yyyy");
+                pnlMain.Visible = false;
+                pnlPopUpLeenItem.Visible = true;
+            }
+            catch
+            {
+                
+            }
+
         }
 
         public void btnLeenUitPopUp_Click(object sender, EventArgs e)
         {
-            pnlMain.Visible = true;
-            pnlPopUpLeenItem.Visible = false;
+            if (CheckMaterialStatus())
+            {
+                LendItem((Material)Session["selectedMaterial"], "027393000146", DateTime.Now.AddDays(1));   
+                pnlMain.Visible = true;
+                pnlPopUpLeenItem.Visible = false;
+            }
         }
 
         protected void btnReserveerPopUp_OnClick(object sender, EventArgs e)
@@ -128,6 +210,17 @@ namespace MaterialRenting
 
         protected void BtRetourneer_OnClick(object sender, EventArgs e)
         {
+            
+        }
+
+        protected void btnRefresh_OnClick(object sender, EventArgs e)
+        {
+            RefreshAllItems();
+        }
+
+        protected void btnCheckStatus_OnClick(object sender, EventArgs e)
+        {
+            CheckMaterialStatus();
         }
     }
 }

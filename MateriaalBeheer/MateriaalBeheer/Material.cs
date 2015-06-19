@@ -23,6 +23,7 @@ namespace MaterialRenting
             Price = price;
             Barcode = barcode;
             RentingTimes = rentingTimes;
+            Status = Status.Undefined;
         }
 
         public Status CheckStatus(DateTime dateFrom, DateTime dateTo)
@@ -32,21 +33,22 @@ namespace MaterialRenting
                 if (dateFrom >= date[0] && dateFrom <= date[1])
                 {
                     Status = Status.Reserved;
+                    return Status;
                 }
-                else if (dateTo >= date[0] && dateTo <= date[0])
+                else if (dateTo >= date[0] && dateTo <= date[1])
                 {
                     Status = Status.Reserved;
+                    return Status;
                 }
                 else if (dateFrom <= date[0] && dateTo >= date[1])
                 {
                     Status = Status.Reserved;
-                }
-                else
-                {
-                    Status = Status.Free;
+                    return Status;
                 }
             }
+            Status = Status.Free;
             return Status;
+            
         }
 
         public void AddDates(DateTime dateFrom, DateTime dateTo)
@@ -59,7 +61,14 @@ namespace MaterialRenting
 
         public override string ToString()
         {
-            return Id + ", " + Brand + ", " + Serie;
+            if (Status == Status.Undefined)
+            {
+                return Id + ", " + Brand + ", " + Serie;
+            }
+            else
+            {
+                return Id + ", " + Status.ToString() + ", " + Brand + ", " + Serie;
+            }
         }
     }
 }

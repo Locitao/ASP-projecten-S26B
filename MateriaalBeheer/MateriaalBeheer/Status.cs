@@ -7,6 +7,7 @@ namespace MaterialRenting
 {
     public enum Status
     {
+        Undefined,
         Reserved,
         Free
     }

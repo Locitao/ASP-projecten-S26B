@@ -18,7 +18,7 @@
     <div>
         From: <asp:TextBox ID="tbDateFrom" runat="server"></asp:TextBox> Format 'DD-MM-YYYY'<br/>
         To: <asp:TextBox ID="tbDateTo" runat="server"></asp:TextBox> Format 'DD-MM-YYYY'<br/>
-        <asp:Button runat="server" ID="btnRefresh" Text="Refresh"/><br/>
+        <asp:Button runat="server" CssClass="button" ID="btnRefresh" Text="Refresh" OnClick="btnRefresh_OnClick"/><br/>
         <asp:ListBox ID="lbProducts" runat="server" Height="149px" style="margin-top: 0px" Width="400px"></asp:ListBox><br/>
         <input type="checkbox" name="option2" value="reserved" checked="checked"/> Gereserveerd<br/>
         <input type="checkbox" name="option3" value="Free" checked="checked"/> Vrij 
@@ -26,7 +26,6 @@
         
      
     <div>
-        <asp:Label runat="server" ID="lbl"></asp:Label>
         <asp:Button ID="btnLeenUit" CssClass="button" runat="server" Text="Leen item uit" OnClick="btnLeenUit_Click"/>
         <asp:Button ID="BtnReserveer" CssClass="button" runat="server" Text="Reserveer item" OnClick="BtnReserveer_OnClick"/>
         <asp:Button ID="BtRetourneer" CssClass="button" runat="server" Text="Item retourneren" OnClick="BtRetourneer_OnClick"/>
@@ -38,7 +37,7 @@
 
     <div>
         <asp:Panel ID="pnlPopUpLeenItem" runat="server">
-        <p id="LeenItemPar">Name: haha <br />price: 25<br/>status: lend</p>  
+            <asp:Label id="lblLeenItem" runat="server" text="Name: haha <br />price: 25<br/>status: reserved"/>  
 
         <table style="border: hidden;">
             <tr style="border: hidden;">
@@ -47,10 +46,11 @@
             </tr>
             <tr style="border: hidden;">
                 <td>terugbreng datum:</td>
-                <td><asp:TextBox ID="tbLeenTerugbrengDatum" runat="server" >21/09/2016</asp:TextBox></td>
+                <td><asp:TextBox ID="tbLeenTerugbrengDatum" runat="server" >01-01-2016</asp:TextBox></td>
             </tr>
         </table>
-        <asp:Button ID="btnLeenUitPopUp" CssClass="button" runat="server" Text="Leen item uit" OnClick="btnLeenUitPopUp_Click"/>
+        <asp:Button ID="btnCheckStatus" CssClass="button" runat="server" Text="Check Status" OnClick="btnCheckStatus_OnClick"/>
+        <asp:Button ID="btnLeenUitPopUp" CssClass="button" runat="server" Text="Lend Item" OnClick="btnLeenUitPopUp_Click"/>
         
 
         </asp:Panel>

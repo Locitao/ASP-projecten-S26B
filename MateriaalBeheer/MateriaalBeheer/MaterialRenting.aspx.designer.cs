@@ -67,15 +67,6 @@ namespace MaterialRenting {
         protected global::System.Web.UI.WebControls.ListBox lbProducts;
         
         /// <summary>
-        /// lbl control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl;
-        
-        /// <summary>
         /// btnLeenUit control.
         /// </summary>
         /// <remarks>
@@ -139,6 +130,15 @@ namespace MaterialRenting {
         protected global::System.Web.UI.WebControls.Panel pnlPopUpLeenItem;
         
         /// <summary>
+        /// lblLeenItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLeenItem;
+        
+        /// <summary>
         /// tbLeenRFID control.
         /// </summary>
         /// <remarks>
@@ -155,6 +155,15 @@ namespace MaterialRenting {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbLeenTerugbrengDatum;
+        
+        /// <summary>
+        /// btnCheckStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCheckStatus;
         
         /// <summary>
         /// btnLeenUitPopUp control.
