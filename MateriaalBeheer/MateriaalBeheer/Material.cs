@@ -4,20 +4,12 @@ using System.Collections.Generic;
 namespace MaterialRenting
 {
     /// <summary>
-    /// This class contains all needed information about Materials
+    ///     This class contains all needed information about Materials
     /// </summary>
     public class Material
     {
-        public int Id { get; set; }
-        public string Brand { get; set; }
-        public string Serie { get; set; }
-        public int Price { get; set; }
-        public string Barcode { get; set; }
-        public List<DateTime[]> RentingTimes { get; set; }
-        public Status Status { get; set; }
-
         /// <summary>
-        /// load all the necessary data into this object
+        ///     load all the necessary data into this object
         /// </summary>
         /// <param name="id">the 'productexemplaar' ID from the database</param>
         /// <param name="brand">the brand of this product</param>
@@ -36,8 +28,16 @@ namespace MaterialRenting
             Status = Status.Undefined;
         }
 
+        public int Id { get; set; }
+        public string Brand { get; set; }
+        public string Serie { get; set; }
+        public int Price { get; set; }
+        public string Barcode { get; set; }
+        public List<DateTime[]> RentingTimes { get; set; }
+        public Status Status { get; set; }
+
         /// <summary>
-        /// This method checks the status from the item in between the inputted dates
+        ///     This method checks the status from the item in between the inputted dates
         /// </summary>
         /// <param name="dateFrom">The date from when the status will be checked</param>
         /// <param name="dateTo">The date untill the status will be checked</param>
@@ -51,12 +51,12 @@ namespace MaterialRenting
                     Status = Status.Reserved;
                     return Status;
                 }
-                else if (dateTo >= date[0] && dateTo <= date[1])
+                if (dateTo >= date[0] && dateTo <= date[1])
                 {
                     Status = Status.Reserved;
                     return Status;
                 }
-                else if (dateFrom <= date[0] && dateTo >= date[1])
+                if (dateFrom <= date[0] && dateTo >= date[1])
                 {
                     Status = Status.Reserved;
                     return Status;
@@ -68,7 +68,7 @@ namespace MaterialRenting
         }
 
         /// <summary>
-        /// Add the dates too the list when the items are lent
+        ///     Add the dates too the list when the items are lent
         /// </summary>
         /// <param name="dateFrom">The date the renting period will start</param>
         /// <param name="dateTo">The date the renting period will end</param>
@@ -82,14 +82,11 @@ namespace MaterialRenting
                 RentingTimes.Add(dates);
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         /// <summary>
-        /// this method overrides the ToString method to show this Materials information
+        ///     this method overrides the ToString method to show this Materials information
         /// </summary>
         /// <returns>string with information about this Material</returns>
         public override string ToString()
@@ -98,10 +95,7 @@ namespace MaterialRenting
             {
                 return Id + ", " + Brand + ", " + Serie;
             }
-            else
-            {
-                return Id + ", " + Status.ToString() + ", " + Brand + ", " + Serie;
-            }
+            return Id + ", " + Status + ", " + Brand + ", " + Serie;
         }
     }
 }

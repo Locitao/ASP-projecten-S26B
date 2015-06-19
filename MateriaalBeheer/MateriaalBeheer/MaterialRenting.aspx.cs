@@ -184,6 +184,17 @@ namespace MaterialRenting
                 List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
                 int id = (int) (long) output[0]["ID"];
 
+
+                query =
+                    "insert into verhuur values(verhuur_fcseq.nextval, :productID, :rpID, :dateIn, :dateOut, :price, '1')";
+                OracleCommand ocInsert = new OracleCommand(query);
+                ocInsert.Parameters.Add("productID", mat.Id);
+                ocInsert.Parameters.Add("rpID", id);
+                ocInsert.Parameters.Add("dateIn", DateTime.Now);
+                ocInsert.Parameters.Add("dateOut", dateReturn);
+                ocInsert.Parameters.Add("price", mat.Price);
+                DbConnection.Instance.Execute(ocInsert);
+
                 return true;
             }
             // input is wrong
