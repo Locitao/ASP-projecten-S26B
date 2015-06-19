@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
 using Oracle.DataAccess.Client;
 using Oracle.DataAccess.Types;
 
@@ -345,6 +346,76 @@ namespace Mediasharing
                 cmdTwo.Parameters.Add("title", title);
                 cmdTwo.Parameters.Add("content", content);
                 Execute(cmdTwo);
+
+                return true;
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query");
+                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+                return false;
+            }
+        }
+
+        public bool InsertItem(int userId, int categoryId, string title, string content, string fileLocation, int size)
+        {
+            try
+            {
+                //Create a bijdrage, needed to create a bestand.
+                OracleCommand cmd =
+                    new OracleCommand("INSERT INTO BIJDRAGE" +
+                                      "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
+                                      "(NULL, :userId, sysdate, 'bestand')");
+
+                cmd.Parameters.Add("userId", userId);
+                Execute(cmd);
+
+                //We need the id we just created, let's get it from the database.
+                int fileId = GetMaxBijdrageId();
+
+                //Create a bericht with the bijdrage id from the above query.
+                OracleCommand cmdTwo =
+                    new OracleCommand("INSERT INTO BESTAND" +
+                                      "(\"bijdrage_id\", \"categorie_id\", \"bestandslocatie\", \"grootte\") VALUES " +
+                                      "(:fileId, :categoryId, :fileLocation, :size)");
+
+                cmdTwo.Parameters.Add("fileId", fileId);
+                cmdTwo.Parameters.Add("categoryId", categoryId);
+                cmdTwo.Parameters.Add("fileLocation", fileLocation);
+                cmdTwo.Parameters.Add("size", size);
+                Execute(cmdTwo);
+
+                //Let's create the message if the user created one.
+                OracleCommand cmdThree =
+                    new OracleCommand("INSERT INTO BIJDRAGE" +
+                                      "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
+                                      "(NULL, :userId, sysdate, 'bericht')");
+
+                 //We need the id we just created, let's get it from the database.
+                int messageId = GetMaxBijdrageId();
+
+                //Create a bericht with the bijdrage id from the above query.
+                OracleCommand cmdFour =
+                    new OracleCommand("INSERT INTO BERICHT" +
+                                      "(\"bijdrage_id\", \"titel\", \"inhoud\") VALUES " +
+                                      "(:messageId, :title, :content)");
+
+                cmdTwo.Parameters.Add("messageId", messageId);
+                cmdTwo.Parameters.Add("title", title);
+                cmdTwo.Parameters.Add("content", content);
+                Execute(cmdTwo);
+
+                //Finally, we link the message(bericht) and file(bestand) togheter in the BIJDRAGE_BESTAND table.
+                OracleCommand cmdFive =
+                    new OracleCommand("INSERT INTO BIJDRAGE_BESTAND" +
+                                      "(\"bijdrage_id\", \"bericht_id\") VALUES " +
+                                      "(:fileId, :messageId)");
+
+                cmdTwo.Parameters.Add("fileId", fileId);
+                cmdTwo.Parameters.Add("messageId", messageId);
 
                 return true;
             }

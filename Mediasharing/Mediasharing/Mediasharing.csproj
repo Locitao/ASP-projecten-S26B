@@ -76,7 +76,7 @@
     <Content Include="PostMessage.aspx" />
     <Content Include="searchCategory.aspx" />
     <Content Include="StyleSheet.css" />
-    <Content Include="IploadItem.aspx" />
+    <Content Include="UploadItem.aspx" />
     <Content Include="Web.config" />
     <Content Include="Index.aspx" />
   </ItemGroup>
@@ -126,12 +126,12 @@
     <Compile Include="searchCategory.aspx.designer.cs">
       <DependentUpon>searchCategory.aspx</DependentUpon>
     </Compile>
-    <Compile Include="IploadItem.aspx.cs">
-      <DependentUpon>IploadItem.aspx</DependentUpon>
+    <Compile Include="UploadItem.aspx.cs">
+      <DependentUpon>UploadItem.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="IploadItem.aspx.designer.cs">
-      <DependentUpon>IploadItem.aspx</DependentUpon>
+    <Compile Include="UploadItem.aspx.designer.cs">
+      <DependentUpon>UploadItem.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <PropertyGroup>
