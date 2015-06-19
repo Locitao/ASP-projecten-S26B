@@ -34,14 +34,14 @@ namespace Mediasharing
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             //Initialize.
-            var database = Database.Instance;
-            var searchTerm = tbSearch.Text;
+            Database database = Database.Instance;
+            string searchTerm = tbSearch.Text;
 
             //We're searching for a category.
             if (ddlSearch.SelectedValue == "Category")
             {
                 //Fill DataSet with data.
-                var foundCategories = new DataSet();
+                DataSet foundCategories = new DataSet();
                 foundCategories = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
                                                    "FROM BIJDRAGE b " +
                                                    "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
@@ -60,7 +60,7 @@ namespace Mediasharing
             else if (ddlSearch.SelectedValue == "Media Item")
             {
                 //Fill DataSet with data.
-                var foundMediaItems = new DataSet();
+                DataSet foundMediaItems = new DataSet();
                 foundMediaItems =
                     database.GetData("SELECT bij.\"ID\" AS ID, bes.\"bestandslocatie\" AS BESTANDSLOCATIE " +
                                      "FROM BIJDRAGE bij, BESTAND bes " +
@@ -128,7 +128,7 @@ namespace Mediasharing
             //Only reloads the categories when the page isn't a postback.
             if (!IsPostBack)
             {
-                var messages = LoadMessages();
+                List<Bericht> messages = LoadMessages();
                 lbMessages.DataSource = messages;
                 lbMessages.DataTextField = "DisplayValue";
                 lbMessages.DataValueField = "MessageId";
@@ -144,13 +144,13 @@ namespace Mediasharing
         /// </summary>
         public void LoadCategories()
         {
-            var output = new DataSet();
+            DataSet output = new DataSet();
 
             try
             {
                 if (_categoryId == 0)
                 {
-                    var database = Database.Instance;
+                    Database database = Database.Instance;
                     output = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
                                               "FROM BIJDRAGE b " +
                                               "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
@@ -158,7 +158,7 @@ namespace Mediasharing
                 }
                 else
                 {
-                    var database = Database.Instance;
+                    Database database = Database.Instance;
                     output = database.GetData("SELECT c.\"naam\" AS NAAM, b.\"ID\" AS ID " +
                                               "FROM BIJDRAGE b " +
                                               "JOIN CATEGORIE c ON b.\"ID\" = c.\"bijdrage_id\" " +
@@ -178,8 +178,8 @@ namespace Mediasharing
         /// </summary>
         public void LoadSubCategories()
         {
-            var output = new DataSet();
-            var database = Database.Instance;
+            DataSet output = new DataSet();
+            Database database = Database.Instance;
 
             try
             {
@@ -211,8 +211,8 @@ namespace Mediasharing
         /// </summary>
         public void LoadMediaItems()
         {
-            var output = new DataSet();
-            var database = Database.Instance;
+            DataSet output = new DataSet();
+            Database database = Database.Instance;
 
             try
             {
@@ -250,20 +250,20 @@ namespace Mediasharing
             try
             {
                 //Retrieves all the messages that aren't replies from the database.
-                var database = Database.Instance;
+                Database database = Database.Instance;
                 var output = database.GetMessages();
-                var messages = new List<Bericht>();
+                List<Bericht> messages = new List<Bericht>();
 
                 //Creates the messages.
                 foreach (var dic in output)
                 {
-                    var id = Convert.ToInt32(dic["ID"]);
-                    var title = Convert.ToString(dic["TITEL"]);
-                    var content = Convert.ToString(dic["INHOUD"]);
-                    var username = Convert.ToString(dic["GEBRUIKERSNAAM"]);
+                    int id = Convert.ToInt32(dic["ID"]);
+                    string title = Convert.ToString(dic["TITEL"]);
+                    string content = Convert.ToString(dic["INHOUD"]);
+                    string username = Convert.ToString(dic["GEBRUIKERSNAAM"]);
 
-                    var account = new Account(username);
-                    var message = new Bericht(id, account, title, content);
+                    Account account = new Account(username);
+                    Bericht message = new Bericht(id, account, title, content);
                     messages.Add(message);
                 }
 
@@ -287,20 +287,20 @@ namespace Mediasharing
             try
             {
                 //Retrieves all the messages that aren't replies from the database.
-                var database = Database.Instance;
+                Database database = Database.Instance;
                 var output = database.GetReactions(messageId);
-                var reactions = new List<Bericht>();
+                List<Bericht> reactions = new List<Bericht>();
 
                 //Creates the messages.
                 foreach (var dic in output)
                 {
-                    var id = Convert.ToInt32(dic["ID"]);
-                    var title = Convert.ToString(dic["TITEL"]);
-                    var content = Convert.ToString(dic["INHOUD"]);
-                    var username = Convert.ToString(dic["GEBRUIKERSNAAM"]);
+                    int id = Convert.ToInt32(dic["ID"]);
+                    string title = Convert.ToString(dic["TITEL"]);
+                    string content = Convert.ToString(dic["INHOUD"]);
+                    string username = Convert.ToString(dic["GEBRUIKERSNAAM"]);
 
-                    var account = new Account(username);
-                    var message = new Bericht(id, account, title, content);
+                    Account account = new Account(username);
+                    Bericht message = new Bericht(id, account, title, content);
                     reactions.Add(message);
                 }
                 //Binds the messages to the listbox.
@@ -320,7 +320,7 @@ namespace Mediasharing
         public void UpdateLikes(int messageId, string type)
         {
             var likes = Bijdrage.GetLikes(messageId);
-            var likeString = "";
+            string likeString = "";
 
             switch (likes)
             {
@@ -439,8 +439,8 @@ namespace Mediasharing
         /// <param name="e"></param>
         protected void lbMessages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var messageId = Convert.ToInt32(lbMessages.SelectedValue);
-            var reactions = LoadReactions(messageId);
+            int messageId = Convert.ToInt32(lbMessages.SelectedValue);
+            List<Bericht> reactions = LoadReactions(messageId);
 
             //Bind to reactions lbReactions
             lbReactions.DataSource = reactions;
@@ -461,7 +461,7 @@ namespace Mediasharing
         /// <param name="e"></param>
         protected void btnLikeMessage_Click(object sender, EventArgs e)
         {
-            var messageId = Convert.ToInt32(lbMessages.SelectedValue);
+            int messageId = Convert.ToInt32(lbMessages.SelectedValue);
 
             if (btnLikeMessage.Text == "Like")
             {
@@ -484,7 +484,7 @@ namespace Mediasharing
         /// <param name="e"></param>
         protected void btnReportMessage_Click(object sender, EventArgs e)
         {
-            var messageId = Convert.ToInt32(lbMessages.SelectedValue);
+            int messageId = Convert.ToInt32(lbMessages.SelectedValue);
             Bijdrage.Report(messageId, _user.Id);
             UpdateButtons(messageId, "message");
         }
@@ -496,7 +496,7 @@ namespace Mediasharing
         /// <param name="e"></param>
         protected void btnLikeReaction_Click(object sender, EventArgs e)
         {
-            var reactionId = Convert.ToInt32(lbReactions.SelectedValue);
+            int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
 
             if (btnLikeMessage.Text == "Like")
             {
@@ -519,7 +519,7 @@ namespace Mediasharing
         /// <param name="e"></param>
         protected void btnReportReaction_Click(object sender, EventArgs e)
         {
-            var reactionId = Convert.ToInt32(lbReactions.SelectedValue);
+            int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
             Bijdrage.Report(reactionId, _user.Id);
             UpdateButtons(reactionId, "reaction");
         }
@@ -531,7 +531,7 @@ namespace Mediasharing
         /// <param name="e"></param>
         protected void lbReactions_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var reactionId = Convert.ToInt32(lbReactions.SelectedValue);
+            int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
             UpdateButtons(reactionId, "reaction");
             UpdateButtons(reactionId, "reaction");
             UpdateLikes(reactionId, "reaction");

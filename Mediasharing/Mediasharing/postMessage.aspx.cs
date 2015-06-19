@@ -10,21 +10,21 @@ namespace Mediasharing
     public partial class PostMessage : System.Web.UI.Page
     {
         #region Fields
-        private Account user;
-        private int categoryId;
+        private Account _user;
+        private int _categoryId;
         #endregion
 
         #region Methods
         protected void Page_Load(object sender, EventArgs e)
         {
-            user = (Account)Session["user"];
+            _user = (Account)Session["user"];
             CheckIfLoggedIn();
             Rout();
         }
 
         public void Rout()
         {
-            categoryId = Convert.ToInt32(Page.RouteData.Values["id"]);
+            _categoryId = Convert.ToInt32(Page.RouteData.Values["id"]);
         }
 
         public void CheckIfLoggedIn()
@@ -45,9 +45,9 @@ namespace Mediasharing
         /// <param name="e"></param>
         protected void btnPost_Click(object sender, EventArgs e)
         {
-            if (Bericht.InsertMessage(tbTitle.Text, tbContent.Text, categoryId, user.Id))
+            if (Bericht.InsertMessage(tbTitle.Text, tbContent.Text, _categoryId, _user.Id))
             {
-                Response.Redirect("/Index/" + categoryId, true);
+                Response.Redirect("/Index/" + _categoryId, true);
             }
             else
             {
@@ -63,7 +63,7 @@ namespace Mediasharing
         /// <param name="e"></param>
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/Index/" + categoryId, true);
+            Response.Redirect("/Index/" + _categoryId, true);
         }
         #endregion
     }

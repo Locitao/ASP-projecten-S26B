@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿
 namespace Mediasharing
 {
     public class Bericht : Bijdrage
@@ -12,7 +8,7 @@ namespace Mediasharing
         public string Title { get; set; }
         public string Content { get; set; }
         public string DisplayValue { get { return "Username: " + Poster.Username + ", Title: " + Title + ", Content: " + Content;} }
-        public Account Poster { get; set; }
+        public new Account Poster { get; set; }
         #endregion
 
         #region Constructors

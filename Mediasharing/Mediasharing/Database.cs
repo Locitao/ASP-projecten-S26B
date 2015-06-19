@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI.WebControls;
 using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
 
 namespace Mediasharing
 {
@@ -117,9 +113,9 @@ namespace Mediasharing
             try
             {
                 OpenConnection();
-                OracleDataAdapter o_adapter = new OracleDataAdapter(query, _connect);
+                OracleDataAdapter oAdapter = new OracleDataAdapter(query, _connect);
                 DataSet dataSet = new DataSet();
-                o_adapter.Fill(dataSet);
+                oAdapter.Fill(dataSet);
                 return dataSet;
             }
             catch (OracleException ex)
@@ -268,7 +264,7 @@ namespace Mediasharing
                 System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
                 System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
-                throw;
+                return false;
             }
             finally
             {
@@ -408,15 +404,18 @@ namespace Mediasharing
                  //We need the id we just created, let's get it from the database.
                 int messageId = GetMaxBijdrageId();
 
+                cmdThree.Parameters.Add("userId", userId);
+                Execute(cmdTwo);
+
                 //Create a bericht with the bijdrage id from the above query.
                 OracleCommand cmdFour =
                     new OracleCommand("INSERT INTO BERICHT" +
                                       "(\"bijdrage_id\", \"titel\", \"inhoud\") VALUES " +
                                       "(:messageId, :title, :content)");
 
-                cmdTwo.Parameters.Add("messageId", messageId);
-                cmdTwo.Parameters.Add("title", title);
-                cmdTwo.Parameters.Add("content", content);
+                cmdFour.Parameters.Add("messageId", messageId);
+                cmdFour.Parameters.Add("title", title);
+                cmdFour.Parameters.Add("content", content);
                 Execute(cmdTwo);
 
                 //Finally, we link the message(bericht) and file(bestand) togheter in the BIJDRAGE_BESTAND table.
@@ -425,8 +424,9 @@ namespace Mediasharing
                                       "(\"bijdrage_id\", \"bericht_id\") VALUES " +
                                       "(:fileId, :messageId)");
 
-                cmdTwo.Parameters.Add("fileId", fileId);
-                cmdTwo.Parameters.Add("messageId", messageId);
+                cmdFive.Parameters.Add("fileId", fileId);
+                cmdFive.Parameters.Add("messageId", messageId);
+                Execute(cmdFive);
 
                 return true;
             }

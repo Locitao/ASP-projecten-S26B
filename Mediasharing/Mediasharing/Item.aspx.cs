@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using Oracle.DataAccess.Client;
 
 namespace Mediasharing
@@ -12,9 +8,8 @@ namespace Mediasharing
     public partial class Item : System.Web.UI.Page
     {
         #region Fields
-        private int itemId;
-        //An item can be posted with a desciption message, the itemMessageId stores the id of this message.
-        private int itemMessageId;
+        private int _itemId;
+        private int _itemMessageId; //An item can be posted with a desciption message, the itemMessageId stores the id of this message.
         #endregion
 
         #region Methods
@@ -40,7 +35,7 @@ namespace Mediasharing
         /// </summary>
         public void Rout()
         {
-            itemId = Convert.ToInt32(Page.RouteData.Values["id"]);
+            _itemId = Convert.ToInt32(Page.RouteData.Values["id"]);
         }
 
         /// <summary>
@@ -60,7 +55,7 @@ namespace Mediasharing
         public void LoadImage()
         {
             Database database = Database.Instance;
-            List<Dictionary<string, object>> output = database.GetItem(itemId);
+            List<Dictionary<string, object>> output = database.GetItem(_itemId);
             string imagePath = Convert.ToString(output[0]["BESTANDSLOCATIE"]);
             uploadedImage.ImageUrl = imagePath;
         }
@@ -81,10 +76,10 @@ namespace Mediasharing
                                               "WHERE bij.\"account_id\" = acc.\"ID\" " +
                                               "AND ber.\"bijdrage_id\" = bij.\"ID\" " +
                                               "AND bij.\"ID\" = bb.\"bericht_id\" " +
-                                              "AND bb.\"bijdrage_id\" = " + itemId);
+                                              "AND bb.\"bijdrage_id\" = " + _itemId);
 
                 //Sets the item messageId of the corresponding Item.
-                itemMessageId = Convert.ToInt32(output.Tables[0].Rows[0]["ID"]);
+                _itemMessageId = Convert.ToInt32(output.Tables[0].Rows[0]["ID"]);
 
                 //Binds the data to the repeater.
                 RepeaterItemView.DataSource = output;
@@ -106,7 +101,7 @@ namespace Mediasharing
             {
                 //Retrieves all the messages that are replies to the message tied to the item.
                 Database database = Database.Instance;
-                List<Dictionary<string, object>> output = database.GetItemMessages(itemMessageId);
+                List<Dictionary<string, object>> output = database.GetItemMessages(_itemMessageId);
                 List<Bericht> itemMessages = new List<Bericht>();
 
                 //Creates the messages.
