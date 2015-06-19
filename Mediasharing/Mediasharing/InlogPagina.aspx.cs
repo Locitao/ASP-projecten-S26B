@@ -26,7 +26,7 @@ namespace Mediasharing
                                   "'" + wachtwoord + "'");
              */
 
-            dataset = database.GetData("SELECT \"ID\", \"gebruikersnaam\" FROM ACCOUNT WHERE ID =  " + "'" + id + "'");
+            dataset = database.GetData("SELECT \"ID\" AS ID, \"gebruikersnaam\" AS GEBRUIKERSNAAM FROM ACCOUNT WHERE ID =  " + "'" + id + "'");
 
             if (IsEmpty(dataset))
             {

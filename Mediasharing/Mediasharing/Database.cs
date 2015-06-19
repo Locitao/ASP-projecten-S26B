@@ -186,7 +186,24 @@ namespace Mediasharing
                                   "AND acc.\"ID\" = ab.\"account_id\" " +
                                   "AND ab.\"like\" = 1 " +
                                   "AND bij.\"ID\" = :id " +
-                                  "AND ab.\"account_id\" = :userId;");
+                                  "AND ab.\"account_id\" = :userId");
+
+            cmd.Parameters.Add("id", id);
+            cmd.Parameters.Add("userId", userId);
+
+            return ExecuteQuery(cmd);
+        }
+
+        public List<Dictionary<string, object>> GetReportedByUser(int id, int userId)
+        {
+            OracleCommand cmd =
+                new OracleCommand("SELECT COUNT(*) AS REPORTED " +
+                                  "FROM ACCOUNT_BIJDRAGE ab, BIJDRAGE bij, ACCOUNT acc " +
+                                  "WHERE bij.\"ID\" = ab.\"bijdrage_id\" " +
+                                  "AND acc.\"ID\" = ab.\"account_id\" " +
+                                  "AND ab.\"ongewenst\" = 1 " +
+                                  "AND bij.\"ID\" = :id " +
+                                  "AND ab.\"account_id\" = :userId");
 
             cmd.Parameters.Add("id", id);
             cmd.Parameters.Add("userId", userId);
@@ -197,7 +214,8 @@ namespace Mediasharing
         public List<Dictionary<string, object>> GetItemMessages(int itemMessageId)
         {
             OracleCommand cmd = new OracleCommand("SELECT bij.\"ID\" AS ID, acc.\"gebruikersnaam\" AS GEBRUIKERSNAAM, ber.\"titel\" AS TITEL, ber.\"inhoud\" AS INHOUD " +
-                                                  "FROM BIJDRAGE bij, BERICHT ber, ACCOUNT acc WHERE bij.\"account_id\" = acc.\"ID\" " +
+                                                  "FROM BIJDRAGE bij, BERICHT ber, ACCOUNT acc " +
+                                                  "WHERE bij.\"account_id\" = acc.\"ID\" " +
                                                   "AND ber.\"bijdrage_id\" = bij.\"ID\" " +
                                                   "AND bij.\"ID\" IN " +
                                                                         "(SELECT \"bericht_id\" " +
@@ -237,6 +255,88 @@ namespace Mediasharing
                 CloseConnection();
             }
         }
+
+        #region Inserts
+        public bool InsertLike(int id, int userId)
+        {
+            try
+            {
+                OracleCommand cmd =
+                    new OracleCommand("INSERT INTO ACCOUNT_BIJDRAGE" +
+                                      "(\"ID\", \"account_id\", \"bijdrage_id\", \"like\", \"ongewenst\") VALUES " +
+                                      "(NULL, :userId, :id, 1, 0)");
+
+                cmd.Parameters.Add("userId", userId);
+                cmd.Parameters.Add("id", id);
+
+                Execute(cmd);
+                return true;
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query");
+                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+                return false;
+            }
+ 
+        }
+
+        public bool InsertReport(int id, int userId)
+        {
+            try
+            {
+                OracleCommand cmd =
+                    new OracleCommand("INSERT INTO ACCOUNT_BIJDRAGE" +
+                                      "(\"ID\", \"account_id\", \"bijdrage_id\", \"like\", \"ongewenst\") VALUES " +
+                                      "(NULL, :userId, :id, 0, 1)");
+
+                cmd.Parameters.Add("userId", userId);
+                cmd.Parameters.Add("id", id);
+
+                Execute(cmd);
+                return true;
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query");
+                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+                return false;
+            }
+ 
+        }
+        #endregion
+
+        #region Deletes
+        public bool DeleteLike(int id, int userId)
+        {
+            try
+            {
+                OracleCommand cmd =
+                new OracleCommand("DELETE FROM ACCOUNT_BIJDRAGE WHERE \"account_id\" = :userId AND \"bijdrage_id\" = :id AND \"like\" = 1");
+
+                cmd.Parameters.Add("userId", userId);
+                cmd.Parameters.Add("id", id);
+
+                Execute(cmd);
+                return true;
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query");
+                System.Diagnostics.Debug.WriteLine("Error code: " + ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+                return false;
+            }
+        }
+        #endregion
 
         private List<Dictionary<string, object>> ExecuteQuery(OracleCommand cmd)
         {

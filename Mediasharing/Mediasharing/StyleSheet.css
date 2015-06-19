@@ -90,6 +90,20 @@ a {
   margin: 3px 0px;
 }
 
+.buttondisabled {
+  background-color: grey;
+  border-color: grey;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 6px 12px;
+  margin: 3px 0px;
+}
+
 .custom {
     width: auto;
     border: 1px solid transparent;

@@ -23,30 +23,32 @@
         <div id="MessageBox">
             <h3>Messages</h3>
             <asp:ListBox ID="lbMessages" runat="server" AutoPostBack="True" CssClass="listbox1" OnSelectedIndexChanged="lbMessages_SelectedIndexChanged"></asp:ListBox>
-            <asp:Label ID="lblMessageLikes" runat="server" Text="Label"></asp:Label>
+            <br />
+            <asp:Label ID="lblMessageLikes" runat="server"></asp:Label>
             <br />
             <table class="custom">
                 <tr>
                     <td>
-                        <asp:Button ID="btnLikeMessage" runat="server" CssClass="button" Text="Like" />
+                        <asp:Button ID="btnLikeMessage" runat="server" CssClass="button" Text="Like" OnClick="btnLikeMessage_Click" />
                     </td>
                     <td>
-                        <asp:Button ID="btnReportMessage" runat="server" CssClass="button" Text="Report" />
+                        <asp:Button ID="btnReportMessage" runat="server" CssClass="button" Text="Report" OnClick="btnReportMessage_Click" />
                     </td>
                 </tr>
             </table>
             <br />
             <h3>Reactions</h3>
-            <asp:ListBox ID="lbReactions" runat="server" CssClass="listbox1"></asp:ListBox>
-            <asp:Label ID="lblReactionLikes" runat="server" Text="Label"></asp:Label>
+            <asp:ListBox ID="lbReactions" runat="server" CssClass="listbox1" OnSelectedIndexChanged="lbReactions_SelectedIndexChanged"></asp:ListBox>
+            <br />
+            <asp:Label ID="lblReactionLikes" runat="server"></asp:Label>
             <br />
             <table class="custom">
                 <tr>
                     <td>
-                        <asp:Button ID="btnLikeReaction" runat="server" CssClass="button" Text="Like" />
+                        <asp:Button ID="btnLikeReaction" runat="server" CssClass="button" Text="Like" OnClick="btnLikeReaction_Click" />
                     </td>
                     <td>
-                        <asp:Button ID="btnReportReaction" runat="server" CssClass="button" Text="Report" />
+                        <asp:Button ID="btnReportReaction" runat="server" CssClass="button" Text="Report" OnClick="btnReportReaction_Click" />
                     </td>
                 </tr>
             </table>

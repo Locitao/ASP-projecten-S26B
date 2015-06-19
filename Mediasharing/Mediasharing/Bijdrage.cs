@@ -7,12 +7,13 @@ namespace Mediasharing
 {
     public abstract class Bijdrage
     {
-        //Properties
+        #region Properties
         public int BijdrageId { get; set; }
         public Account Poster { get; set; }
         public DateTime Date { get; set; }
+        #endregion
 
-        //Constructor
+        #region Constructors
         protected Bijdrage(Account poster)
         {
             Poster = poster;
@@ -23,7 +24,9 @@ namespace Mediasharing
             Poster = poster;
             Date = date;
         }
+        #endregion
 
+        #region Static Methods
         public static int GetLikes(int id)
         {
             Database database = Database.Instance;
@@ -38,11 +41,35 @@ namespace Mediasharing
             List<Dictionary<string, object>> output = database.GetLikedByUser(id, userId);
             int liked = Convert.ToInt32(output[0]["LIKED"]);
 
-            if (liked > 0)
-            {
-                return true;
-            }
-            return false;
+            return liked > 0;
         }
+
+        public static bool IsReported(int id, int userId)
+        {
+            Database database = Database.Instance;
+            List<Dictionary<string, object>> output = database.GetReportedByUser(id, userId);
+            int reported = Convert.ToInt32(output[0]["REPORTED"]);
+
+            return reported > 0;
+        }
+
+        public static bool Like(int id, int userId)
+        {
+            Database database = Database.Instance;
+            return database.InsertLike(id, userId);
+        }
+
+        public static bool Unlike(int id, int userId)
+        {
+            Database database = Database.Instance;
+            return database.DeleteLike(id, userId);
+        }
+
+        public static bool Report(int id, int userId)
+        {
+            Database database = Database.Instance;
+            return database.InsertReport(id, userId);
+        }
+        #endregion
     }
 }

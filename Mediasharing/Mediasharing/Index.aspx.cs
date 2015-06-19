@@ -16,10 +16,10 @@ namespace Mediasharing
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            user = (Account)Session["user"];
             Rout();
             CheckIfLoggedIn();
             LoadPage();
-            user = (Account)Session["user"];
         }
 
         public void Rout()
@@ -45,9 +45,9 @@ namespace Mediasharing
 
         public void CheckIfLoggedIn()
         {
-            if (Session["account"] == null)
+            if (Session["user"] == null)
             {
-                Response.Redirect("InlogPagina.aspx", false);
+                Response.Redirect("InlogPagina.aspx", true);
             }
         }
 
@@ -210,28 +210,70 @@ namespace Mediasharing
             return null;
         }
 
-        public void UpdateLikes(int messageId)
+        public void UpdateLikes(int messageId, string type)
         {
-            //Static bijdrage method to get the number of likes.
             int likes = Bijdrage.GetLikes(messageId);
+            string likeString = "";
 
-            if (likes == 0)
+            switch (likes)
             {
-                lblMessageLikes.Text = "Be the first to like this!";
+                case 0:
+                    likeString = "Be the first to like this!";
+                    break;
+                case 1:
+                    likeString = likes + " Like";
+                    break;
+                default:
+                    likeString = likes + " Likes";
+                    break;
             }
-            else if (likes == 1)
+
+            switch (type)
             {
-                lblMessageLikes.Text = likes + " Like";
-            }
-            else
-            {
-                lblMessageLikes.Text = likes + " Likes";
+                case "message":
+                    lblMessageLikes.Text = likeString;
+                    break;
+                case "reaction":
+                    lblReactionLikes.Text = likeString;
+                    break;
             }
         }
 
-        public void UpdateLikeButton(int id)
+        public void UpdateLikeButton(int id, string type)
         {
-            if Bijdrage.IsLiked(id, )
+            //Checks which button has to be updated
+            switch (type)
+            {
+                case "message":
+                    //If true, change the like button to unlike button.
+                    btnLikeMessage.Text = Bijdrage.IsLiked(id, user.Id) ? "Unlike" : "Like";
+                    break;
+                case "reaction":
+                    btnLikeReaction.Text = Bijdrage.IsLiked(id, user.Id) ? "Unlike" : "Like";
+                    break;
+            }
+        }
+
+        public void UpdateReportButton(int id, string type)
+        {
+            //Checks which button has to be updated
+            switch (type)
+            {
+                case "message":
+                    if (Bijdrage.IsReported(id, user.Id))
+                    {
+                        btnReportMessage.Enabled = false;
+                        btnReportMessage.CssClass = "buttondisabled";
+                    }
+                    break;
+                case "reaction":
+                    if (Bijdrage.IsReported(id, user.Id))
+                    {
+                        btnReportReaction.Enabled = false;
+                        btnReportReaction.CssClass = "buttondisabled";
+                    }
+                    break;
+            }
         }
 
         /// <summary>
@@ -249,7 +291,74 @@ namespace Mediasharing
             lbReactions.DataTextField = "DisplayValue";
             lbReactions.DataValueField = "MessageId";
             lbReactions.DataBind();
+
+            //Updates the buttons
+            UpdateLikes(messageId, "message");
+            UpdateLikeButton(messageId, "message");
+            UpdateReportButton(messageId, "message");
         }
 
+        #region Report and Like Messages
+        protected void btnLikeMessage_Click(object sender, EventArgs e)
+        {
+            int messageId = Convert.ToInt32(lbMessages.SelectedValue);
+
+            if (btnLikeMessage.Text == "Like")
+            {
+                Bijdrage.Like(messageId, user.Id);
+                UpdateLikeButton(messageId, "message");
+                UpdateLikes(messageId, "message");
+            }
+            else if (btnLikeMessage.Text == "Unlike")
+            {
+                Bijdrage.Unlike(messageId, user.Id);
+                UpdateLikeButton(messageId, "message");
+                UpdateLikes(messageId, "message");
+            }
+        }
+
+        protected void btnReportMessage_Click(object sender, EventArgs e)
+        {
+            int messageId = Convert.ToInt32(lbMessages.SelectedValue);
+            Bijdrage.Report(messageId, user.Id);
+            UpdateReportButton(messageId, "message");
+        }
+
+        #endregion
+
+        #region Report and Like Reactions
+        protected void btnLikeReaction_Click(object sender, EventArgs e)
+        {
+            int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
+
+            if (btnLikeMessage.Text == "Like")
+            {
+                Bijdrage.Like(reactionId, user.Id);
+                UpdateLikeButton(reactionId, "reaction");
+                UpdateLikes(reactionId, "reaction");
+            }
+            else if (btnLikeMessage.Text == "Unlike")
+            {
+                Bijdrage.Unlike(reactionId, user.Id);
+                UpdateLikeButton(reactionId, "reaction");
+                UpdateLikes(reactionId, "reaction");
+            }
+        }
+
+        protected void btnReportReaction_Click(object sender, EventArgs e)
+        {
+            int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
+            Bijdrage.Report(reactionId, user.Id);
+            UpdateReportButton(reactionId, "reaction");
+        }
+        #endregion
+
+        protected void lbReactions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int reactionId = Convert.ToInt32(lbReactions.SelectedValue);
+            UpdateReportButton(reactionId, "reaction");
+            UpdateLikeButton(reactionId, "reaction");
+            UpdateLikes(reactionId, "reaction");
+        }
     }
 }
