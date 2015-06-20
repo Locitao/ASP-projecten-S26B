@@ -31,6 +31,8 @@ namespace Mediasharing
         {
             //Gets data from the textboxes.
             int id = Convert.ToInt32(tbId.Text);
+
+            //wachtwoord is currently not used.
             string wachtwoord = tbWachtwoord.Text;
 
             //Try to log in, if a wrong id is given the method returns null.
