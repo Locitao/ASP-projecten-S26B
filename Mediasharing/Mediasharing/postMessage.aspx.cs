@@ -7,6 +7,9 @@ using System.Web.UI.WebControls;
 
 namespace Mediasharing
 {
+    /// <summary>
+    /// This page contains the information, event and methods that allow the user to post a message.
+    /// </summary>
     public partial class PostMessage : System.Web.UI.Page
     {
         #region Fields

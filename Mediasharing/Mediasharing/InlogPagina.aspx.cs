@@ -2,6 +2,9 @@
 
 namespace Mediasharing
 {
+    /// <summary>
+    /// The starting page, the user can login to the system here.
+    /// </summary>
     public partial class InlogPagina : System.Web.UI.Page
     {
         #region Methods

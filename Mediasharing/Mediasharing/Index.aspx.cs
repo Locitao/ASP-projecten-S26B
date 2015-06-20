@@ -7,6 +7,10 @@ using Oracle.DataAccess.Client;
 
 namespace Mediasharing
 {
+    /// <summary>
+    /// This is the index page the user is redirected to when he's logged in.
+    /// The user can browse and report categories, like and report messages and reactions, and choose to upload files here.
+    /// </summary>
     public partial class WebForm1 : Page
     {
         #region Fields

@@ -5,6 +5,10 @@ using Oracle.DataAccess.Client;
 
 namespace Mediasharing
 {
+    /// <summary>
+    /// This page shows the information on the selected item,
+    /// such as the attached message and the file itself.
+    /// </summary>
     public partial class Item : System.Web.UI.Page
     {
         #region Fields

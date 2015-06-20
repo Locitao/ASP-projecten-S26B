@@ -4,6 +4,9 @@ using System.Web.UI;
 
 namespace Mediasharing
 {
+    /// <summary>
+    /// This class manages the routing of webpages.
+    /// </summary>
     public class Global : System.Web.HttpApplication
     {
         #region Methods

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Mediasharing
 {
+    /// <summary>
+    /// This class contains the methods relating to "bijdrage",
+    /// and the information needed to create a "bijdrage".
+    /// </summary>
     public abstract class Bijdrage
     {
         #region Properties

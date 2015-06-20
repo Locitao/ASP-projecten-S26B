@@ -1,6 +1,10 @@
 ﻿
 namespace Mediasharing
 {
+    /// <summary>
+    /// This class contains the methods relating to "berichten",
+    /// and the information needed to create a "berichten".
+    /// </summary>
     public class Bericht : Bijdrage
     {
         #region Properties

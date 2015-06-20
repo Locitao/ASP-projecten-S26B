@@ -6,9 +6,7 @@
 <head runat="server">
     <title>Mediasharing Applicatie</title>
     <link href="StyleSheet.css" rel="stylesheet" />
-    <style type="text/css">        .auto-style1 {
-            width: 100%;
-        }
+    <style type="text/css">
     </style>
 </head>
 <body>
@@ -38,7 +36,7 @@
                 </tr>
             </table>
             <br />
-            <table class="auto-style1">
+            <table class="custom">
                 <tr>
                     <td>
                         <asp:Label ID="Label1" runat="server" Text="Title: "></asp:Label>

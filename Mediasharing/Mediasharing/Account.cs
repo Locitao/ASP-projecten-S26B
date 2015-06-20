@@ -4,7 +4,10 @@ using System.Linq;
 
 namespace Mediasharing
 {
-
+    /// <summary>
+    /// This class contains the methods relating to user accounts,
+    /// and the information needed to create an account.
+    /// </summary>
     public class Account
     {
         #region Properties

@@ -6,6 +6,9 @@ using Oracle.DataAccess.Client;
 
 namespace Mediasharing
 {
+    /// <summary>
+    /// This class contains all the methods to get and insert data from and to the database.
+    /// </summary>
     public sealed class Database
     {
         #region Fields
