@@ -311,12 +311,12 @@ namespace Mediasharing
         public int GetCategoryIdWithItemId(int id)
         {
             OracleCommand cmd = new OracleCommand("SELECT \"categorie_id\" AS ID " +
-                                                  "FROM CATEGORIE WHERE \"bijdrage_id\" = :id");
+                                                  "FROM BESTAND WHERE \"bijdrage_id\" = :id");
 
             cmd.Parameters.Add("id", id);
 
             List<Dictionary<string, object>> output = ExecuteQuery(cmd);
-            int categoryId = Convert.ToInt32(output[0]["categorie_id"]);
+            int categoryId = Convert.ToInt32(output[0]["ID"]);
             return categoryId;
         }
 
