@@ -358,7 +358,7 @@ namespace Mediasharing
             {
                 //Insert reaction into the database.
                 Database database = Database.Instance;
-                database.InsertReaction(_user.Id, tbTitle.Text, tbContent.Text);
+                database.InsertReaction(_user.Id, tbTitle.Text, tbContent.Text, DateTime.Now);
             }
         }
 

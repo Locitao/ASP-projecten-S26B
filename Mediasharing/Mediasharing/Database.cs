@@ -398,7 +398,7 @@ namespace Mediasharing
         /// <param name="categoryId"> the id of the selected category </param>
         /// <param name="userId"> the id of the current user </param>
         /// <returns></returns>
-        public bool InsertMessageCategory(string title , string content , int categoryId , int userId)
+        public bool InsertMessageCategory(string title , string content , int categoryId , int userId, DateTime date)
         {
             try
             {
@@ -406,9 +406,10 @@ namespace Mediasharing
                 OracleCommand cmd =
                     new OracleCommand("INSERT INTO BIJDRAGE" +
                                       "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
-                                      "(NULL, :userId, sysdate, 'bericht')");
+                                      "(NULL, :userId, :date, 'bericht')");
 
                 cmd.Parameters.Add("userId", userId);
+                cmd.Parameters.Add(":date", date);
                 Execute(cmd);
 
                 //We need the id we just created, let's get it from the database.
@@ -445,7 +446,7 @@ namespace Mediasharing
         /// <param name="title"> title of the reaction </param>
         /// <param name="content"> content of the reaction </param>
         /// <returns></returns>
-        public bool InsertReaction(int userId, string title, string content)
+        public bool InsertReaction(int userId, string title, string content, DateTime date)
         {
             try
             {
@@ -453,9 +454,10 @@ namespace Mediasharing
                 OracleCommand cmd =
                     new OracleCommand("INSERT INTO BIJDRAGE" +
                                       "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
-                                      "(NULL, :userId, sysdate, 'categorie')");
+                                      "(NULL, :userId, :date, 'categorie')");
 
                 cmd.Parameters.Add("userId", userId);
+                cmd.Parameters.Add("date", date);
                 Execute(cmd);
 
                 //We need the id we just created, let's get it from the database.
@@ -491,7 +493,7 @@ namespace Mediasharing
         /// <param name="name"> the name of the category </param>
         /// <param name="userId"> the id of the user </param>
         /// <returns></returns>
-        public bool InsertCategory(string name, int userId)
+        public bool InsertCategory(string name, int userId, DateTime date)
         {
             try
             {
@@ -499,9 +501,10 @@ namespace Mediasharing
                 OracleCommand cmd =
                     new OracleCommand("INSERT INTO BIJDRAGE" +
                                       "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
-                                      "(NULL, :userId, sysdate, 'categorie')");
+                                      "(NULL, :userId, :date, 'categorie')");
 
                 cmd.Parameters.Add("userId", userId);
+                cmd.Parameters.Add("date", date);
                 Execute(cmd);
 
                 //We need the id we just created, let's get it from the database.
@@ -539,7 +542,7 @@ namespace Mediasharing
         /// <param name="fileLocation"> save location of the file on the server </param>
         /// <param name="size"> size of the image </param>
         /// <returns></returns>
-        public bool InsertItem(int userId, int categoryId, string title, string content, string fileLocation, int size)
+        public bool InsertItem(int userId, int categoryId, string title, string content, string fileLocation, int size, DateTime date)
         {
             try
             {
@@ -547,9 +550,10 @@ namespace Mediasharing
                 OracleCommand cmd =
                     new OracleCommand("INSERT INTO BIJDRAGE" +
                                       "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
-                                      "(NULL, :userId, sysdate, 'bestand')");
+                                      "(NULL, :userId, :date, 'bestand')");
 
                 cmd.Parameters.Add("userId", userId);
+                cmd.Parameters.Add("date", date);
                 Execute(cmd);
 
                 //We need the id we just created, let's get it from the database.
@@ -571,9 +575,10 @@ namespace Mediasharing
                 OracleCommand cmdThree =
                     new OracleCommand("INSERT INTO BIJDRAGE" +
                                       "(\"ID\", \"account_id\", \"datum\", \"soort\") VALUES " +
-                                      "(NULL, :userId, sysdate, 'bericht')");
+                                      "(NULL, :userId, :date, 'bericht')");
 
                 cmdThree.Parameters.Add("userId", userId);
+                cmdThree.Parameters.Add("date", date);
                 Execute(cmdThree);
 
                 //We need the id we just created, let's get it from the database.

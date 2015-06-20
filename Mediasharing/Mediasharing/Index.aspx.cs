@@ -549,7 +549,7 @@ namespace Mediasharing
         protected void btnAddCategory_Click(object sender, EventArgs e)
         {
             Database database = Database.Instance;
-            database.InsertCategory(tbCategoryName.Text, _user.Id);
+            database.InsertCategory(tbCategoryName.Text, _user.Id, DateTime.Now);
             LoadSubCategories();
         }
 
@@ -571,7 +571,7 @@ namespace Mediasharing
             {
                 //Insert reaction into the database.
                 Database database = Database.Instance;
-                database.InsertReaction(_user.Id, tbTitle.Text, tbContent.Text);
+                database.InsertReaction(_user.Id, tbTitle.Text, tbContent.Text, DateTime.Now);
             }
         }
 

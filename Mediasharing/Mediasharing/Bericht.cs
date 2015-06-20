@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Mediasharing
 {
     /// <summary>
@@ -38,7 +40,7 @@ namespace Mediasharing
         public static bool InsertMessage(string title, string content, int categoryId, int userId)
         {
             Database database = Database.Instance;
-            return database.InsertMessageCategory(title, content, categoryId, userId);
+            return database.InsertMessageCategory(title, content, categoryId, userId, DateTime.Now);
         }
         #endregion
     }
