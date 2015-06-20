@@ -193,13 +193,13 @@ namespace MaterialRenting {
         protected global::System.Web.UI.WebControls.Panel pnlPopUpReserveItem;
         
         /// <summary>
-        /// lblReserveItem control.
+        /// lblPopUpReserveItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblReserveItem;
+        protected global::System.Web.UI.WebControls.Label lblPopUpReserveItem;
         
         /// <summary>
         /// tbReserveBarcode control.
@@ -229,12 +229,30 @@ namespace MaterialRenting {
         protected global::System.Web.UI.WebControls.TextBox tbReserveReturnDate;
         
         /// <summary>
-        /// btnReservePopUp control.
+        /// btnReserveCheckStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReservePopUp;
+        protected global::System.Web.UI.WebControls.Button btnReserveCheckStatus;
+        
+        /// <summary>
+        /// btnReserveSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReserveSave;
+        
+        /// <summary>
+        /// btnReserveCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReserveCancel;
     }
 }

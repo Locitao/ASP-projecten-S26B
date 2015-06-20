@@ -47,7 +47,7 @@
                 <tr style="border: hidden;">
                     <td>Return Date:</td>
                     <td>
-                        <asp:TextBox ID="tbLendReturnDate" runat="server">01-01-2016</asp:TextBox>
+                        <asp:TextBox ID="tbLendReturnDate" runat="server" TextMode="Date"/>
                     </td>
                 </tr>
             </table>
@@ -61,28 +61,31 @@
 
     <div>
         <asp:Panel ID="pnlPopUpReserveItem" runat="server">
-            <asp:Label id="lblReserveItem" runat="server" text="Name: Name <br />price: 25<br/>status: reserved"/>
+            <asp:Label id="lblPopUpReserveItem" runat="server" text="Name: Name <br />price: 25<br/>status: reserved"/>
+
             <table style="border: hidden;">
                 <tr style="border: hidden;">
                     <td>BarCode:</td>
                     <td>
-                        <asp:TextBox ID="tbReserveBarcode" runat="server"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr style="border: hidden;">
-                    <td>Lend Date:</td>
-                    <td>
-                        <asp:TextBox ID="tbReserveLendDate" runat="server">21-09-2016</asp:TextBox>
+                        <asp:TextBox ID="tbReserveBarcode" runat="server">0123456789</asp:TextBox>
                     </td>
                 </tr>
                 <tr style="border: hidden;">
                     <td>Return Date:</td>
                     <td>
-                        <asp:TextBox ID="tbReserveReturnDate" runat="server">22-09-2016</asp:TextBox>
+                        <asp:TextBox ID="tbReserveLendDate" runat="server" TextMode="Date"/>
+                    </td>
+                </tr>
+                <tr style="border: hidden;">
+                    <td>Return Date:</td>
+                    <td>
+                        <asp:TextBox ID="tbReserveReturnDate" runat="server" TextMode="Date"/>
                     </td>
                 </tr>
             </table>
-            <asp:Button ID="btnReservePopUp" CssClass="button" runat="server" Text="Reserve Item" OnClick="btnReservePopUp_OnClick"/>
+            <asp:Button ID="btnReserveCheckStatus" CssClass="button" runat="server" Text="Check Status" OnClick="btnReserveCheckStatus_OnClick"/>
+            <asp:Button ID="btnReserveSave" CssClass="button" runat="server" Text="Reserve Item" OnClick="btnReserveSave_OnClick"/>
+            <asp:Button ID="btnReserveCancel" CssClass="button" runat="server" Text="Cancel" OnClick="btnReserveCancel_OnClick"/>
         </asp:Panel>
     </div>
 

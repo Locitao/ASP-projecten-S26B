@@ -142,7 +142,7 @@ namespace MaterialRenting
                     }
                     catch
                     {
-                        
+                        Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
                     }
                 }
             }
@@ -152,11 +152,11 @@ namespace MaterialRenting
         ///     this method checks if a material is available for the selected period
         /// </summary>
         /// <returns>wether the check has gone good or if the input was wrong</returns>
-        private bool CheckMaterialStatus()
+        private bool CheckLendMaterialStatus()
         {
             try
             {
-                DateTime dateToCheck = DateTime.ParseExact(tbLendReturnDate.Text, "dd-MM-yyyy",
+                DateTime dateToCheck = DateTime.ParseExact(tbLendReturnDate.Text, "yyyy-MM-dd",
                     CultureInfo.InvariantCulture);
                 Material materialToCheck = (Material) Session["selectedMaterial"];
                 materialToCheck.CheckStatus(DateTime.Now, dateToCheck);
@@ -168,7 +168,32 @@ namespace MaterialRenting
             }
             catch
             {
-                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured\")</SCRIPT>");
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///     this method checks if a material is available for the selected period
+        /// </summary>
+        /// <returns>wether the check has gone good or if the input was wrong</returns>
+        private bool CheckReserveMaterialStatus()
+        {
+            try
+            {
+                DateTime dateFrom = DateTime.ParseExact(tbReserveLendDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                DateTime dateTo = DateTime.ParseExact(tbReserveReturnDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                Material materialToCheck = (Material)Session["selectedMaterial"];
+                materialToCheck.CheckStatus(dateFrom, dateTo);
+                lblPopUpReserveItem.Text = "Name: " + materialToCheck.Brand + ", " + materialToCheck.Serie + "<br />price: " +
+                                   materialToCheck.Price + "<br/>status: " +
+                                   materialToCheck.Status;
+                Session["selectedMaterial"] = materialToCheck;
+                return true;
+            }
+            catch
+            {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
                 return false;
             }
         }
@@ -213,7 +238,6 @@ namespace MaterialRenting
 
         /// <summary>
         ///     this method gathers all information about the material that should be lend
-        ///     then the lendItem() gets fired with the needed information
         /// </summary>
         private void LendMaterial()
         {
@@ -239,6 +263,39 @@ namespace MaterialRenting
             }
             catch
             {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
+            }
+        }
+
+        /// <summary>
+        ///     this method gathers all information about the material that should be reserved
+        /// </summary>
+        private void ReserveMaterial()
+        {
+            Material selectedProduct = null;
+            foreach (Material mat in _materialList)
+            {
+                if (lbProducts.SelectedItem != null && mat.ToString() == lbProducts.SelectedItem.Text)
+                {
+                    Session["selectedMaterial"] = mat;
+                    selectedProduct = mat;
+                    break;
+                }
+            }
+            try
+            {
+                selectedProduct.CheckStatus(DateTime.Now, DateTime.Now.AddDays(1));
+                lblPopUpReserveItem.Text = "Name: " + selectedProduct.Brand + ", " + selectedProduct.Serie + "<br />price: " +
+                                   selectedProduct.Price + "<br/>status: " +
+                                   selectedProduct.Status;
+                tbReserveLendDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                tbReserveReturnDate.Text = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+                pnlMain.Visible = false;
+                pnlPopUpReserveItem.Visible = true;
+            }
+            catch
+            {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
             }
         }
 
@@ -249,23 +306,18 @@ namespace MaterialRenting
 
         public void btnLendPopUpSave_OnClick(object sender, EventArgs e)
         {
-            if (CheckMaterialStatus())
+            if (CheckLendMaterialStatus())
             {
                 LendItem((Material) Session["selectedMaterial"], tbLendBarcode.Text, DateTime.Now.AddDays(1));
                 Server.Transfer("MaterialRenting.aspx");
             }
         }
 
-        protected void btnReservePopUp_OnClick(object sender, EventArgs e)
-        {
-            pnlMain.Visible = true;
-            pnlPopUpReserveItem.Visible = false;
-        }
+        
 
         protected void btnReserveProduct_OnClick(object sender, EventArgs e)
         {
-            pnlMain.Visible = false;
-            pnlPopUpReserveItem.Visible = true;
+            ReserveMaterial();
         }
 
         protected void btnReturnProduct_OnClick(object sender, EventArgs e)
@@ -279,10 +331,25 @@ namespace MaterialRenting
 
         protected void btnCheckStatus_OnClick(object sender, EventArgs e)
         {
-            CheckMaterialStatus();
+            CheckLendMaterialStatus();
         }
 
         protected void btnLendCancel_OnClick(object sender, EventArgs e)
+        {
+            Server.Transfer("MaterialRenting.aspx");
+        }
+
+        protected void btnReserveCheckStatus_OnClick(object sender, EventArgs e)
+        {
+            CheckReserveMaterialStatus();
+        }
+
+        protected void btnReserveSave_OnClick(object sender, EventArgs e)
+        {
+            //TODO: 
+        }
+
+        protected void btnReserveCancel_OnClick(object sender, EventArgs e)
         {
             Server.Transfer("MaterialRenting.aspx");
         }
