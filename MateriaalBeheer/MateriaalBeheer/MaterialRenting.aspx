@@ -52,7 +52,8 @@
                 </tr>
             </table>
             <asp:Button ID="btnCheckStatus" CssClass="button" runat="server" Text="Check Status" OnClick="btnCheckStatus_OnClick"/>
-            <asp:Button ID="btnLendPopUp" CssClass="button" runat="server" Text="Lend Item" OnClick="btnLendPopUp_OnClick"/>
+            <asp:Button ID="btnLendPopUpSave" CssClass="button" runat="server" Text="Lend Item" OnClick="btnLendPopUpSave_OnClick"/>
+            <asp:Button ID="btnLendCancel" CssClass="button" runat="server" Text="Cancel" OnClick="btnLendCancel_OnClick"/>
 
 
         </asp:Panel>

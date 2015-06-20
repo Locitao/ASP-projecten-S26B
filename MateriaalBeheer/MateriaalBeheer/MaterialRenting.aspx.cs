@@ -133,10 +133,17 @@ namespace MaterialRenting
             {
                 foreach (Material mat in _materialList)
                 {
-                    DateTime dateFrom = DateTime.ParseExact(tbStartDate.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    DateTime dateTo = DateTime.ParseExact(tbEndDate.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    mat.CheckStatus(dateFrom, dateTo);
-                    lbProducts.Items.Add(mat.ToString());
+                    try
+                    {
+                        DateTime dateFrom = DateTime.ParseExact(tbStartDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        DateTime dateTo = DateTime.ParseExact(tbEndDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        mat.CheckStatus(dateFrom, dateTo);
+                        lbProducts.Items.Add(mat.ToString());
+                    }
+                    catch
+                    {
+                        
+                    }
                 }
             }
         }
@@ -197,8 +204,11 @@ namespace MaterialRenting
 
                 return true;
             }
-            // input is wrong
-            return false;
+            else
+            {
+                // input is wrong
+                return false;
+            }
         }
 
         /// <summary>
@@ -237,13 +247,12 @@ namespace MaterialRenting
             LendMaterial();
         }
 
-        public void btnLendPopUp_OnClick(object sender, EventArgs e)
+        public void btnLendPopUpSave_OnClick(object sender, EventArgs e)
         {
             if (CheckMaterialStatus())
             {
                 LendItem((Material) Session["selectedMaterial"], tbLendBarcode.Text, DateTime.Now.AddDays(1));
-                pnlMain.Visible = true;
-                pnlPopUpLendItem.Visible = false;
+                Server.Transfer("MaterialRenting.aspx");
             }
         }
 
@@ -271,6 +280,11 @@ namespace MaterialRenting
         protected void btnCheckStatus_OnClick(object sender, EventArgs e)
         {
             CheckMaterialStatus();
+        }
+
+        protected void btnLendCancel_OnClick(object sender, EventArgs e)
+        {
+            Server.Transfer("MaterialRenting.aspx");
         }
     }
 }

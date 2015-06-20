@@ -166,13 +166,22 @@ namespace MaterialRenting {
         protected global::System.Web.UI.WebControls.Button btnCheckStatus;
         
         /// <summary>
-        /// btnLendPopUp control.
+        /// btnLendPopUpSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLendPopUp;
+        protected global::System.Web.UI.WebControls.Button btnLendPopUpSave;
+        
+        /// <summary>
+        /// btnLendCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnLendCancel;
         
         /// <summary>
         /// pnlPopUpReserveItem control.
