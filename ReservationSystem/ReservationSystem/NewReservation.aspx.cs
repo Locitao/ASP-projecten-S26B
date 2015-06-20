@@ -48,7 +48,10 @@ namespace ReservationSystem
         }
         protected void btnReserve_Click(object sender, EventArgs e)
         {
-            Create_Reservation();
+            if (Create_Reservation())
+            {
+                Response.Redirect("ReserveMaterials.aspx");
+            }
         }
 
         /// <summary>

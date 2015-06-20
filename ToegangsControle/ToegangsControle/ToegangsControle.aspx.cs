@@ -28,31 +28,31 @@ namespace ToegangsControle
                 lbGegevens.Items.Clear();
                 try
                 {
-                    var reservering = sqlQueries.Select_Reserveringen();
+                    var reservation = sqlQueries.Select_Reservation();
                     
-                    foreach (Dictionary<string, object> row in reservering)
+                    foreach (Dictionary<string, object> row in reservation)
                     {
-                        string aanwezig = Convert.ToString(row["aanwezig"]);
-                        string betaald = Convert.ToString(row["betaald"]);
+                        string present = Convert.ToString(row["aanwezig"]);
+                        string payed = Convert.ToString(row["betaald"]);
                         string barcode = Convert.ToString(row["barcode"]);                        
 
-                        if (aanwezig != "0")
+                        if (present != "0")
                         {
-                            aanwezig = "ja";
+                            present = "ja";
                         }
                         else
                         {
-                            aanwezig = "nee";
+                            present = "nee";
                         }
-                        if (betaald != "0")
+                        if (payed != "0")
                         {
-                            betaald = "ja";
+                            payed = "ja";
                         }
                         else
                         {
-                            betaald = "nee";
+                            payed = "nee";
                         }                        
-                        lbGegevens.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " + row["account_id"] + ". Barcode: " + barcode + ". Name: " + row["gebruikersnaam"] + ". Betaald?: " + betaald + ". Aanwezig?: " + aanwezig);
+                        lbGegevens.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " + row["account_id"] + ". Barcode: " + barcode + ". Name: " + row["gebruikersnaam"] + ". payed?: " + payed + ". Present?: " + present);
 
                     }
                     refresh = false;
@@ -93,22 +93,22 @@ namespace ToegangsControle
                 bttnAnuleren.Enabled = false;
                 bttnBetaald.Enabled = false;
 
-                var aanwezigen = sqlQueries.Select_alleAanwezigen();
+                var attendees = sqlQueries.Select_allAttendees();
 
-                foreach (Dictionary<string, object> row in aanwezigen)
+                foreach (Dictionary<string, object> row in attendees)
                 {
-                    string aanwezig = Convert.ToString(row["aanwezig"]);
+                    string present = Convert.ToString(row["aanwezig"]);
 
-                    if (aanwezig != "0")
+                    if (present != "0")
                     {
-                        aanwezig = "ja";
+                        present = "ja";
                     }
                     else
                     {
-                        aanwezig = "nee";
+                        present = "nee";
                     }
 
-                    lbGegevens.Items.Add("Reservering_ID: " + row["reservering_id"] + ". Account_ID: " + row["ID"] + ". Name: " + row["gebruikersnaam"] + ". Aanwezig?: " + aanwezig);
+                    lbGegevens.Items.Add("Reservering_ID: " + row["reservering_id"] + ". Account_ID: " + row["ID"] + ". Name: " + row["gebruikersnaam"] + ". Present?: " + present);
                     refresh = false;
                 }                
             }
@@ -139,10 +139,10 @@ namespace ToegangsControle
         protected void bttnBetaald_Click(object sender, EventArgs e)
         {
             tbBarcode.Text = "Scan Code";
-            string reserveringsID = lbGegevens.SelectedItem.ToString().Substring(16,1);
-            string gebruikersID = lbGegevens.SelectedItem.ToString().Substring(31, 1);
-            string betaald = sqlQueries.Update_Betaald(reserveringsID);
-            verversOpGebruiker(gebruikersID);
+            string reservationID = lbGegevens.SelectedItem.ToString().Substring(16,1);
+            string userID = lbGegevens.SelectedItem.ToString().Substring(31, 1);
+            string payed = sqlQueries.Update_Betaald(reservationID);
+            refreshOnUserID(userID);
             
             refresh = false;
         }
@@ -167,22 +167,22 @@ namespace ToegangsControle
 
                 if (numericOnly != false)
                 {
-                    string accountID = sqlQueries.HaalGebruikerIDVanBarcode(barcode);
-                    string heeftBetaald = sqlQueries.checkBetaaldOnAccountID(accountID);                    
-                    if (heeftBetaald != "0")
+                    string userID = sqlQueries.HaalGebruikerIDVanBarcode(barcode);
+                    string hasPayed = sqlQueries.checkBetaaldOnUserID(userID);                    
+                    if (hasPayed != "0")
                     {
-                        sqlQueries.Update_Aanwezig(accountID);
+                        sqlQueries.Update_Aanwezig(userID);
                         tbBarcode.Text = "";
                     }
                     else
                     {
-                        tbBarcode.Text = "Gebruiker heeft nog niet betaald";
+                        tbBarcode.Text = "User has not payed yet";
                     }
-                    verversOpGebruiker(accountID);                    
+                    refreshOnUserID(userID);                    
                 }
                 else
                 {
-                    tbBarcode.Text = "Ongeldige input";
+                    tbBarcode.Text = "Unvalid input";
                 }
             }
         }
@@ -190,13 +190,13 @@ namespace ToegangsControle
         /// <summary>
         /// Method which loads the reservation of the given "gebruikerID" into the listbox.
         /// </summary>
-        /// <param name="gebruikerID"></param>        
-        public void verversOpGebruiker(string gebruikerID)
+        /// <param name="userID"></param>        
+        public void refreshOnUserID(string userID)
         {
             try
             {
                 lbGegevens.Items.Clear();
-                var reservering = sqlQueries.Select_ReserveringAccountID(gebruikerID);
+                var reservering = sqlQueries.Select_reservationUserID(userID);
 
                 foreach (Dictionary<string, object> row in reservering)
                 {
