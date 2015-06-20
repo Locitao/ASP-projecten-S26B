@@ -41,6 +41,9 @@ namespace Mediasharing
 
         #region Methods - Connection
 
+        /// <summary>
+        /// Initializes the connection.
+        /// </summary>
         private void Initialize()
         {
             _username = "ICT4EVENTS";
@@ -109,6 +112,12 @@ namespace Mediasharing
         #endregion
 
         #region Selects with DataSet
+
+        /// <summary>
+        /// Gets a DataSet.
+        /// </summary>
+        /// <param name="query"> the input qeury used to fill the dataset with </param>
+        /// <returns></returns>
         public DataSet GetData(string query)
         {
             try
@@ -135,6 +144,11 @@ namespace Mediasharing
         #endregion
 
         #region Selects with Dictionary List
+
+        /// <summary>
+        /// Gets all the messages that aren't are reply.
+        /// </summary>
+        /// <returns></returns>
         public List<Dictionary<string, object>> GetMessages()
         {
             OracleCommand cmd = new OracleCommand("SELECT bij.\"ID\" AS ID, acc.\"gebruikersnaam\" AS GEBRUIKERSNAAM, ber.\"titel\" AS TITEL, ber.\"inhoud\" AS INHOUD " +
@@ -146,9 +160,15 @@ namespace Mediasharing
                                                                             "WHERE bb.\"bijdrage_id\" = bij.\"ID\" " +
                                                                             "AND (bij.\"soort\" = 'bericht' " +
                                                                             "OR bij.\"soort\" = 'bestand'))");
+
             return ExecuteQuery(cmd);
         }
 
+        /// <summary>
+        /// Get's all the reactions to the message, found by messageId.
+        /// </summary>
+        /// <param name="messageId">the Id of the selected message</param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> GetReactions(int messageId)
         {
             OracleCommand cmd = new OracleCommand("SELECT bij.\"ID\" AS ID, acc.\"gebruikersnaam\" AS GEBRUIKERSNAAM, ber.\"titel\" AS TITEL, ber.\"inhoud\" AS INHOUD " +
@@ -163,6 +183,13 @@ namespace Mediasharing
             return ExecuteQuery(cmd);
         }
 
+        /// <summary>
+        /// Gets all likes corresponding to the selected id, this id is of a "bijdrage",
+        /// so can be either a "bestand, "categorie", or "bericht".
+        /// a catego
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> GetLikes (int id)
         {
             OracleCommand cmd = new OracleCommand("SELECT COUNT(*) AS LIKES " +
@@ -175,6 +202,13 @@ namespace Mediasharing
             return ExecuteQuery(cmd);
         }
 
+        /// <summary>
+        /// Checks if the user liked the "bijdrage" with selected id.
+        /// Returns the count, if the count is bigger than 0 the item is liked.
+        /// </summary>
+        /// <param name="id"> id of the "bijdrage" </param>
+        /// <param name="userId"> id of the user </param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> GetLikedByUser(int id, int userId)
         {
             OracleCommand cmd =
@@ -192,6 +226,13 @@ namespace Mediasharing
             return ExecuteQuery(cmd);
         }
 
+        /// <summary>
+        /// Checks if the user reported the "bijdrage" with selected id.
+        /// Returns the count, if the count is bigger than 0 the item is liked.
+        /// </summary>
+        /// <param name="id"> id of the "bijdrage" </param>
+        /// <param name="userId"> id of the user </param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> GetReportedByUser(int id, int userId)
         {
             OracleCommand cmd =
@@ -209,6 +250,11 @@ namespace Mediasharing
             return ExecuteQuery(cmd);
         }
 
+        /// <summary>
+        /// Gets the items "bestandlocatie" with the selected "bijdrage" id.
+        /// </summary>
+        /// <param name="itemId"> id of the "bijdrage" </param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> GetItem(int itemId)
         {
             OracleCommand cmd = new OracleCommand("SELECT \"bestandslocatie\" AS BESTANDSLOCATIE " +
@@ -220,6 +266,11 @@ namespace Mediasharing
             return ExecuteQuery(cmd);
         }
 
+        /// <summary>
+        /// Get the messages of the selected "bijdrage", using the selected "bijdrage" id.
+        /// </summary>
+        /// <param name="itemMessageId"></param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> GetItemMessages(int itemMessageId)
         {
             OracleCommand cmd = new OracleCommand("SELECT bij.\"ID\" AS ID, acc.\"gebruikersnaam\" AS GEBRUIKERSNAAM, ber.\"titel\" AS TITEL, ber.\"inhoud\" AS INHOUD " +
@@ -235,6 +286,11 @@ namespace Mediasharing
             return ExecuteQuery(cmd);
         }
 
+        /// <summary>
+        /// Gets the max "bijdrage" id from the database,
+        /// needed to insert either a "categorie", "bericht", or "bestand".
+        /// </summary>
+        /// <returns></returns>
         public int GetMaxBijdrageId()
         {
             OracleCommand cmd = new OracleCommand("SELECT MAX(\"ID\") AS MAXID " +
@@ -245,6 +301,11 @@ namespace Mediasharing
             return maxId;
         }
 
+        /// <summary>
+        /// Gets the category id of a "bijdrage" using the selected "bijdrage" id.
+        /// </summary>
+        /// <param name="id"> id of the "bijdrage"</param>
+        /// <returns></returns>
         public int GetCategoryIdWithItemId(int id)
         {
             OracleCommand cmd = new OracleCommand("SELECT \"categorie_id\" AS ID " +
@@ -259,35 +320,14 @@ namespace Mediasharing
 
         #endregion
 
-        #region Execute and NonExecute
-        private bool Execute(OracleCommand cmd)
-        {
-            System.Diagnostics.Debug.WriteLine("---------------");
-            System.Diagnostics.Debug.WriteLine("Attempting to execute query: " + cmd.CommandText);
-            try
-            {
-                OpenConnection();
-                cmd.Connection = _connect;
-                cmd.ExecuteNonQuery();
-                System.Diagnostics.Debug.WriteLine("COMPLETE");
-                return true;
-            }
-            catch (OracleException ex)
-            {
-                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
-                System.Diagnostics.Debug.WriteLine("Error while executing query: " + cmd.CommandText);
-                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
-                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
-                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
-                return false;
-            }
-            finally
-            {
-                CloseConnection();
-            }
-        }
-
         #region Inserts
+
+        /// <summary>
+        /// Inserts a like into the database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public bool InsertLike(int id, int userId)
         {
             try
@@ -315,6 +355,12 @@ namespace Mediasharing
  
         }
 
+        /// <summary>
+        /// Inserts a report into the databse.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public bool InsertReport(int id, int userId)
         {
             try
@@ -342,6 +388,14 @@ namespace Mediasharing
  
         }
 
+        /// <summary>
+        /// Insert a message linked to selected category.
+        /// </summary>
+        /// <param name="title"> title of the message </param>
+        /// <param name="content"> content of the message </param>
+        /// <param name="categoryId"> the id of the selected category </param>
+        /// <param name="userId"> the id of the current user </param>
+        /// <returns></returns>
         public bool InsertMessageCategory(string title , string content , int categoryId , int userId)
         {
             try
@@ -382,6 +436,13 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// Inserts a reaction into the database.
+        /// </summary>
+        /// <param name="userId"> id of the user </param>
+        /// <param name="title"> title of the reaction </param>
+        /// <param name="content"> content of the reaction </param>
+        /// <returns></returns>
         public bool InsertReaction(int userId, string title, string content)
         {
             try
@@ -422,6 +483,12 @@ namespace Mediasharing
             }
         }
 
+        /// <summary>
+        /// Inserts a category into the database.
+        /// </summary>
+        /// <param name="name"> the name of the category </param>
+        /// <param name="userId"> the id of the user </param>
+        /// <returns></returns>
         public bool InsertCategory(string name, int userId)
         {
             try
@@ -460,6 +527,16 @@ namespace Mediasharing
             return true;
         }
 
+        /// <summary>
+        /// Inserts an item(bestand) into the database.
+        /// </summary>
+        /// <param name="userId"> id of the user</param>
+        /// <param name="categoryId"> id of the category the item should be inserted in </param>
+        /// <param name="title"> title of the message linked to the file </param>
+        /// <param name="content"> content of the message linked to the file </param>
+        /// <param name="fileLocation"> save location of the file on the server </param>
+        /// <param name="size"> size of the image </param>
+        /// <returns></returns>
         public bool InsertItem(int userId, int categoryId, string title, string content, string fileLocation, int size)
         {
             try
@@ -536,6 +613,13 @@ namespace Mediasharing
         #endregion
 
         #region Deletes
+
+        /// <summary>
+        /// Deletes a like from the database.
+        /// </summary>
+        /// <param name="id"> id of the "bijdrage" from which the like has to be deleted </param>
+        /// <param name="userId"> id of the user </param>
+        /// <returns></returns>
         public bool DeleteLike(int id, int userId)
         {
             try
@@ -561,6 +645,13 @@ namespace Mediasharing
         }
         #endregion
 
+        #region Non Execute and Execute
+
+        /// <summary>
+        /// Execute a query with a return value.
+        /// </summary>
+        /// <param name="cmd"> OracleCommand </param>
+        /// <returns></returns>
         private List<Dictionary<string, object>> ExecuteQuery(OracleCommand cmd)
         {
             List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
@@ -604,6 +695,35 @@ namespace Mediasharing
             return null;
         }
 
+        /// <summary>
+        /// Executes a query without a return value.
+        /// </summary>
+        /// <param name="cmd"> OracleCommand </param>
+        /// <returns></returns>
+        private void Execute(OracleCommand cmd)
+        {
+            System.Diagnostics.Debug.WriteLine("---------------");
+            System.Diagnostics.Debug.WriteLine("Attempting to execute query: " + cmd.CommandText);
+            try
+            {
+                OpenConnection();
+                cmd.Connection = _connect;
+                cmd.ExecuteNonQuery();
+                System.Diagnostics.Debug.WriteLine("COMPLETE");
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query: " + cmd.CommandText);
+                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
 
         #endregion
     }

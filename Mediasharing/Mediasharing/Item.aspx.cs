@@ -315,6 +315,7 @@ namespace Mediasharing
         #endregion
 
         #region Events
+
         /// <summary>
         ///     Inserts a report of a reaction into the database, and changes the corresponding buttons.
         /// </summary>
