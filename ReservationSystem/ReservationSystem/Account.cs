@@ -1,23 +1,23 @@
-﻿/// <summary>
-/// Used to keep track of a users' account.
-/// </summary>
-namespace ReservationSystem
+﻿namespace ReservationSystem
 {
-public class Account
-{
-    public string Username { get; set; }
-    public string Email { get; set; }
-
-	public Account(string username, string email)
-	{
-	    Username = username;
-	    Email = email;
-	}
-
-    public override string ToString()
+    /// <summary>
+    /// Used to keep track of the account placing a reservation.
+    /// </summary>
+    public class Account
     {
-        string data = "Username: " + Username + ", email: " + Email + ".";
-        return data;
+        public Account(string username, string email)
+        {
+            Username = username;
+            Email = email;
+        }
+
+        public string Username { get; set; }
+        public string Email { get; set; }
+
+        public override string ToString()
+        {
+            var data = "Username: " + Username + ", email: " + Email + ".";
+            return data;
+        }
     }
-}
 }

@@ -8,19 +8,19 @@
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <form id="bigForm" runat="server">
-        <div id="container">
-            <h1>Social Media Sharing Event</h1>
-            <h3>ICT4Events</h3>
-            
-            <p>This social media event brings people together through the use of Social Media.</p><br/>
+<form id="bigForm" runat="server">
+    <div id="container">
+        <h1>Social Media Sharing Event</h1>
+        <h3>ICT4Events</h3>
 
-            <asp:Button ID="btnReserve" CssClass="button" runat="server" Text="Create a reservation" OnClick="btnReserve_Click" />
-            <asp:Button runat="server" CssClass="button" ID="btnAcc" Text="Create an account"/>
-            <p>If one of your friends has already reserved for you, you only need to create an account.</p>
-            
-        </div>
-                
-    </form>
+        <p>This social media event brings people together through the use of Social Media.</p><br/>
+
+        <asp:Button ID="btnReserve" CssClass="button" runat="server" Text="Create a reservation" OnClick="btnReserve_Click"/>
+        <asp:Button runat="server" CssClass="button" ID="btnAcc" Text="Create an account" OnClick="btnAcc_Click"/>
+        <p>If one of your friends has already reserved for you, you only need to create an account.</p>
+
+    </div>
+
+</form>
 </body>
 </html>
