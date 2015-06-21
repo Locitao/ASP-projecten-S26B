@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
+using System.Text.RegularExpressions;
+
 
 namespace ReservationSystem
 {
@@ -61,8 +63,10 @@ namespace ReservationSystem
         /// <param name="e"></param>
         protected void btnInsert_Click(object sender, EventArgs e)
         {
-            var start = Convert.ToDateTime(tbStartDate.Text);
-            var end = Convert.ToDateTime(tbEndDate.Text);
+            int errorCounter = 0;
+            errorCounter = Regex.Matches(tbStartDate.Text, @"[a-zA-Z]").Count;
+            errorCounter = errorCounter + Regex.Matches(tbEndDate.Text, @"[a-zA-Z]").Count;
+
             var product = (List<Product>) Session["Products"];
             var paid = 0;
 
@@ -71,8 +75,11 @@ namespace ReservationSystem
                 paid = 1;
             }
 
-            if (tbMatOne.Text != "")
+            if (tbMatOne.Text != "" && errorCounter == 0)
             {
+                var start = Convert.ToDateTime(tbStartDate.Text);
+                var end = Convert.ToDateTime(tbEndDate.Text);
+
                 int id = Convert.ToInt16(tbMatOne.Text);
                 foreach (var x in product)
                 {
@@ -83,8 +90,11 @@ namespace ReservationSystem
                 }
             }
 
-            if (tbMatTwo.Text != "")
+            else if (tbMatTwo.Text != "" && errorCounter == 0)
             {
+                var start = Convert.ToDateTime(tbStartDate.Text);
+                var end = Convert.ToDateTime(tbEndDate.Text);
+
                 int id = Convert.ToInt16(tbMatTwo.Text);
                 foreach (var x in product)
                 {
@@ -95,8 +105,11 @@ namespace ReservationSystem
                 }
             }
 
-            if (tbMatThree.Text != "")
+            else if (tbMatThree.Text != "" && errorCounter == 0)
             {
+                var start = Convert.ToDateTime(tbStartDate.Text);
+                var end = Convert.ToDateTime(tbEndDate.Text);
+
                 int id = Convert.ToInt16(tbMatThree.Text);
                 foreach (var x in product)
                 {
@@ -105,6 +118,12 @@ namespace ReservationSystem
                         Insert_Mat_Res(x.Id, x.Price, start, end, paid);
                     }
                 }
+            }
+
+            else if (tbMatOne.Text != "" || tbMatTwo.Text != "" || tbMatThree.Text != "" && errorCounter > 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage",
+                    "alert('One of the given dates is wrong.')", true);
             }
 
             var home = HttpContext.Current.Handler as Page;
