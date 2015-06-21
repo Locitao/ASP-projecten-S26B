@@ -3,7 +3,7 @@ using System.Web.UI;
 
 namespace ReservationSystem
 {
-    public class Voorpagina : Page
+    public partial class Voorpagina : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -16,7 +16,7 @@ namespace ReservationSystem
         /// <param name="e"></param>
         protected void btnReserve_Click(object sender, EventArgs e)
         {
-            Response.Redirect("CreateAccount.aspx");
+            Response.Redirect("NewAccount.aspx");
         }
 
         /// <summary>

@@ -33,7 +33,7 @@
             <asp:TextBox ID="tbHouseNumber" CssClass="myForm" runat="server"></asp:TextBox><br/>
             <asp:TextBox ID="tbCity" CssClass="myForm" runat="server"></asp:TextBox><br/>
             <asp:TextBox ID="tbBankAccount" CssClass="myForm" runat="server" MaxLength="10"></asp:TextBox><br/>
-            <asp:TextBox ID="tbEmail" CssClass="myForm" runat="server"></asp:TextBox><br/>
+            <asp:TextBox ID="tbEmail" TextMode="Email" CssClass="myForm" runat="server"></asp:TextBox><br/>
             <asp:TextBox ID="tbUsername" CssClass="myForm" runat="server"></asp:TextBox><br/>
             <asp:TextBox ID="tbPassword" CssClass="myForm" runat="server" TextMode="Password"></asp:TextBox><br/>
             <asp:TextBox ID="tbFriendUsername" runat="server" CssClass="myForm"></asp:TextBox>

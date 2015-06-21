@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.UI;
+using System.Text.RegularExpressions;
 
 namespace ReservationSystem
 {
@@ -18,6 +19,7 @@ namespace ReservationSystem
         /// <returns></returns>
         protected bool Insert_Person()
         {
+
             if (tbName.Text == "" || tbSurname.Text == "" || tbBankAccount.Text == "" || tbStreet.Text == "" ||
                 tbHouseNumber.Text == "" || tbCity.Text == "" || tbUsername.Text == "" || tbEmail.Text == "" ||
                 tbPassword.Text == "")

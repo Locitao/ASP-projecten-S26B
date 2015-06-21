@@ -16,9 +16,9 @@
             <p class="tekstinput">ID of material:</p><br/>
             <p class="tekstinput">ID of 2nd material:</p><br/>
             <p class="tekstinput">ID of 3d material:</p><br/>
-            <p class="tekstinput">Start date of rent(format: dd/mm/yyyy):</p><br/>
-            <p class="tekstinput">End date of rent(format: dd/mm/yyyy):</p><br/>
-            <p class="tekstinput">Pay now for your reservation (check if yes):</p>
+            <p class="tekstinput">Start date of rent:</p><br/>
+            <p class="tekstinput">End date of rent:</p><br/>
+            <p class="tekstinput">Pay now?</p>
         </div>
         <div class="myForm">
             <asp:TextBox ID="tbMatOne" CssClass="myForm" runat="server"></asp:TextBox><br/>
