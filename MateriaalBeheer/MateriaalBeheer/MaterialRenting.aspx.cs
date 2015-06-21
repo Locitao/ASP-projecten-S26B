@@ -38,7 +38,7 @@ namespace MaterialRenting
         public void LoadItems()
         {
             List<string> barcodes = new List<string>();
-            string query = "select distinct \"barcode\" from productexemplaar";
+            string query = "select distinct \"barcode\" from productexemplaar order by \"barcode\" asc";
             List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
             foreach (Dictionary<string, object> dic in output)
             {
@@ -216,6 +216,7 @@ namespace MaterialRenting
                 OracleCommand oc = new OracleCommand(query);
                 oc.Parameters.Add("barcode", barCode);
                 List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
+                if (output.Count == 0) return false;
                 int id = (int) (long) output[0]["ID"];
 
 
@@ -255,6 +256,7 @@ namespace MaterialRenting
                 OracleCommand oc = new OracleCommand(query);
                 oc.Parameters.Add("barcode", barCode);
                 List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
+                if (output.Count == 0) return false;
                 int id = (int)(long)output[0]["ID"];
 
 
@@ -397,8 +399,15 @@ namespace MaterialRenting
         {
             if (CheckLendMaterialStatus())
             {
-                LendItem((Material) Session["selectedMaterial"], tbLendBarcode.Text, DateTime.ParseExact(tbLendReturnDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture));
-                Server.Transfer("MaterialRenting.aspx");
+                if (LendItem((Material) Session["selectedMaterial"], tbLendBarcode.Text,
+                    DateTime.ParseExact(tbLendReturnDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture)))
+                {
+                    Server.Transfer("MaterialRenting.aspx");
+                }
+                else
+                {
+                    Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Input was not correct, please put in correct information\")</SCRIPT>");
+                }
             }
         }
 
@@ -434,8 +443,14 @@ namespace MaterialRenting
         {
             if (CheckReserveMaterialStatus())
             {
-                ReserveItem((Material)Session["selectedMaterial"], tbReserveBarcode.Text, DateTime.ParseExact(tbReserveLendDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture), DateTime.ParseExact(tbReserveReturnDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture));
-                Server.Transfer("MaterialRenting.aspx");
+                if (ReserveItem((Material)Session["selectedMaterial"], tbReserveBarcode.Text, DateTime.ParseExact(tbReserveLendDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture), DateTime.ParseExact(tbReserveReturnDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture)))
+                {
+                    Server.Transfer("MaterialRenting.aspx");
+                }
+                else
+                {
+                    Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Input was not correct, please put in correct information\")</SCRIPT>");
+                }
             }
         }
 

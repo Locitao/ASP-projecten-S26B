@@ -85,24 +85,6 @@ namespace MaterialRenting {
         protected global::System.Web.UI.WebControls.Button btnReserveProduct;
         
         /// <summary>
-        /// btnReturnProduct control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReturnProduct;
-        
-        /// <summary>
-        /// btChangeCategory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btChangeCategory;
-        
-        /// <summary>
         /// btnNewItem control.
         /// </summary>
         /// <remarks>
@@ -110,15 +92,6 @@ namespace MaterialRenting {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnNewItem;
-        
-        /// <summary>
-        /// btNewCategory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btNewCategory;
         
         /// <summary>
         /// pnlPopUpLendItem control.

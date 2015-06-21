@@ -23,14 +23,9 @@
         </div>
 
 
-        <div>
             <asp:Button ID="btnLendProduct" CssClass="button" runat="server" Text="Lend Item" OnClick="btnLendProduct_Click"/>
             <asp:Button ID="btnReserveProduct" CssClass="button" runat="server" Text="Reserve Item" OnClick="btnReserveProduct_OnClick"/>
-            <asp:Button ID="btnReturnProduct" CssClass="button" runat="server" Text="Return Item"/>
-            <asp:Button ID="btChangeCategory" CssClass="button" runat="server" Text="Change Category"/>
             <asp:Button ID="btnNewItem" CssClass="button" runat="server" Text="Add Item" OnClick="btnNewItem_OnClick"/>
-            <asp:Button ID="btNewCategory" CssClass="button" runat="server" Text="Add Category"/>
-        </div>
     </asp:Panel>
 
     <div>
