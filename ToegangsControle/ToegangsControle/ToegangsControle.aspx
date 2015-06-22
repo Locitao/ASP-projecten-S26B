@@ -11,7 +11,7 @@
 <body>
 <form id="Form" runat="server">
     <!-- Start content webpage -->
-    <div class="inhoud">
+    <div class="content">
         <h1> Access Control</h1>
 
         <!-- start textbox -->
@@ -20,14 +20,14 @@
         <br/> <br/>
 
         <!-- start listbox -->
-        <asp:ListBox class="listbox" ID="lbGegevens" runat="server" Width="100%" Height="70%" ViewStateMode="Enabled"></asp:ListBox>
+        <asp:ListBox class="listbox" ID="lbContent" runat="server" Width="100%" Height="70%" ViewStateMode="Enabled"></asp:ListBox>
         <!-- end listbox -->
         <br/> <br/>
 
         <!-- start buttons -->
-        <asp:Button class="button" ID="bttnBetaald" runat="server" Text="Toggle paid" OnClick="bttnBetaald_Click"/>
-        <asp:Button class="button" ID="bttnAnuleren" runat="server" Text="Cancel reservation" OnClick="bttnAnuleren_Click"/>
-        <asp:Button class="button" ID="bttnAanwezig" runat="server" Text="List all attendees" OnClick="bttnAanwezig_Click"/>
+        <asp:Button class="button" ID="bttnPaid" runat="server" Text="Toggle paid" OnClick="bttnPaid_Click"/>
+        <asp:Button class="button" ID="bttnCancel" runat="server" Text="Cancel reservation" OnClick="bttnCancel_Click"/>
+        <asp:Button class="button" ID="bttnPresent" runat="server" Text="List all attendees" OnClick="bttnPresent_Click"/>
         <asp:Button class="button1" ID="bttnRefresh" runat="server" Text="Refresh" OnClick="bttnRefresh_Click"/>
         <!-- end buttons -->
     </div>

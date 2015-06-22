@@ -21,7 +21,7 @@ namespace ToegangsControle
         {
             if (refresh)
             {
-                lbGegevens.Items.Clear();
+                lbContent.Items.Clear();
                 try
                 {
                     var reservation = sqlQueries.Select_Reservation();
@@ -29,28 +29,28 @@ namespace ToegangsControle
                     foreach (var row in reservation)
                     {
                         var present = Convert.ToString(row["aanwezig"]);
-                        var payed = Convert.ToString(row["betaald"]);
+                        var paid = Convert.ToString(row["betaald"]);
                         var barcode = Convert.ToString(row["barcode"]);
 
                         if (present != "0")
                         {
-                            present = "ja";
+                            present = "yes";
                         }
                         else
                         {
-                            present = "nee";
+                            present = "no";
                         }
-                        if (payed != "0")
+                        if (paid != "0")
                         {
-                            payed = "ja";
+                            paid = "yes";
                         }
                         else
                         {
-                            payed = "nee";
+                            paid = "no";
                         }
-                        lbGegevens.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " +
+                        lbContent.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " +
                                              row["account_id"] + ". Barcode: " + barcode + ". Name: " +
-                                             row["gebruikersnaam"] + ". payed?: " + payed + ". Present?: " + present);
+                                             row["gebruikersnaam"] + ". paid?: " + paid + ". Present?: " + present);
                     }
                     refresh = false;
                 }
@@ -69,9 +69,9 @@ namespace ToegangsControle
         /// <param name="e"></param>
         protected void bttnRefresh_Click(object sender, EventArgs e)
         {
-            bttnAanwezig.Enabled = true;
-            bttnAnuleren.Enabled = true;
-            bttnBetaald.Enabled = true;
+            bttnPresent.Enabled = true;
+            bttnCancel.Enabled = true;
+            bttnPaid.Enabled = true;
             tbBarcode.Text = "Scan Code";
             refresh = true;
         }
@@ -81,15 +81,15 @@ namespace ToegangsControle
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void bttnAanwezig_Click(object sender, EventArgs e)
+        protected void bttnPresent_Click(object sender, EventArgs e)
         {
             try
             {
-                lbGegevens.Items.Clear();
+                lbContent.Items.Clear();
                 tbBarcode.Text = "Scan Code";
-                bttnAanwezig.Enabled = false;
-                bttnAnuleren.Enabled = false;
-                bttnBetaald.Enabled = false;
+                bttnPresent.Enabled = false;
+                bttnCancel.Enabled = false;
+                bttnPaid.Enabled = false;
 
                 var attendees = sqlQueries.Select_allAttendees();
 
@@ -99,14 +99,14 @@ namespace ToegangsControle
 
                     if (present != "0")
                     {
-                        present = "ja";
+                        present = "yes";
                     }
                     else
                     {
-                        present = "nee";
+                        present = "no";
                     }
 
-                    lbGegevens.Items.Add("Reservering_ID: " + row["reservering_id"] + ". Account_ID: " + row["ID"] +
+                    lbContent.Items.Add("Reservering_ID: " + row["reservering_id"] + ". Account_ID: " + row["ID"] +
                                          ". Name: " + row["gebruikersnaam"] + ". Present?: " + present);
                     refresh = false;
                 }
@@ -123,12 +123,21 @@ namespace ToegangsControle
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void bttnAnuleren_Click(object sender, EventArgs e)
+        protected void bttnCancel_Click(object sender, EventArgs e)
         {
-            var reserveringsID = lbGegevens.SelectedItem.ToString().Substring(16, 1);
-            sqlQueries.Delete_reserveringVerhuur(reserveringsID);
-            sqlQueries.Delete_reserveringPolsbandje(reserveringsID);
-            sqlQueries.Delete_reservering(reserveringsID);
+            var reserveringsID = "";
+            try
+            {
+                reserveringsID = lbContent.SelectedItem.ToString().Substring(16, 1);
+            }
+            catch
+            {
+                tbBarcode.Text = "No item selected";
+            }
+
+            sqlQueries.Delete_reservationRent(reserveringsID);
+            sqlQueries.Delete_reservationPolsbandje(reserveringsID);
+            sqlQueries.Delete_Reservation(reserveringsID);
         }
 
         /// <summary>
@@ -136,13 +145,20 @@ namespace ToegangsControle
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void bttnBetaald_Click(object sender, EventArgs e)
+        protected void bttnPaid_Click(object sender, EventArgs e)
         {
-            tbBarcode.Text = "Scan Code";
-            var reservationID = lbGegevens.SelectedItem.ToString().Substring(16, 1);
-            var userID = lbGegevens.SelectedItem.ToString().Substring(31, 1);
-            string payed = sqlQueries.Update_Betaald(reservationID);
-            refreshOnUserID(userID);
+            try
+            {
+                tbBarcode.Text = "Scan Code";
+                var reservationID = lbContent.SelectedItem.ToString().Substring(16, 1);
+                var userID = lbContent.SelectedItem.ToString().Substring(31, 1);
+                string payed = sqlQueries.Update_Payed(reservationID);
+                refreshOnUserID(userID);
+            }
+            catch
+            {
+                tbBarcode.Text = "No item selected";
+            }
 
             refresh = false;
         }
@@ -168,11 +184,11 @@ namespace ToegangsControle
 
                 if (numericOnly)
                 {
-                    string userID = sqlQueries.HaalGebruikerIDVanBarcode(barcode);
-                    string hasPayed = sqlQueries.checkBetaaldOnUserID(userID);
+                    string userID = sqlQueries.getUserIDFromBarcode(barcode);
+                    string hasPayed = sqlQueries.checkPayedOnUserID(userID);
                     if (hasPayed != "0")
                     {
-                        sqlQueries.Update_Aanwezig(userID);
+                        sqlQueries.Update_Present(userID);
                         tbBarcode.Text = "";
                     }
                     else
@@ -183,7 +199,7 @@ namespace ToegangsControle
                 }
                 else
                 {
-                    tbBarcode.Text = "Unvalid input";
+                    tbBarcode.Text = "Invalid input";
                 }
             }
         }
@@ -196,34 +212,34 @@ namespace ToegangsControle
         {
             try
             {
-                lbGegevens.Items.Clear();
+                lbContent.Items.Clear();
                 var reservering = sqlQueries.Select_reservationUserID(userID);
 
                 foreach (var row in reservering)
                 {
-                    var aanwezig = Convert.ToString(row["aanwezig"]);
-                    var betaald = Convert.ToString(row["betaald"]);
+                    var present = Convert.ToString(row["aanwezig"]);
+                    var paid = Convert.ToString(row["betaald"]);
                     var barcode = Convert.ToString(row["barcode"]);
 
-                    if (aanwezig != "0")
+                    if (present != "0")
                     {
-                        aanwezig = "ja";
+                        present = "yes";
                     }
                     else
                     {
-                        aanwezig = "nee";
+                        present = "no";
                     }
-                    if (betaald != "0")
+                    if (paid != "0")
                     {
-                        betaald = "ja";
+                        paid = "yes";
                     }
                     else
                     {
-                        betaald = "nee";
+                        paid = "no";
                     }
-                    lbGegevens.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " +
+                    lbContent.Items.Add("reservering ID: " + row["reservering_id"] + ". Account ID: " +
                                          row["account_id"] + ". Barcode: " + barcode + ". Name: " +
-                                         row["gebruikersnaam"] + ". Betaald?: " + betaald + ". Aanwezig?: " + aanwezig);
+                                         row["gebruikersnaam"] + ". Paid?: " + paid + ". Present?: " + present);
                 }
                 refresh = false;
             }

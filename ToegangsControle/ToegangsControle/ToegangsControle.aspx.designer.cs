@@ -31,40 +31,40 @@ namespace ToegangsControle {
         protected global::System.Web.UI.WebControls.TextBox tbBarcode;
         
         /// <summary>
-        /// lbGegevens control.
+        /// lbContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox lbGegevens;
+        protected global::System.Web.UI.WebControls.ListBox lbContent;
         
         /// <summary>
-        /// bttnBetaald control.
+        /// bttnPaid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bttnBetaald;
+        protected global::System.Web.UI.WebControls.Button bttnPaid;
         
         /// <summary>
-        /// bttnAnuleren control.
+        /// bttnCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bttnAnuleren;
+        protected global::System.Web.UI.WebControls.Button bttnCancel;
         
         /// <summary>
-        /// bttnAanwezig control.
+        /// bttnPresent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bttnAanwezig;
+        protected global::System.Web.UI.WebControls.Button bttnPresent;
         
         /// <summary>
         /// bttnRefresh control.
