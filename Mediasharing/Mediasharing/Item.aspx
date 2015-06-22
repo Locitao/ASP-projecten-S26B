@@ -91,22 +91,9 @@
                     </td>
                 </tr>
             </table>
+            <h3>&nbsp;</h3>
             <br />
-            <h3>Reactions</h3>
-            <asp:ListBox ID="lbReactions" runat="server" CssClass="listbox1" AutoPostBack="True" OnSelectedIndexChanged="lbReactions_SelectedIndexChanged"></asp:ListBox>
             <br />
-            <asp:Label ID="lblReactionLikes" runat="server"></asp:Label>
-            <br />
-            <table class="custom">
-                <tr>
-                    <td>
-                        <asp:Button ID="btnLikeReaction" runat="server" CssClass="buttondisabled" Text="Like" Enabled="False" OnClick="btnLikeReaction_Click" />
-                    </td>
-                    <td>
-                        <asp:Button ID="btnReportReaction" runat="server" CssClass="buttondisabled" Text="Report" Enabled="False" OnClick="btnReportReaction_Click" />
-                    </td>
-                </tr>
-            </table>
         </div>
 
     </div>
