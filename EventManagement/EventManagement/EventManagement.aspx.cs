@@ -17,8 +17,8 @@ namespace EventManagement
             if (!IsPostBack)
             {
                 RefreshCampingsListBox();
-                RefreshCampingSpotsListBox(1);
-                RefreshEventsListBox(1);
+                //RefreshCampingSpotsListBox(1);
+                //RefreshEventsListBox(1);
             }
         }
 
@@ -206,6 +206,14 @@ namespace EventManagement
             {
                 Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Input was incorrect, please fill in correct input\")</SCRIPT>");
             }
+        }
+
+        protected void lbCampings_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int indexOfColon = lbCampings.SelectedItem.ToString().IndexOf(':');
+            int campingId = Convert.ToInt32(lbCampings.SelectedItem.ToString().Substring(0, indexOfColon));
+            RefreshCampingSpotsListBox(campingId);
+            RefreshEventsListBox(campingId);
         }
     }
 }

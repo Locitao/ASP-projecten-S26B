@@ -10,7 +10,7 @@
 <body>
     <form id="formEventManagement" runat="server" style="margin-left: auto; margin-right: auto;">
             <div style="width: 500px; margin-left: auto; margin-right: auto;">
-                <asp:ListBox runat="server" ID="lbCampings" height="250px" width="400px"/><br/>
+                <asp:ListBox runat="server" ID="lbCampings" height="250px" width="400px" OnSelectedIndexChanged="lbCampings_OnSelectedIndexChanged" AutoPostBack="True"/><br/>
                 <table style="border: hidden;">
                         <tr style="border: hidden;">
                             <td>Name:</td>
