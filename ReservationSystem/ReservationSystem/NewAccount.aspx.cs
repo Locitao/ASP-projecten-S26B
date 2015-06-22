@@ -18,6 +18,7 @@ namespace ReservationSystem
         /// <returns></returns>
         protected bool Insert_Person()
         {
+
             if (tbName.Text == "" || tbSurname.Text == "" || tbBankAccount.Text == "" || tbStreet.Text == "" ||
                 tbHouseNumber.Text == "" || tbCity.Text == "" || tbUsername.Text == "" || tbEmail.Text == "" ||
                 tbPassword.Text == "")

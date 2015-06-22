@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Web.UI;
 using Oracle.DataAccess.Client;
 
@@ -20,6 +21,7 @@ namespace MaterialRenting
             {
                 pnlPopUpLendItem.Visible = false;
                 pnlPopUpReserveItem.Visible = false;
+                pnlPopUpAddProduct.Visible = false;
                 LoadItems();
                 RefreshAllItems();
                 Session["materialList"] = _materialList;
@@ -36,14 +38,14 @@ namespace MaterialRenting
         public void LoadItems()
         {
             List<string> barcodes = new List<string>();
-            string query = "select distinct \"barcode\" from productexemplaar";
+            string query = "select distinct \"barcode\" from productexemplaar order by \"barcode\" asc";
             List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(new OracleCommand(query));
             foreach (Dictionary<string, object> dic in output)
             {
                 barcodes.Add((string) dic["barcode"]);
             }
 
-            _materialList = GetMaterialsInRented(barcodes);
+            _materialList = GetMaterialsFromDatabase(barcodes);
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace MaterialRenting
         /// </summary>
         /// <param name="barcodes">a list with all barcodes for the materials that should be loaded</param>
         /// <returns>the list with all materials that excist in the database</returns>
-        public List<Material> GetMaterialsInRented(List<string> barcodes)
+        public List<Material> GetMaterialsFromDatabase(List<string> barcodes)
         {
             List<Material> materials = new List<Material>();
             foreach (string barcode in barcodes)
@@ -133,10 +135,17 @@ namespace MaterialRenting
             {
                 foreach (Material mat in _materialList)
                 {
-                    DateTime dateFrom = DateTime.ParseExact(tbStartDate.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    DateTime dateTo = DateTime.ParseExact(tbEndDate.Text, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    mat.CheckStatus(dateFrom, dateTo);
-                    lbProducts.Items.Add(mat.ToString());
+                    try
+                    {
+                        DateTime dateFrom = DateTime.ParseExact(tbStartDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        DateTime dateTo = DateTime.ParseExact(tbEndDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        mat.CheckStatus(dateFrom, dateTo);
+                        lbProducts.Items.Add(mat.ToString());
+                    }
+                    catch
+                    {
+                        Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
+                    }
                 }
             }
         }
@@ -145,11 +154,11 @@ namespace MaterialRenting
         ///     this method checks if a material is available for the selected period
         /// </summary>
         /// <returns>wether the check has gone good or if the input was wrong</returns>
-        private bool CheckMaterialStatus()
+        private bool CheckLendMaterialStatus()
         {
             try
             {
-                DateTime dateToCheck = DateTime.ParseExact(tbLendReturnDate.Text, "dd-MM-yyyy",
+                DateTime dateToCheck = DateTime.ParseExact(tbLendReturnDate.Text, "yyyy-MM-dd",
                     CultureInfo.InvariantCulture);
                 Material materialToCheck = (Material) Session["selectedMaterial"];
                 materialToCheck.CheckStatus(DateTime.Now, dateToCheck);
@@ -161,7 +170,32 @@ namespace MaterialRenting
             }
             catch
             {
-                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured\")</SCRIPT>");
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///     this method checks if a material is available for the selected period
+        /// </summary>
+        /// <returns>wether the check has gone good or if the input was wrong</returns>
+        private bool CheckReserveMaterialStatus()
+        {
+            try
+            {
+                DateTime dateFrom = DateTime.ParseExact(tbReserveLendDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                DateTime dateTo = DateTime.ParseExact(tbReserveReturnDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                Material materialToCheck = (Material)Session["selectedMaterial"];
+                materialToCheck.CheckStatus(dateFrom, dateTo);
+                lblPopUpReserveItem.Text = "Name: " + materialToCheck.Brand + ", " + materialToCheck.Serie + "<br />price: " +
+                                   materialToCheck.Price + "<br/>status: " +
+                                   materialToCheck.Status;
+                Session["selectedMaterial"] = materialToCheck;
+                return true;
+            }
+            catch
+            {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
                 return false;
             }
         }
@@ -171,7 +205,7 @@ namespace MaterialRenting
         /// </summary>
         /// <param name="mat">the Material that will be lend</param>
         /// <param name="barCode">the barcode to which user this material will be lend</param>
-        /// <param name="dateReturn">the date when the item will be lend</param>
+        /// <param name="dateReturn">the date when the item will be retured</param>
         /// <returns>wether the input was correct</returns>
         public bool LendItem(Material mat, string barCode, DateTime dateReturn)
         {
@@ -182,17 +216,71 @@ namespace MaterialRenting
                 OracleCommand oc = new OracleCommand(query);
                 oc.Parameters.Add("barcode", barCode);
                 List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
+                if (output.Count == 0) return false;
                 int id = (int) (long) output[0]["ID"];
+
+
+                query =
+                    "insert into verhuur values(verhuur_fcseq.nextval, :productID, :rpID, :dateIn, :dateOut, :price, '1')";
+                OracleCommand ocInsert = new OracleCommand(query);
+                ocInsert.Parameters.Add("productID", mat.Id);
+                ocInsert.Parameters.Add("rpID", id);
+                ocInsert.Parameters.Add("dateIn", DateTime.Now);
+                ocInsert.Parameters.Add("dateOut", dateReturn);
+                ocInsert.Parameters.Add("price", mat.Price);
+                DbConnection.Instance.Execute(ocInsert);
 
                 return true;
             }
-            // input is wrong
-            return false;
+            else
+            {
+                // input is wrong
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// reserve material to an user
+        /// </summary>
+        /// <param name="mat">the Material that will be reserved</param>
+        /// <param name="barCode">the barcode which represents the user who wants this product</param>
+        /// <param name="dateStart">the starting date from when the product will be reserved</param>
+        /// <param name="dateReturn">the date this product will be returned</param>
+        /// <returns>wether the input was correct</returns>
+        public bool ReserveItem(Material mat, string barCode, DateTime dateStart, DateTime dateReturn)
+        {
+            if (barCode.Length == 12 && dateReturn > dateStart)
+            {
+                string query =
+                    "select rp.ID from polsbandje p, reservering_polsbandje rp where p.id = rp.\"polsbandje_id\" and \"barcode\" = :barcode and \"actief\" = 1";
+                OracleCommand oc = new OracleCommand(query);
+                oc.Parameters.Add("barcode", barCode);
+                List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
+                if (output.Count == 0) return false;
+                int id = (int)(long)output[0]["ID"];
+
+
+                query =
+                    "insert into verhuur values(verhuur_fcseq.nextval, :productID, :rpID, :dateIn, :dateOut, :price, '0')";
+                OracleCommand ocInsert = new OracleCommand(query);
+                ocInsert.Parameters.Add("productID", mat.Id);
+                ocInsert.Parameters.Add("rpID", id);
+                ocInsert.Parameters.Add("dateIn", dateStart);
+                ocInsert.Parameters.Add("dateOut", dateReturn);
+                ocInsert.Parameters.Add("price", mat.Price);
+                DbConnection.Instance.Execute(ocInsert);
+
+                return true;
+            }
+            else
+            {
+                // input is wrong
+                return false;
+            }
         }
 
         /// <summary>
         ///     this method gathers all information about the material that should be lend
-        ///     then the lendItem() gets fired with the needed information
         /// </summary>
         private void LendMaterial()
         {
@@ -218,6 +306,87 @@ namespace MaterialRenting
             }
             catch
             {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
+            }
+        }
+
+        /// <summary>
+        ///     this method gathers all information about the material that should be reserved
+        /// </summary>
+        private void ReserveMaterial()
+        {
+            Material selectedProduct = null;
+            foreach (Material mat in _materialList)
+            {
+                if (lbProducts.SelectedItem != null && mat.ToString() == lbProducts.SelectedItem.Text)
+                {
+                    Session["selectedMaterial"] = mat;
+                    selectedProduct = mat;
+                    break;
+                }
+            }
+            try
+            {
+                selectedProduct.CheckStatus(DateTime.Now, DateTime.Now.AddDays(1));
+                lblPopUpReserveItem.Text = "Name: " + selectedProduct.Brand + ", " + selectedProduct.Serie + "<br />price: " +
+                                   selectedProduct.Price + "<br/>status: " +
+                                   selectedProduct.Status;
+                tbReserveLendDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                tbReserveReturnDate.Text = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+                pnlMain.Visible = false;
+                pnlPopUpReserveItem.Visible = true;
+            }
+            catch
+            {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, please try again later\")</SCRIPT>");
+            }
+        }
+
+        /// <summary>
+        /// Loads all product species into the drop down list
+        /// </summary>
+        private void LoadProductsIntoComboBox()
+        {
+            if (!IsPostBack)
+            {
+                string query = "select id, \"merk\", \"serie\", \"typenummer\" from product";
+                OracleCommand oc = new OracleCommand(query);
+                List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
+                foreach (Dictionary<string, object> dic in output)
+                {
+                    string productSpecies = Convert.ToString((long)dic["ID"]) + ": " + (string)dic["merk"] + ", " + (string)dic["serie"] + ", " + (string)dic["typenummer"];
+                    ddlProducts.Items.Add(productSpecies);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add another instance off the selected product to the database
+        /// </summary>
+        private void SaveAddedProduct()
+        {
+            try
+            {
+                string selectedProduct = ddlProducts.SelectedItem.ToString();
+                string productId = selectedProduct.Substring(0, selectedProduct.IndexOf(':'));
+                string query = "select max(\"volgnummer\") as value from productexemplaar where \"product_id\" = :productId";
+                OracleCommand oc = new OracleCommand(query);
+                oc.Parameters.Add("productId", productId);
+                List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
+                string followingNumber = Convert.ToString((decimal)output[0]["VALUE"] + 1);
+                string followingNumberPadded = followingNumber.PadLeft(3, '0');
+                string typeNumber = selectedProduct.Substring(selectedProduct.Length - 4, 4);
+                string barcode = typeNumber + "." + followingNumberPadded;
+                query = "insert into productexemplaar values (productexemplaar_fcseq.nextval, :id, :followingNumber, :barcode)";
+                OracleCommand cmd = new OracleCommand(query);
+                cmd.Parameters.Add("id", productId);
+                cmd.Parameters.Add("followingNumber", followingNumber);
+                cmd.Parameters.Add("barcode", barcode);
+                DbConnection.Instance.Execute(cmd);
+            }
+            catch
+            {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"An error has occured, the item has not been added. Please try again\")</SCRIPT>");
             }
         }
 
@@ -226,31 +395,29 @@ namespace MaterialRenting
             LendMaterial();
         }
 
-        public void btnLendPopUp_OnClick(object sender, EventArgs e)
+        public void btnLendPopUpSave_OnClick(object sender, EventArgs e)
         {
-            if (CheckMaterialStatus())
+            if (CheckLendMaterialStatus())
             {
-                LendItem((Material) Session["selectedMaterial"], tbLendBarcode.Text, DateTime.Now.AddDays(1));
-                pnlMain.Visible = true;
-                pnlPopUpLendItem.Visible = false;
+                if (LendItem((Material) Session["selectedMaterial"], tbLendBarcode.Text,
+                    DateTime.ParseExact(tbLendReturnDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture)))
+                {
+                    Server.Transfer("MaterialRenting.aspx");
+                }
+                else
+                {
+                    Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Input was not correct, please put in correct information\")</SCRIPT>");
+                }
             }
         }
 
-        protected void btnReservePopUp_OnClick(object sender, EventArgs e)
-        {
-            pnlMain.Visible = true;
-            pnlPopUpReserveItem.Visible = false;
-        }
+        
 
         protected void btnReserveProduct_OnClick(object sender, EventArgs e)
         {
-            pnlMain.Visible = false;
-            pnlPopUpReserveItem.Visible = true;
+            ReserveMaterial();
         }
 
-        protected void btnReturnProduct_OnClick(object sender, EventArgs e)
-        {
-        }
 
         protected void btnRefresh_OnClick(object sender, EventArgs e)
         {
@@ -259,7 +426,54 @@ namespace MaterialRenting
 
         protected void btnCheckStatus_OnClick(object sender, EventArgs e)
         {
-            CheckMaterialStatus();
+            CheckLendMaterialStatus();
+        }
+
+        protected void btnLendCancel_OnClick(object sender, EventArgs e)
+        {
+            Server.Transfer("MaterialRenting.aspx");
+        }
+
+        protected void btnReserveCheckStatus_OnClick(object sender, EventArgs e)
+        {
+            CheckReserveMaterialStatus();
+        }
+
+        protected void btnReserveSave_OnClick(object sender, EventArgs e)
+        {
+            if (CheckReserveMaterialStatus())
+            {
+                if (ReserveItem((Material)Session["selectedMaterial"], tbReserveBarcode.Text, DateTime.ParseExact(tbReserveLendDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture), DateTime.ParseExact(tbReserveReturnDate.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture)))
+                {
+                    Server.Transfer("MaterialRenting.aspx");
+                }
+                else
+                {
+                    Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Input was not correct, please put in correct information\")</SCRIPT>");
+                }
+            }
+        }
+
+        protected void btnReserveCancel_OnClick(object sender, EventArgs e)
+        {
+            Server.Transfer("MaterialRenting.aspx");
+        }
+
+        protected void btnAddProduct_OnClick(object sender, EventArgs e)
+        {
+            SaveAddedProduct();
+            Server.Transfer("MaterialRenting.aspx");
+        }
+
+        protected void ddlProducts_OnLoad(object sender, EventArgs e)
+        {
+            LoadProductsIntoComboBox();
+        }
+
+        protected void btnNewItem_OnClick(object sender, EventArgs e)
+        {
+            pnlMain.Visible = false;
+            pnlPopUpAddProduct.Visible = true;
         }
     }
 }
