@@ -17,12 +17,12 @@ namespace ToegangsControle
         /// <returns></returns>
         public bool NewConnection()
         {
-            const string user = "dbi321380";
-            const string pw = "HRs7Usr4Bz";
-            const string test = "fhictora";
+            const string user = "system";
+            const string pw = "wachtwoord";
+            const string test = "xe";
 
             _conn.ConnectionString = "User Id=" + user + ";Password=" + pw + ";Data Source=" +
-                                     "//192.168.15.50:1521/" + test + ";";
+                                     "//localhost:1521/" + test + ";";
             try
             {
                 _conn.Open();
