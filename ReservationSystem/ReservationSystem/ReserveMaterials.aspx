@@ -24,8 +24,8 @@
             <asp:TextBox ID="tbMatOne" CssClass="myForm" runat="server"></asp:TextBox><br/>
             <asp:TextBox ID="tbMatTwo" CssClass="myForm" runat="server"></asp:TextBox><br/>
             <asp:TextBox ID="tbMatThree" CssClass="myForm" runat="server"></asp:TextBox><br/>
-            <asp:TextBox ID="tbStartDate" runat="server" TextMode="Date"></asp:TextBox><br/>
-            <asp:TextBox ID="tbEndDate" runat="server" TextMode="Date"></asp:TextBox><br/>
+            <asp:TextBox ID="tbStartDate" runat="server" TextMode="Date" CssClass="myForm"></asp:TextBox><br/>
+            <asp:TextBox ID="tbEndDate" runat="server" TextMode="Date" CssClass="myForm"></asp:TextBox><br/>
             <asp:CheckBox ID="cbPay" runat="server"/>
         </div>
         <asp:Button runat="server" CssClass="button" Text="Complete Reservation" ID="btnInsert" OnClick="btnInsert_Click"/><br/>
