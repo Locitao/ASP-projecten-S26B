@@ -121,6 +121,15 @@ namespace EventManagement {
         protected global::System.Web.UI.WebControls.DropDownList ddlSpecification1;
         
         /// <summary>
+        /// tbSpecificationValue1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbSpecificationValue1;
+        
+        /// <summary>
         /// ddlSpecification2 control.
         /// </summary>
         /// <remarks>
@@ -130,6 +139,15 @@ namespace EventManagement {
         protected global::System.Web.UI.WebControls.DropDownList ddlSpecification2;
         
         /// <summary>
+        /// tbSpecificationValue2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbSpecificationValue2;
+        
+        /// <summary>
         /// ddlSpecification3 control.
         /// </summary>
         /// <remarks>
@@ -137,6 +155,15 @@ namespace EventManagement {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSpecification3;
+        
+        /// <summary>
+        /// tbDdlSpecificationValue3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbDdlSpecificationValue3;
         
         /// <summary>
         /// btnAddCampingSpot control.
