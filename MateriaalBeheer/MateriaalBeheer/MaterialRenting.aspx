@@ -13,15 +13,25 @@
 </head>
 <body>
 <form id="form1" runat="server">
-
-    <asp:Panel runat="server" ID="pnlMain">
-        <div>
-            From: <asp:TextBox ID="tbStartDate" runat="server" TextMode="Date"/><br/>
-            To: <asp:TextBox ID="tbEndDate" runat="server" TextMode="Date"/><br/>
+    
+    <h1>Material Renting</h1>
+    <asp:Panel runat="server" ID="pnlMain" class="SearchDiv">
+        
+            <h2>Search on date:</h2>
+            <table>
+                <tr>
+                    <td style="width: 5%">From:</td>
+                    <td><asp:TextBox ID="tbStartDate" runat="server" TextMode="Date" Width="50%"/></td>
+                </tr>
+                <tr>
+                    <td style="width: 5%">To:</td>
+                    <td> <asp:TextBox ID="tbEndDate" runat="server" TextMode="Date" Width="50%"/><br/></td>
+                </tr>
+            </table>
             <asp:Button runat="server" CssClass="button" ID="btnRefresh" Text="Refresh" OnClick="btnRefresh_OnClick"/><br/>
-            <asp:ListBox ID="lbProducts" runat="server" Height="149px" Width="400px"></asp:ListBox><br/>
-        </div>
+            <br/> <br/>
 
+            <asp:ListBox ID="lbProducts" runat="server" CssClass="listbox"></asp:ListBox><br/>
 
             <asp:Button ID="btnLendProduct" CssClass="button" runat="server" Text="Lend Item" OnClick="btnLendProduct_Click"/>
             <asp:Button ID="btnReserveProduct" CssClass="button" runat="server" Text="Reserve Item" OnClick="btnReserveProduct_OnClick"/>

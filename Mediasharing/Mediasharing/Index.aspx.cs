@@ -299,6 +299,32 @@ namespace Mediasharing
         /// <param name="type"> either a "message" or a "reaction"</param>
         public void UpdateButtons(int id, string type)
         {
+            //Updates upload item button, you can't upload items in the root!
+            if (_categoryId == 0)
+            {
+                btnUploadItem.CssClass = "buttondisabled";
+                btnUploadItem.Text = "Select a category";
+                btnUploadItem.Enabled = false;
+            }
+            else
+            {
+                btnUploadItem.CssClass = "button";
+                btnUploadItem.Text = "Upload Item";
+                btnUploadItem.Enabled = true;
+            }
+
+            //Updates the add reaction buttons, a message must be selected to react!
+            if (lbMessages.SelectedValue == "")
+            {
+                btnReaction.CssClass = "buttondisabled";
+                btnReaction.Enabled = false;
+            }
+            else
+            {
+                btnReaction.CssClass = "button";
+                btnReaction.Enabled = true;
+            }
+
             //The type is a message.
             if (type == "message")
             {
@@ -406,7 +432,7 @@ namespace Mediasharing
                     {
                         //the category is reported!
                         btnReportCategory.Enabled = false;
-                        btnReportCategory.CssClass = "button";
+                        btnReportCategory.CssClass = "buttondisabled";
                         btnReportCategory.Text = "Reported";
                     }
                     else
@@ -549,7 +575,7 @@ namespace Mediasharing
         protected void btnAddCategory_Click(object sender, EventArgs e)
         {
             Database database = Database.Instance;
-            database.InsertCategory(tbCategoryName.Text, _user.Id, OracleDate.GetOracleDate());
+            database.InsertCategory(_categoryId, tbCategoryName.Text, _user.Id, OracleDate.GetOracleDate());
             LoadSubCategories();
         }
 
@@ -652,14 +678,14 @@ namespace Mediasharing
         protected void btnReportCategory_Click(object sender, EventArgs e)
         {
             Database database = Database.Instance;
-            database.InsertReport(_user.Id, _categoryId);
-            UpdateButtons(_categoryId, "category");
+            int bijdrageId = database.InsertReportCategory(_categoryId, _user.Id);
+            UpdateButtons(bijdrageId, "category");
         }
         #endregion
 
         protected void btnRoot_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Index/0", true);
+            Response.Redirect("/Index/0", true);
         }
 
         protected void btnUploadItem_Click(object sender, EventArgs e)

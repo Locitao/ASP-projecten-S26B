@@ -45,7 +45,7 @@
                 </td>
             </tr>
             <tr>
-                <td>;<asp:Label ID="lblErrorMessage" runat="server"></asp:Label>
+                <td><asp:Label ID="lblErrorMessage" runat="server"></asp:Label>
                 </td>
                 <td>
                     &nbsp;</td>

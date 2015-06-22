@@ -330,8 +330,12 @@ namespace Mediasharing
             cmd.Parameters.Add("id", id);
 
             List<Dictionary<string, object>> output = ExecuteQuery(cmd);
-            int categoryId = Convert.ToInt32(output[0]["ID"]);
-            return categoryId;
+            if (Convert.ToString(output[0]["ID"]) == "")
+            {
+                return 0;
+            }
+                int categoryId = Convert.ToInt32(output[0]["ID"]);
+                return categoryId;
         }
 
         #endregion
@@ -401,7 +405,39 @@ namespace Mediasharing
                 System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
                 return false;
             }
- 
+        }
+
+        public int InsertReportCategory(int id, int userId)
+        {
+            try
+            {
+                OracleCommand cmd =
+                    new OracleCommand("SELECT \"bijdrage_id\" AS ID FROM CATEGORIE WHERE  \"categorie_id\" = :id");
+
+                cmd.Parameters.Add("id", id);
+                var output = ExecuteQuery(cmd);
+                id = Convert.ToInt32(output[0]["ID"]);
+
+                OracleCommand cmdTwo =
+                    new OracleCommand("INSERT INTO ACCOUNT_BIJDRAGE" +
+                                      "(\"ID\", \"account_id\", \"bijdrage_id\", \"like\", \"ongewenst\") VALUES " +
+                                      "(NULL, :userId, :id, 0, 1)");
+
+                cmdTwo.Parameters.Add("userId", userId);
+                cmdTwo.Parameters.Add("id", id);
+
+                Execute(cmdTwo);
+                return id;
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query");
+                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+                return 0;
+            }
         }
 
         /// <summary>
@@ -423,7 +459,7 @@ namespace Mediasharing
                                       "(NULL, :userId, :currentDate, 'bericht')");
 
                 cmd.Parameters.Add("userId", userId);
-                cmd.Parameters.Add(":currentDate", currentDate);
+                cmd.Parameters.Add("currentDate", currentDate);
                 Execute(cmd);
 
                 //We need the id we just created, let's get it from the database.
@@ -516,7 +552,7 @@ namespace Mediasharing
         /// <param name="name"> the name of the category </param>
         /// <param name="userId"> the id of the user </param>
         /// <returns></returns>
-        public bool InsertCategory(string name, int userId, string currentDate)
+        public bool InsertCategory(int parentCategoryId, string name, int userId, string currentDate)
         {
             try
             {
@@ -537,9 +573,10 @@ namespace Mediasharing
                 OracleCommand cmdTwo =
                     new OracleCommand("INSERT INTO CATEGORIE" +
                                       "(\"bijdrage_id\", \"categorie_id\", \"naam\") VALUES " +
-                                      "(:categoryId, NULL, :name')");
+                                      "(:categoryId, :parentCategoryId, :name)");
 
                 cmdTwo.Parameters.Add("categoryId", categoryId);
+                cmdTwo.Parameters.Add("parentCategoryId", parentCategoryId);
                 cmdTwo.Parameters.Add("name", name);
                 Execute(cmdTwo);
             }
@@ -563,9 +600,9 @@ namespace Mediasharing
         /// <param name="title"> title of the message linked to the file </param>
         /// <param name="content"> content of the message linked to the file </param>
         /// <param name="fileLocation"> save location of the file on the server </param>
-        /// <param name="size"> size of the image </param>
+        /// <param name="imgSize"> size of the image </param>
         /// <returns></returns>
-        public bool InsertItem(int userId, int categoryId, string title, string content, string fileLocation, int size, string currentDate)
+        public bool InsertItem(int userId, int categoryId, string title, string content, string fileLocation, int imgSize, string currentDate)
         {
             try
             {
@@ -586,12 +623,21 @@ namespace Mediasharing
                 OracleCommand cmdTwo =
                     new OracleCommand("INSERT INTO BESTAND" +
                                       "(\"bijdrage_id\", \"categorie_id\", \"bestandslocatie\", \"grootte\") VALUES " +
-                                      "(:fileId, :categoryId, :fileLocation, :size)");
+                                      "(:fileId, :categoryId, :fileLocation, :imgSize)");
 
                 cmdTwo.Parameters.Add("fileId", fileId);
-                cmdTwo.Parameters.Add("categoryId", categoryId);
+
+                if (categoryId == 0)
+                {
+                    cmdTwo.Parameters.Add("categoryId", "NULL");
+                }
+                else
+                {
+                    cmdTwo.Parameters.Add("categoryId", categoryId);
+                }
+
                 cmdTwo.Parameters.Add("fileLocation", fileLocation);
-                cmdTwo.Parameters.Add("size", size);
+                cmdTwo.Parameters.Add("imgSize", imgSize);
                 Execute(cmdTwo);
 
                 //Let's create the message if the user created one.

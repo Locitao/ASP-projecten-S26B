@@ -17,7 +17,10 @@
             <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="button" OnClick="btnBack_Click" />
             <br/>
             <asp:Image ID="uploadedImage" runat="server" />
-            <asp:Button ID="btnDownload" runat="server" OnClick="btnDownload_Click" Text="Download" />
+            <br/>
+            <asp:Label ID="lblFileLikes" runat="server"></asp:Label>
+            <asp:Button ID="btnLikeFile" runat="server" CssClass="button" Text="Like File" OnClick="btnLikeFile_Click" />
+            <asp:Button ID="btnReportFile" runat="server" CssClass="button" OnClick="btnReportFile_Click" Text="Report File" />
             <asp:Repeater ID="RepeaterItemView" runat="server">
                 <ItemTemplate>
                         <table class = "custom">
@@ -91,22 +94,9 @@
                     </td>
                 </tr>
             </table>
+            <h3>&nbsp;</h3>
             <br />
-            <h3>Reactions</h3>
-            <asp:ListBox ID="lbReactions" runat="server" CssClass="listbox1" AutoPostBack="True" OnSelectedIndexChanged="lbReactions_SelectedIndexChanged"></asp:ListBox>
             <br />
-            <asp:Label ID="lblReactionLikes" runat="server"></asp:Label>
-            <br />
-            <table class="custom">
-                <tr>
-                    <td>
-                        <asp:Button ID="btnLikeReaction" runat="server" CssClass="buttondisabled" Text="Like" Enabled="False" OnClick="btnLikeReaction_Click" />
-                    </td>
-                    <td>
-                        <asp:Button ID="btnReportReaction" runat="server" CssClass="buttondisabled" Text="Report" Enabled="False" OnClick="btnReportReaction_Click" />
-                    </td>
-                </tr>
-            </table>
         </div>
 
     </div>
