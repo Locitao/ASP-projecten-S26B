@@ -520,7 +520,7 @@ namespace Mediasharing
         /// <param name="name"> the name of the category </param>
         /// <param name="userId"> the id of the user </param>
         /// <returns></returns>
-        public bool InsertCategory(string name, int userId, string currentDate)
+        public bool InsertCategory(int parentCategoryId, string name, int userId, string currentDate)
         {
             try
             {
@@ -541,9 +541,10 @@ namespace Mediasharing
                 OracleCommand cmdTwo =
                     new OracleCommand("INSERT INTO CATEGORIE" +
                                       "(\"bijdrage_id\", \"categorie_id\", \"naam\") VALUES " +
-                                      "(:categoryId, NULL, :name)");
+                                      "(:categoryId, :parentCategoryId, :name)");
 
                 cmdTwo.Parameters.Add("categoryId", categoryId);
+                cmdTwo.Parameters.Add("parentCategoryId", parentCategoryId);
                 cmdTwo.Parameters.Add("name", name);
                 Execute(cmdTwo);
             }

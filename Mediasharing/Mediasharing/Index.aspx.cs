@@ -575,7 +575,7 @@ namespace Mediasharing
         protected void btnAddCategory_Click(object sender, EventArgs e)
         {
             Database database = Database.Instance;
-            database.InsertCategory(tbCategoryName.Text, _user.Id, OracleDate.GetOracleDate());
+            database.InsertCategory(_categoryId, tbCategoryName.Text, _user.Id, OracleDate.GetOracleDate());
             LoadSubCategories();
         }
 

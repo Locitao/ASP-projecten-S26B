@@ -64,14 +64,7 @@ namespace Mediasharing
                             int maxId = database.GetMaxBijdrageId();
                             string imagename = "Id_" + maxId + "_" + fuUpload.FileName;
 
-                            //Gets the file extension
-                            string contentType = fuUpload.PostedFile.ContentType; 
-                            contentType = contentType.Replace("/", ".");
-                            int dotLocation = contentType.IndexOf(".");
-                            contentType = contentType.Substring(dotLocation);
-
-
-                            string savepath = "~/Uploads/" + imagename + contentType;
+                            string savepath = "~/Uploads/" + imagename;
 
                             //Saves the file.
                             fuUpload.SaveAs(Server.MapPath(savepath));
