@@ -432,7 +432,7 @@ namespace Mediasharing
                     {
                         //the category is reported!
                         btnReportCategory.Enabled = false;
-                        btnReportCategory.CssClass = "button";
+                        btnReportCategory.CssClass = "buttondisabled";
                         btnReportCategory.Text = "Reported";
                     }
                     else
