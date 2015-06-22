@@ -572,6 +572,13 @@ namespace Mediasharing
                 //Insert reaction into the database.
                 Database database = Database.Instance;
                 database.InsertReaction(Convert.ToInt32(lbMessages.SelectedValue), _user.Id, tbTitle.Text, tbContent.Text, OracleDate.GetOracleDate());
+
+                //Update the reactions listbox.
+                List<Bericht> reactions = LoadReactions(Convert.ToInt32(lbMessages.SelectedValue));
+                lbReactions.DataSource = reactions;
+                lbReactions.DataTextField = "DisplayValue";
+                lbReactions.DataValueField = "MessageId";
+                lbReactions.DataBind();
             }
         }
 
