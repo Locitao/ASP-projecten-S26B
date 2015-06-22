@@ -315,7 +315,6 @@ namespace Mediasharing
         protected void lbMessages_SelectedIndexChanged(object sender, EventArgs e)
         {
             int messageId = Convert.ToInt32(lbMessages.SelectedValue);
-            List<Bericht> reactions = LoadReactions(messageId);
 
             //Updates the buttons
             UpdateLikes(messageId, "message");
@@ -368,11 +367,6 @@ namespace Mediasharing
             Database database = Database.Instance;
             int categoryId = database.GetCategoryIdWithItemId(_itemId);
             Response.Redirect("/Index/" + categoryId);
-        }
-
-        protected void btnDownload_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("~/Download/" + _imagePath);
         }
     #endregion
     }
