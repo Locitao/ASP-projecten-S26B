@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -148,9 +149,26 @@ namespace EventManagement
             //TODO: add campingspots to database
         }
 
-        private void AddEvent()
+        private bool AddEvent(string name, int locId, DateTime dateStart, DateTime dateEnd, int maxVisitors)
         {
             //TODO: add event to database
+            try
+            {
+                string query = "insert into event values(null, :locId, :name, :dateStart, :dateEnd, :maxVisitors)";
+                OracleCommand oc = new OracleCommand(query);
+                oc.Parameters.Add("locId", locId);
+                oc.Parameters.Add("name", name);
+                oc.Parameters.Add("dateStart", dateStart);
+                oc.Parameters.Add("dateEnd", dateEnd);
+                oc.Parameters.Add("maxVisitors", maxVisitors);
+                DbConnection.Instance.Execute(oc);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
         }
 
         protected void btnAddCamping_OnClick(object sender, EventArgs e)
@@ -163,7 +181,7 @@ namespace EventManagement
             }
             else
             {
-                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Input was incorrect, please correct\")</SCRIPT>");
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Input was incorrect, please fill in correct input\")</SCRIPT>");
             }
             
            
@@ -176,7 +194,18 @@ namespace EventManagement
 
         protected void btnAddEvent_OnClick(object sender, EventArgs e)
         {
-            AddEvent();
+            int indexOfColon = ddlEvents.SelectedItem.ToString().IndexOf(':');
+            int eventId = Convert.ToInt32(ddlEvents.SelectedItem.ToString().Substring(0, indexOfColon));
+            if (AddEvent(tbEventName.Text, eventId,
+                DateTime.ParseExact(tbDateStart.Text, "yyyy-mm-dd", System.Globalization.CultureInfo.InvariantCulture),
+                DateTime.ParseExact(tbDateEnd.Text, "yyyy-mm-dd", System.Globalization.CultureInfo.InvariantCulture), Convert.ToInt32(tbEventCapacity.Text)))
+            {
+                RefreshEventsListBox(1);
+            }
+            else
+            {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Input was incorrect, please fill in correct input\")</SCRIPT>");
+            }
         }
     }
 }

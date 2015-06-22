@@ -84,6 +84,7 @@ namespace MaterialRenting
             catch (OracleException ex)
             {
                 Debug.WriteLine(ex.Message + ex.ErrorCode);
+                throw ex;
             }
             finally
             {
