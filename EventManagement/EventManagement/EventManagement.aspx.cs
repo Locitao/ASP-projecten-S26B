@@ -119,9 +119,27 @@ namespace EventManagement
             }
         }
 
-        private void AddCamping(string name, string street, int number, string postcode, string city)
+        private bool AddCamping(string name, string street, int number, string postcode, string city)
         {
-            //TODO: add camping to database
+            try
+            {
+                //string query = "insert into locatie values (null, :name, :street, :number, :postcode, :city)";
+                string query = "insert into locatie values (10, 'naae', 'street', '3', '5571AB', 'Boergaaik')";
+                OracleCommand oc = new OracleCommand(query);
+                //oc.Parameters.Add("name", name);
+                //oc.Parameters.Add("street", street);
+               // oc.Parameters.Add("number", number);
+                //oc.Parameters.Add("postcode", postcode);
+                //oc.Parameters.Add("city", city);
+                DbConnection.Instance.Execute(oc);
+                RefreshCampingsListBox();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         private void AddCampingSpot()
@@ -136,7 +154,7 @@ namespace EventManagement
 
         protected void btnAddCamping_OnClick(object sender, EventArgs e)
         {
-            AddCamping();
+            AddCamping("naam", "street", 3, "5571AB", "Boergaaik");
         }
 
         protected void btnAddCampingSpot_OnClick(object sender, EventArgs e)
