@@ -71,7 +71,7 @@ namespace Mediasharing
 
                             //Inserts the imagedata into the database.
                             database.InsertItem(_user.Id, _categoryId, tbTitle.Text, tbContent.Text, savepath,
-                                fuUpload.PostedFile.ContentLength, OracleDate.GetOracleDate());
+                            fuUpload.PostedFile.ContentLength, OracleDate.GetOracleDate());
 
                             return true;
                         }
@@ -100,17 +100,22 @@ namespace Mediasharing
         /// <param name="e"></param>
         protected void btnUpload_Click(object sender, EventArgs e)
         {
-            if (UploadFile())
+            if (tbContent.Text != "" && tbTitle.Text != "")
             {
-                //OK, redirect to the page the user came from.
-                Response.Redirect("/Index/" + _categoryId, true);
+                if (UploadFile())
+                {
+                    //OK, redirect to the page the user came from.
+                    Response.Redirect("/Index/" + _categoryId, true);
+                }
+                else
+                {
+                    //Something went wrong, display an error message.
+                    lblErrorMessage.Text = "Something went wrong";
+                    lblErrorMessage.CssClass = "error";
+                }
             }
-            else
-            {
-                //Something went wrong, display an error message.
-                lblErrorMessage.Text = "Something went wrong";
-                lblErrorMessage.CssClass = "error";
-            }
+            lblErrorMessage.Text = "Please enter a message and a title.";
+            lblErrorMessage.CssClass = "error";
         }
 
         /// <summary>
