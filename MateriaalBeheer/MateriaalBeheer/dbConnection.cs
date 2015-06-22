@@ -13,6 +13,10 @@ namespace MaterialRenting
 
         private DbConnection()
         {
+            // Connectie Athena server Roy
+            //_connection.ConnectionString = "User Id=dbi321380;Password=HRs7Usr4Bz;Data Source=//192.168.15.50:1521/fhictora";
+
+            // Connectie local database
             _connection.ConnectionString = "User Id=proftaak;Password=proftaak;Data Source=localhost/XE";
         }
 
