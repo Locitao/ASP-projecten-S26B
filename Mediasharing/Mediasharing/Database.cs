@@ -304,6 +304,20 @@ namespace Mediasharing
         }
 
         /// <summary>
+        /// Gets the max "bericht" id from the database,
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxBerichtId()
+        {
+            OracleCommand cmd = new OracleCommand("SELECT MAX(\"bijdrage_id\") AS MAXID " +
+                                                  "FROM BERICHT");
+
+            List<Dictionary<string, object>> output = ExecuteQuery(cmd);
+            int maxId = Convert.ToInt32(output[0]["MAXID"]);
+            return maxId;
+        }
+
+        /// <summary>
         /// Gets the category id of a "bijdrage" using the selected "bijdrage" id.
         /// </summary>
         /// <param name="id"> id of the "bijdrage"</param>
@@ -446,7 +460,7 @@ namespace Mediasharing
         /// <param name="title"> title of the reaction </param>
         /// <param name="content"> content of the reaction </param>
         /// <returns></returns>
-        public bool InsertReaction(int userId, string title, string content, string currentDate)
+        public bool InsertReaction(int messageId, int userId, string title, string content, string currentDate)
         {
             try
             {
@@ -473,6 +487,15 @@ namespace Mediasharing
                 cmdTwo.Parameters.Add("title", title);
                 cmdTwo.Parameters.Add("content", content);
                 Execute(cmdTwo);
+
+                OracleCommand cmdThree=
+                     new OracleCommand("INSERT INTO BIJDRAGE_BERICHT" +
+                                       "(\"bijdrage_id\", \"bericht_id\") VALUES " +
+                                       "(:messageId, :reactionId)");
+
+                cmdThree.Parameters.Add("messageId", messageId);
+                cmdThree.Parameters.Add("reactionId", reactionId);
+                Execute(cmdThree);
 
                 return true;
             }
@@ -597,7 +620,7 @@ namespace Mediasharing
 
                 //Finally, we link the message(bericht) and file(bestand) togheter in the BIJDRAGE_BESTAND table.
                 OracleCommand cmdFive =
-                    new OracleCommand("INSERT INTO BIJDRAGE_BESTAND" +
+                    new OracleCommand("INSERT INTO BIJDRAGE_BERICHT" +
                                       "(\"bijdrage_id\", \"bericht_id\") VALUES " +
                                       "(:fileId, :messageId)");
 
