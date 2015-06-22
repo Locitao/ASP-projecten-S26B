@@ -208,7 +208,7 @@ namespace EventManagement {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList tbDateStart;
+        protected global::System.Web.UI.WebControls.TextBox tbDateStart;
         
         /// <summary>
         /// tbDateEnd control.
@@ -217,7 +217,7 @@ namespace EventManagement {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList tbDateEnd;
+        protected global::System.Web.UI.WebControls.TextBox tbDateEnd;
         
         /// <summary>
         /// tbEventCapacity control.

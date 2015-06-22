@@ -51,6 +51,7 @@ namespace EventManagement
                 }
 
                 lbCampings.Items.Add(Convert.ToString((long)dic["ID"]) + ": " + (string)dic["naam"] + ", " + postcode + ", " + city);
+                ddlEvents.Items.Add(Convert.ToString((long)dic["ID"]) + ": " + (string)dic["naam"] + ", " + postcode + ", " + city);
             }
             if (lbCampings.Items.Count > 0)
             {
@@ -111,7 +112,9 @@ namespace EventManagement
                 {
                     capacity = "-";
                 }
-                lbEvents.Items.Add(Convert.ToString((long)dic["ID"]) + ": " + (string)dic["naam"] + ", " + Convert.ToString((DateTime)dic["datumstart"]) + ", " + Convert.ToString((DateTime)dic["datumEinde"]) + ", Capacity:" + capacity);
+                DateTime dateStart = (DateTime) dic["datumstart"];
+                DateTime dateEnd = (DateTime) dic["datumEinde"];
+                lbEvents.Items.Add(Convert.ToString((long)dic["ID"]) + ": " + (string)dic["naam"] + ", " + dateStart.ToString("dd-MM-yyyy") + ", " + dateEnd.ToString("dd-MM-yyyy") + ", Cap:" + capacity);
             }
             if (lbEvents.Items.Count > 0)
             {

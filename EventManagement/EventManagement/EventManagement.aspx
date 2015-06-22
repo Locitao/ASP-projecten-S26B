@@ -110,13 +110,13 @@
                     <tr style="border: hidden;">
                             <td>Starting Date:</td>
                             <td>
-                                <asp:DropDownList runat="server" ID="tbDateStart"/>
+                                <asp:TextBox runat="server" ID="tbDateStart" TextMode="Date"/>
                             </td>
                         </tr>
                      <tr style="border: hidden;">
                             <td>Ending Date:</td>
                             <td>
-                                <asp:DropDownList runat="server" ID="tbDateEnd"/>
+                                <asp:TextBox runat="server" ID="tbDateEnd" TextMode="Date"/>
                             </td>
                         </tr>
                      <tr style="border: hidden;">
