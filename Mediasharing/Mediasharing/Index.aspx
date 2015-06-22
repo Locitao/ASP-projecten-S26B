@@ -151,7 +151,7 @@
                     </ItemTemplate>
             </asp:Repeater>
             <br />
-            <asp:Button ID="btnUploadItem" runat="server" CssClass="addbutton" Text="Upload Item" />
+            <asp:Button ID="btnUploadItem" runat="server" CssClass="addbutton" Text="Upload Item" OnClick="btnUploadItem_Click" />
         </div>
             
         <!--SearchView DIV-->

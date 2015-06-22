@@ -40,7 +40,7 @@ namespace Mediasharing
         public static bool InsertMessage(string title, string content, int categoryId, int userId)
         {
             Database database = Database.Instance;
-            return database.InsertMessageCategory(title, content, categoryId, userId, DateTime.Now);
+            return database.InsertMessageCategory(title, content, categoryId, userId, OracleDate.GetOracleDate());
         }
         #endregion
     }

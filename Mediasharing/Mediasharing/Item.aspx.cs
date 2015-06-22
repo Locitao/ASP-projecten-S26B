@@ -15,6 +15,7 @@ namespace Mediasharing
         private int _itemId;
         private int _itemMessageId; //An item can be posted with a desciption message, the itemMessageId stores the id of this message.
         private Account _user;
+        private string _imagePath;
         #endregion
 
         #region Update Methods
@@ -183,8 +184,8 @@ namespace Mediasharing
         {
             Database database = Database.Instance;
             List<Dictionary<string, object>> output = database.GetItem(_itemId);
-            string imagePath = Convert.ToString(output[0]["BESTANDSLOCATIE"]);
-            uploadedImage.ImageUrl = imagePath;
+            _imagePath = Convert.ToString(output[0]["BESTANDSLOCATIE"]);
+            uploadedImage.ImageUrl = _imagePath;
         }
 
         /// <summary>
@@ -358,7 +359,7 @@ namespace Mediasharing
             {
                 //Insert reaction into the database.
                 Database database = Database.Instance;
-                database.InsertReaction(_user.Id, tbTitle.Text, tbContent.Text, DateTime.Now);
+                database.InsertReaction(_user.Id, tbTitle.Text, tbContent.Text, OracleDate.GetOracleDate());
             }
         }
 
@@ -454,6 +455,10 @@ namespace Mediasharing
             Response.Redirect("/Index/" + categoryId);
         }
 
+        protected void btnDownload_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Download/" + _imagePath);
+        }
     #endregion
     }
 }

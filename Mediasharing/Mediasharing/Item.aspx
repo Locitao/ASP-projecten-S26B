@@ -17,6 +17,7 @@
             <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="button" OnClick="btnBack_Click" />
             <br/>
             <asp:Image ID="uploadedImage" runat="server" />
+            <asp:Button ID="btnDownload" runat="server" OnClick="btnDownload_Click" Text="Download" />
             <asp:Repeater ID="RepeaterItemView" runat="server">
                 <ItemTemplate>
                         <table class = "custom">

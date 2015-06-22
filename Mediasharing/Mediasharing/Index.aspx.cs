@@ -549,7 +549,7 @@ namespace Mediasharing
         protected void btnAddCategory_Click(object sender, EventArgs e)
         {
             Database database = Database.Instance;
-            database.InsertCategory(tbCategoryName.Text, _user.Id, DateTime.Now);
+            database.InsertCategory(tbCategoryName.Text, _user.Id, OracleDate.GetOracleDate());
             LoadSubCategories();
         }
 
@@ -571,7 +571,7 @@ namespace Mediasharing
             {
                 //Insert reaction into the database.
                 Database database = Database.Instance;
-                database.InsertReaction(_user.Id, tbTitle.Text, tbContent.Text, DateTime.Now);
+                database.InsertReaction(_user.Id, tbTitle.Text, tbContent.Text, OracleDate.GetOracleDate());
             }
         }
 
@@ -653,6 +653,11 @@ namespace Mediasharing
         protected void btnRoot_Click(object sender, EventArgs e)
         {
             Response.Redirect("Index/0", true);
+        }
+
+        protected void btnUploadItem_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/UploadItem/" + _categoryId, true);
         }
     }
 }

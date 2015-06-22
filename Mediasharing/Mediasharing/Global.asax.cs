@@ -19,7 +19,7 @@ namespace Mediasharing
             routes.MapPageRoute("Index", "Index/{id}", "~/index.aspx");
             routes.MapPageRoute("Item", "Item/{id}", "~/item.aspx");
             routes.MapPageRoute("PostMessage", "PostMessage/{id}", "~/PostMessage.aspx");
-            routes.MapPageRoute("UploadItem", "UploadMessage/{id}", "~/UploadMessage.aspx");
+            routes.MapPageRoute("UploadItem", "UploadItem/{id}", "~/UploadItem.aspx");
         }
 
         protected void Application_Start(object sender, EventArgs e)
