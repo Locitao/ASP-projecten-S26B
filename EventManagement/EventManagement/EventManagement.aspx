@@ -58,7 +58,7 @@
                     <tr style="border: hidden;">
                         <td>Capacity:</td>
                         <td>
-                            <asp:TextBox runat="server" ID="tbCapacity" Text="Number"/>
+                            <asp:TextBox runat="server" ID="tbCapacity" TextMode="Number"/>
                         </td>
                     </tr>
                 <tr style="border: hidden;">
@@ -85,7 +85,7 @@
                             <asp:DropDownList runat="server" ID="ddlSpecification3"/>
                         </td>
                         <td>
-                            <asp:TextBox runat="server" ID="tbDdlSpecificationValue3"/>
+                            <asp:TextBox runat="server" ID="tbSpecificationValue3"/>
                         </td>
                     </tr>
                 </table>
