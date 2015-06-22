@@ -43,7 +43,7 @@
                             </td>
                         </tr>
                 </table>
-                <asp:Button runat="server" ID="btnAddCamping" CssClass="button" text="Add Camping"/>
+                <asp:Button runat="server" ID="btnAddCamping" CssClass="button" text="Add Camping" OnClick="btnAddCamping_OnClick"/>
             </div>
         
             <div style="width: 500px; margin-left: auto; margin-right: auto;">
@@ -80,7 +80,7 @@
                         </td>
                     </tr>
                 </table>
-                <asp:Button runat="server" ID="btnAddCampingSpot" CssClass="button" text="Add CampingSpot"/>
+                <asp:Button runat="server" ID="btnAddCampingSpot" CssClass="button" text="Add CampingSpot" OnClick="btnAddCampingSpot_OnClick"/>
             </div>
         
             <div style="width: 500px; margin-left: auto; margin-right: auto;">
@@ -117,7 +117,7 @@
                             </td>
                         </tr>
                </table>
-               <asp:Button runat="server" ID="btnAddEvent" CssClass="button" text="Add Event"/>
+               <asp:Button runat="server" ID="btnAddEvent" CssClass="button" text="Add Event" OnClick="btnAddEvent_OnClick"/>
             </div>
     </form>
 </body>
