@@ -41,9 +41,9 @@ namespace EventManagement
                     postcode = "Postcode";
                 }
                 string city;
-                if (dic["postcode"] != DBNull.Value)
+                if (dic["plaats"] != DBNull.Value)
                 {
-                    city = (string)dic["postcode"];
+                    city = (string)dic["plaats"];
                 }
                 else
                 {
@@ -123,16 +123,14 @@ namespace EventManagement
         {
             try
             {
-                //string query = "insert into locatie values (null, :name, :street, :number, :postcode, :city)";
-                string query = "insert into locatie values (10, 'naae', 'street', '3', '5571AB', 'Boergaaik')";
+                string query = "insert into locatie values (null, :name, :street, :numberr, :postcode, :city)";
                 OracleCommand oc = new OracleCommand(query);
-                //oc.Parameters.Add("name", name);
-                //oc.Parameters.Add("street", street);
-               // oc.Parameters.Add("number", number);
-                //oc.Parameters.Add("postcode", postcode);
-                //oc.Parameters.Add("city", city);
+                oc.Parameters.Add("name", name);
+                oc.Parameters.Add("street", street);
+                oc.Parameters.Add("numberr", number);
+                oc.Parameters.Add("postcode", postcode);
+                oc.Parameters.Add("city", city);
                 DbConnection.Instance.Execute(oc);
-                RefreshCampingsListBox();
                 return true;
             }
             catch
@@ -154,7 +152,18 @@ namespace EventManagement
 
         protected void btnAddCamping_OnClick(object sender, EventArgs e)
         {
-            AddCamping("naam", "street", 3, "5571AB", "Boergaaik");
+
+            if (tbStreetNumber.Text != ""
+                && AddCamping(tbCampingName.Text, tbStreet.Text, Convert.ToInt32(tbStreetNumber.Text), tbPostcode.Text, tbCity.Text))
+            {
+                RefreshCampingsListBox();
+            }
+            else
+            {
+                Response.Write("<SCRIPT LANGUAGE=\"JavaScript\">alert(\"Input was incorrect, please correct\")</SCRIPT>");
+            }
+            
+           
         }
 
         protected void btnAddCampingSpot_OnClick(object sender, EventArgs e)
