@@ -17,6 +17,10 @@
             <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="button" OnClick="btnBack_Click" />
             <br/>
             <asp:Image ID="uploadedImage" runat="server" />
+            <br/>
+            <asp:Label ID="lblFileLikes" runat="server"></asp:Label>
+            <asp:Button ID="btnLikeFile" runat="server" CssClass="button" Text="Like File" OnClick="btnLikeFile_Click" />
+            <asp:Button ID="btnReportFile" runat="server" CssClass="button" OnClick="btnReportFile_Click" Text="Report File" />
             <asp:Repeater ID="RepeaterItemView" runat="server">
                 <ItemTemplate>
                         <table class = "custom">

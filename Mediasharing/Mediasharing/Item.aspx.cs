@@ -21,37 +21,6 @@ namespace Mediasharing
         #region Update Methods
 
         /// <summary>
-        /// This method updates the labels that display the number of likes.
-        /// </summary>
-        /// <param name="id"> the id of the selected message </param>
-        /// <param name="type"> the type, is the selected id from a message or a reaction?</param>
-        public void UpdateLikes(int id, string type)
-        {
-            var likes = Bijdrage.GetLikes(id);
-            string likeString = "";
-
-            switch (likes)
-            {
-                case 0:
-                    likeString = "Be the first to like this!";
-                    break;
-                case 1:
-                    likeString = likes + " Like";
-                    break;
-                default:
-                    likeString = likes + " Likes";
-                    break;
-            }
-
-            switch (type)
-            {
-                case "message":
-                    lblMessageLikes.Text = likeString;
-                    break;
-            }
-        }
-
-        /// <summary>
         /// This method updates the like and report buttons for the message and reaction listboxes.
         /// When a user liked a message or reaction, he or she can't report it and vice versa.
         /// </summary>
@@ -59,20 +28,53 @@ namespace Mediasharing
         /// <param name="type"> either a "message" or a "reaction"</param>
         public void UpdateButtons(int id, string type)
         {
-            //Updates the add reaction buttons, a message must be selected to react!
-            if (lbMessages.SelectedValue == "")
+            if (type == "file")
             {
-                btnReaction.CssClass = "buttondisabled";
-                btnReaction.Enabled = false;
-            }
-            else
-            {
-                btnReaction.CssClass = "button";
-                btnReaction.Enabled = true;
-            }
+                //Let's checked if the user reported the file
+                if (Bijdrage.IsReported(_itemMessageId, _user.Id))
+                {
+                    //The selected message is reported, so we can't like it!
+                    btnLikeFile.Text = "Reported";
+                    btnLikeFile.CssClass = "buttondisabled";
+                    btnLikeFile.Enabled = false;
 
+                    //Let's disable the report button.
+                    btnReportFile.Text = "Reported";
+                    btnReportFile.CssClass = "buttondisabled";
+                    btnReportFile.Enabled = false;
+                }
+                else
+                {
+                    //The selected message isn't reported, we can like or unlike it!
+                    //Let's check if the user already liked the file, and edit the button to Like or Unlike.
+                    if (Bijdrage.IsLiked(_itemMessageId, _user.Id))
+                    {
+                        //It's already liked!
+                        btnLikeFile.Text = "Unlike";
+                        btnLikeFile.CssClass = "button";
+                        btnLikeFile.Enabled = true;
+
+                        //Let's disable the report button, we can't report liked files after all.
+                        btnReportFile.Text = "Liked";
+                        btnReportFile.CssClass = "buttondisabled";
+                        btnReportFile.Enabled = false;
+                    }
+                    else
+                    {
+                        //It's not liked yet!
+                        btnLikeFile.Text = "Like";
+                        btnLikeFile.CssClass = "button";
+                        btnLikeFile.Enabled = true;
+
+                        //This means we can report the message.
+                        btnReportFile.Text = "Report";
+                        btnReportFile.CssClass = "button";
+                        btnReportFile.Enabled = true;
+                    }
+                }
+            }
             //The type is a message.
-            if (type == "message")
+            else if (type == "message")
             {
                 //Let's checked if the user reported the message
                 if (Bijdrage.IsReported(id, _user.Id))
@@ -133,7 +135,9 @@ namespace Mediasharing
             _user = (Account)Session["user"];
             CheckIfLoggedIn();
             Rout();
-            LoadItemMessage();  
+            LoadItemMessage();
+            UpdateButtons(_itemMessageId, "file");
+            UpdateLikes(_itemMessageId, "file");
             if (!IsPostBack)
             {
                 LoadImage();
@@ -171,7 +175,7 @@ namespace Mediasharing
                                               "AND bb.\"bijdrage_id\" = " + _itemId);
 
                 //Sets the item messageId of the corresponding Item.
-                _itemMessageId = Convert.ToInt32(output.Tables[0].Rows[0]["ID"]);
+                Int32.TryParse(Convert.ToString(output.Tables[0].Rows[0]["ID"]), out _itemMessageId);
 
                 //Binds the data to the repeater.
                 RepeaterItemView.DataSource = output;
@@ -271,6 +275,35 @@ namespace Mediasharing
             _itemId = Convert.ToInt32(Page.RouteData.Values["id"]);
         }
 
+        public void UpdateLikes(int id, string type)
+        {
+            var likes = Bijdrage.GetLikes(id);
+            string likeString = "";
+
+            switch (likes)
+            {
+                case 0:
+                    likeString = "Be the first to like this!";
+                    break;
+                case 1:
+                    likeString = likes + " Like";
+                    break;
+                default:
+                    likeString = likes + " Likes";
+                    break;
+            }
+
+            switch (type)
+            {
+                case "message":
+                    lblMessageLikes.Text = likeString;
+                    break;
+                case "file":
+                    lblFileLikes.Text = likeString;
+                    break;
+            }
+        }
+
         /// <summary>
         /// Checks if the user is currently logged in, if not, the user gets redirected to the login page.
         /// </summary>
@@ -288,11 +321,11 @@ namespace Mediasharing
         protected void btnReaction_Click(object sender, EventArgs e)
         {
             //Checks wheter data is filled in or not.
-            if (tbTitle.Text == "" && tbContent.Text == "")
+            if (tbTitle.Text == "" || tbContent.Text == "")
             {
                 //What's the point of a message if it's empty? Show error.
                 lblErrorMessage.Visible = true;
-                lblErrorMessage.Text = "Please enter a message.";
+                lblErrorMessage.Text = "Please enter a message and a title.";
             }
             else
             {
@@ -304,6 +337,7 @@ namespace Mediasharing
                 lbMessages.DataTextField = "DisplayValue";
                 lbMessages.DataValueField = "MessageId";
                 lbMessages.DataBind();
+                lblErrorMessage.Text = "";
             }
         }
 
@@ -369,5 +403,26 @@ namespace Mediasharing
             Response.Redirect("/Index/" + categoryId);
         }
     #endregion
+
+        protected void btnReportFile_Click(object sender, EventArgs e)
+        {
+            Bijdrage.Report(_itemMessageId, _user.Id);
+            UpdateButtons(_itemMessageId, "file");
+        }
+
+        protected void btnLikeFile_Click(object sender, EventArgs e)
+        {
+            switch (btnLikeFile.Text)
+            {
+                case "Like":
+                    Bijdrage.Like(_itemMessageId, _user.Id);
+                    break;
+                case "Unlike":
+                    Bijdrage.Unlike(_itemMessageId, _user.Id);
+                    break;
+            }
+            UpdateButtons(_itemMessageId, "file");
+            UpdateLikes(_itemMessageId, "file");
+        }
     }
 }

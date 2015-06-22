@@ -40,6 +40,33 @@ namespace Mediasharing {
         protected global::System.Web.UI.WebControls.Image uploadedImage;
         
         /// <summary>
+        /// lblFileLikes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFileLikes;
+        
+        /// <summary>
+        /// btnLikeFile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnLikeFile;
+        
+        /// <summary>
+        /// btnReportFile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReportFile;
+        
+        /// <summary>
         /// RepeaterItemView control.
         /// </summary>
         /// <remarks>

@@ -678,8 +678,8 @@ namespace Mediasharing
         protected void btnReportCategory_Click(object sender, EventArgs e)
         {
             Database database = Database.Instance;
-            database.InsertReport(_user.Id, _categoryId);
-            UpdateButtons(_categoryId, "category");
+            int bijdrageId = database.InsertReportCategory(_categoryId, _user.Id);
+            UpdateButtons(bijdrageId, "category");
         }
         #endregion
 

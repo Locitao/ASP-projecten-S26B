@@ -405,7 +405,39 @@ namespace Mediasharing
                 System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
                 return false;
             }
- 
+        }
+
+        public int InsertReportCategory(int id, int userId)
+        {
+            try
+            {
+                OracleCommand cmd =
+                    new OracleCommand("SELECT \"bijdrage_id\" AS ID FROM CATEGORIE WHERE  \"categorie_id\" = :id");
+
+                cmd.Parameters.Add("id", id);
+                var output = ExecuteQuery(cmd);
+                id = Convert.ToInt32(output[0]["ID"]);
+
+                OracleCommand cmdTwo =
+                    new OracleCommand("INSERT INTO ACCOUNT_BIJDRAGE" +
+                                      "(\"ID\", \"account_id\", \"bijdrage_id\", \"like\", \"ongewenst\") VALUES " +
+                                      "(NULL, :userId, :id, 0, 1)");
+
+                cmdTwo.Parameters.Add("userId", userId);
+                cmdTwo.Parameters.Add("id", id);
+
+                Execute(cmdTwo);
+                return id;
+            }
+            catch (OracleException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("---------- ERROR WHILE EXECUTING QUERY ----------");
+                System.Diagnostics.Debug.WriteLine("Error while executing query");
+                System.Diagnostics.Debug.WriteLine("Error code: {0}", ex.ErrorCode);
+                System.Diagnostics.Debug.WriteLine("Error message: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("---------- END OF EXCEPTION ----------");
+                return 0;
+            }
         }
 
         /// <summary>
