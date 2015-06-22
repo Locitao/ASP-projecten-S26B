@@ -13,7 +13,7 @@ namespace MaterialRenting
 
         private DbConnection()
         {
-            _connection.ConnectionString = "User Id=proftaak;Password=proftaak;Data Source=localhost/XE";
+            _connection.ConnectionString = "User Id=system;Password=wachtwoord;Data Source=localhost:1521/xe";
         }
 
         public static DbConnection Instance
