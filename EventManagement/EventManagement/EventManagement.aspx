@@ -66,17 +66,26 @@
                         <td>
                             <asp:DropDownList runat="server" ID="ddlSpecification1"/>
                         </td>
+                        <td>
+                            <asp:TextBox runat="server" ID="tbSpecificationValue1"/>
+                        </td>
                     </tr>
                  <tr style="border: hidden;">
                         <td>Specification:</td>
                         <td>
                             <asp:DropDownList runat="server" ID="ddlSpecification2"/>
                         </td>
+                        <td>
+                            <asp:TextBox runat="server" ID="tbSpecificationValue2"/>
+                        </td>
                     </tr>
                  <tr style="border: hidden;">
                         <td>Specification:</td>
                         <td>
                             <asp:DropDownList runat="server" ID="ddlSpecification3"/>
+                        </td>
+                        <td>
+                            <asp:TextBox runat="server" ID="tbDdlSpecificationValue3"/>
                         </td>
                     </tr>
                 </table>

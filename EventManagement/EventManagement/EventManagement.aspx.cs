@@ -16,8 +16,8 @@ namespace EventManagement
             if (!IsPostBack)
             {
                 RefreshCampingsListBox();
-                RefreshCampingSpotsListBox();
-                RefreshEventsListBox();
+                RefreshCampingSpotsListBox(1);
+                RefreshEventsListBox(1);
             }
         }
 
@@ -25,7 +25,6 @@ namespace EventManagement
 
         private void RefreshCampingsListBox()
         {
-            //TODO: load campings from database and put them in the listbox
             lbCampings.Items.Clear();
             string query = "select * from locatie";
             OracleCommand oc = new OracleCommand(query);
@@ -53,19 +52,74 @@ namespace EventManagement
 
                 lbCampings.Items.Add(Convert.ToString((long)dic["ID"]) + ": " + (string)dic["naam"] + ", " + postcode + ", " + city);
             }
+            if (lbCampings.Items.Count > 0)
+            {
+                lbCampings.SelectedIndex = 0;
+            }
         }
 
-        private void RefreshCampingSpotsListBox()
+        private void RefreshCampingSpotsListBox(int campingId)
         {
-            //TODO: load campingspots from database and put them in the listbox
+            lbCampingSpots.Items.Clear();
+            string query = "select * from plek where \"locatie_id\" = :locId";
+            OracleCommand oc = new OracleCommand(query);
+            oc.Parameters.Add("locId", campingId);
+            List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
+            foreach (Dictionary<string, object> dic in output)
+            {
+                string number;
+                if (dic["nummer"] != DBNull.Value)
+                {
+                    number = (string)dic["nummer"];
+                }
+                else
+                {
+                    number = "-";
+                }
+                string capacity;
+                if (dic["capaciteit"] != DBNull.Value)
+                {
+                    capacity = Convert.ToString((long)dic["capaciteit"]);
+                }
+                else
+                {
+                    capacity = "-";
+                }
+                lbCampingSpots.Items.Add(Convert.ToString((long)dic["ID"]) + ": number: " + number + ", capacity:" + capacity);
+            }
+            if (lbCampingSpots.Items.Count > 0)
+            {
+                lbCampingSpots.SelectedIndex = 0;
+            }
         }
 
-        private void RefreshEventsListBox()
+        private void RefreshEventsListBox(int campingId)
         {
-            //TODO: load events from database and put them in the listbox
+            lbEvents.Items.Clear();
+            string query = "select * from event where \"locatie_id\" = :locId";
+            OracleCommand oc = new OracleCommand(query);
+            oc.Parameters.Add("locId", campingId);
+            List<Dictionary<string, object>> output = DbConnection.Instance.ExecuteQuery(oc);
+            foreach (Dictionary<string, object> dic in output)
+            {
+                string capacity;
+                if (dic["maxBezoekers"] != DBNull.Value)
+                {
+                    capacity = Convert.ToString((long)dic["maxBezoekers"]);
+                }
+                else
+                {
+                    capacity = "-";
+                }
+                lbEvents.Items.Add(Convert.ToString((long)dic["ID"]) + ": " + (string)dic["naam"] + ", " + Convert.ToString((DateTime)dic["datumstart"]) + ", " + Convert.ToString((DateTime)dic["datumEinde"]) + ", Capacity:" + capacity);
+            }
+            if (lbEvents.Items.Count > 0)
+            {
+                lbEvents.SelectedIndex = 0;
+            }
         }
 
-        private void AddCamping()
+        private void AddCamping(string name, string street, int number, string postcode, string city)
         {
             //TODO: add camping to database
         }
