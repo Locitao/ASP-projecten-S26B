@@ -62,6 +62,12 @@ namespace ReservationSystem
             {
                 Response.Redirect("ReserveMaterials.aspx");
             }
+
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage",
+                    "alert('You did not fill in everything correctly.')", true);
+            }
         }
 
         /// <summary>
@@ -72,11 +78,21 @@ namespace ReservationSystem
         {
             if (tbPeople.Text == "") return false;
             if (tbLocation.Text == "") return false;
+            var start = DateTime.Now;
+            var end = new DateTime(2015, 7, 1);
+            try
+            {
+                start = Convert.ToDateTime(tbStartDate.Text);
+                end = Convert.ToDateTime(tbEndDate.Text);
+            }
+            catch (Exception ex)
+            {
+                start = DateTime.Now;
+                end = new DateTime(2015, 7, 5);
+            }
 
             var personId = _db.Person_Id(_p.Voornaam, _p.Achternaam, _p.Straat);
-            var now = DateTime.Now;
-            var end = new DateTime(2015, 7, 1);
-            _db.Insert_Reservation(personId, now, end, 1);
+            _db.Insert_Reservation(personId, start, end, 1);
 
             var accId = _db.Find_Acc(_acc.Username);
             var resId = _db.Max_Res();

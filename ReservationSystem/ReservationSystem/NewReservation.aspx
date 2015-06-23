@@ -12,12 +12,16 @@
     <div id="container">
         <h1>Create a reservation.</h1>
         <div class="myForm">
-            <p class="tekstinput">Location ID you want to reserve:</p><br/>
+            <p class="tekstinput">Location ID for reservation:</p><br/>
             <p class="tekstinput">How many people:</p><br/>
+            <p class="tekstinput">Start date of reservation:</p><br/>
+            <p class="tekstinput">End date of reservation:</p><br/>
         </div>
         <div class="myForm">
             <asp:TextBox ID="tbLocation" CssClass="myForm" runat="server" TextMode="Number" MaxLength="3"></asp:TextBox><br/>
             <asp:TextBox ID="tbPeople" CssClass="myForm" runat="server" TextMode="Number"></asp:TextBox><br/>
+            <asp:TextBox ID="tbStartDate" runat="server" CssClass="myForm" TextMode="Date"></asp:TextBox><br/>
+            <asp:TextBox ID="tbEndDate" runat="server" CssClass="myForm" TextMode="Date"></asp:TextBox><br/>
         </div>
         <asp:Button runat="server" ID="btnReserve" Text="Create reservation." CssClass="button" OnClick="btnReserve_Click"/><br/>
         <p>List of locations that are free; their IDs correspond to the ones on the map.</p><br/>

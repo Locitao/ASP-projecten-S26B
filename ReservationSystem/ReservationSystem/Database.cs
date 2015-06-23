@@ -147,7 +147,7 @@ namespace ReservationSystem
             {
                 const string x = "Connection failed";
                 if (!NewConnection()) return x;
-                var cmd = new OracleCommand("Insert_Reservation", _conn2)
+                var cmd = new OracleCommand("Insert_Reservering", _conn2)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -236,7 +236,7 @@ namespace ReservationSystem
         /// <returns>Random hash (string).</returns>
         private string Get_ActivationHash()
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
             var random = new Random();
             var result = new string(
                 Enumerable.Repeat(chars, 20)
@@ -253,7 +253,7 @@ namespace ReservationSystem
         {
             const string chars = "0123456789";
             var random = new Random();
-            var result = new string(Enumerable.Repeat(chars, 20).Select(s => s[random.Next(s.Length)]).ToArray());
+            var result = new string(Enumerable.Repeat(chars, 12).Select(s => s[random.Next(s.Length)]).ToArray());
             return result;
         }
 
@@ -281,7 +281,7 @@ namespace ReservationSystem
             {
                 var id = 0;
                 var sql = "SELECT \"ID\" FROM PERSOON WHERE \"voornaam\" = '" + voornaam + "' AND \"achternaam\" = '" +
-                          achternaam + "' AND \"straat\" = '" + straat + "')";
+                          achternaam + "' AND \"straat\" = '" + straat + "'";
                 var data = ExecuteQuery(sql);
 
                 foreach (var x in data)

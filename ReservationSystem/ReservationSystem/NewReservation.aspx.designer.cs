@@ -40,6 +40,24 @@ namespace ReservationSystem {
         protected global::System.Web.UI.WebControls.TextBox tbPeople;
         
         /// <summary>
+        /// tbStartDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbStartDate;
+        
+        /// <summary>
+        /// tbEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbEndDate;
+        
+        /// <summary>
         /// btnReserve control.
         /// </summary>
         /// <remarks>
