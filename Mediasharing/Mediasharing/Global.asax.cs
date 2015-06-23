@@ -16,10 +16,10 @@ namespace Mediasharing
         /// <param name="routes"></param>
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.MapPageRoute("Index", "Index/{id}", "~/index.aspx");
-            routes.MapPageRoute("Item", "Item/{id}", "~/item.aspx");
-            routes.MapPageRoute("PostMessage", "PostMessage/{id}", "~/PostMessage.aspx");
-            routes.MapPageRoute("UploadItem", "UploadItem/{id}", "~/UploadItem.aspx");
+            routes.MapPageRoute("Index", "MediaSharing/Index/{id}", "~/index.aspx");
+            routes.MapPageRoute("Item", "MediaSharing/Item/{id}", "~/item.aspx");
+            routes.MapPageRoute("PostMessage", "MediaSharing/PostMessage/{id}", "~/PostMessage.aspx");
+            routes.MapPageRoute("UploadItem", "MediaSharing/UploadItem/{id}", "~/UploadItem.aspx");
         }
 
         protected void Application_Start(object sender, EventArgs e)
